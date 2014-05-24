@@ -1,4 +1,4 @@
-This is a Bootstrap Dashboard for Dashboard for the excellant [Varying Vagrant Vagrants](https://github.com/Varying-Vagrant-Vagrants/VVV)
+This is a Varying Vagrant Vagrants Dashboard for the excellent [Varying Vagrant Vagrants](https://github.com/Varying-Vagrant-Vagrants/VVV)
 
 Its purpose is to dynamically load host links to all sites created in the VVV www path.
 
