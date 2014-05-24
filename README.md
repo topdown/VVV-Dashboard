@@ -14,3 +14,8 @@ Copy the dashboard-custom.php to VVV/www/default/dashboard-custom.php
 With Vagrant Up you should be able browse to your vagrant root www usually [vvv](http://vvv) or [vvv.dev](http://vvv.dev) and see the new dashboard.
 
 ![image](https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshot.png)
+
+---
+** NOTE: ** This Dashboard project has no affiliation with Varying Vagrant Vagrants or any other components listed here.
+
+---

@@ -258,7 +258,11 @@ vvv -a delete mysite
 				</tbody>
 			</table>
 
-			<p>Examples:</p>
+			<div class="row">
+				<p><strong>NOTE: </strong>This Dashboard project has no affiliation with Varying Vagrant Vagrants or any other components listed here.</p>
+				<small><a href="https://github.com/topdown/VVV-Dashboard" target="_blank">VVV Dashboard Repo</a>
+				| <a href="https://github.com/topdown/VVV-Dashboard/issues" target="_blank">VVV Dashboard Issues</a></small>
+			</div>
 		</div>
 	</div>
 </div>
