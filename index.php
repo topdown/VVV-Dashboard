@@ -33,7 +33,7 @@ function getHosts( $path ) {
 			foreach ( $lines as $num => $line ) {
 
 				// skip comment lines
-				if ( !strstr( $line, '#' ) ) {
+				if ( !strstr( $line, '#' ) && trim($line) != 'vvv.dev' ) {
 					$array[] = trim( $line );
 				}
 			} // end foreach
@@ -104,7 +104,14 @@ $hosts = getHosts( $path );
 		}
 
 		.list-unstyled li {
-			margin: 5px 0 8px 0;
+			padding: 7px 0;
+			border-radius: 5px;
+			-moz-border-radius: 5px;
+			-webkit-border-radius: 5px;
+		}
+
+		.list-unstyled.sites li:hover {
+			background: #ded;
 		}
 	</style>
 	<!--Not really needed-->
@@ -163,7 +170,7 @@ $hosts = getHosts( $path );
 
 					<p><strong>Current Hosts</strong></p>
 					<small>Note: To profile, <code>xdebug_on</code> must be set.</small>
-					<ul class="list-unstyled">
+					<ul class="list-unstyled sites">
 						<?php
 						foreach ( $hosts as $host ) {
 							echo '<li class="row">
