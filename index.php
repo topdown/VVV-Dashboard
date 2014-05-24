@@ -147,6 +147,12 @@ $hosts = getHosts( $path );
 				<li>
 					<a href="https://github.com/varying-vagrant-vagrants/vvv/" target="_blank">Varying Vagrant Vagrants</a>
 				</li>
+				<li>
+					<a href="https://github.com/topdown/VVV-Dashboard" target="_blank">VVV Dashboard Repo</a>
+				</li>
+				<li>
+					<a href="https://github.com/topdown/VVV-Dashboard/issues" target="_blank">VVV Dashboard Issues</a>
+				</li>
 			</ul>
 		</div>
 		<div class="col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3 main">
@@ -260,8 +266,6 @@ vvv -a delete mysite
 
 			<div class="row">
 				<p><strong>NOTE: </strong>This Dashboard project has no affiliation with Varying Vagrant Vagrants or any other components listed here.</p>
-				<small><a href="https://github.com/topdown/VVV-Dashboard" target="_blank">VVV Dashboard Repo</a>
-				| <a href="https://github.com/topdown/VVV-Dashboard/issues" target="_blank">VVV Dashboard Issues</a></small>
 			</div>
 		</div>
 	</div>
