@@ -33,7 +33,7 @@ function getHosts( $path ) {
 			foreach ( $lines as $num => $line ) {
 
 				// skip comment lines
-				if ( !strstr( $line, '#' ) && trim($line) != 'vvv.dev' ) {
+				if ( !strstr( $line, '#' ) && trim( $line ) != 'vvv.dev' ) {
 					$array[] = trim( $line );
 				}
 			} // end foreach
