@@ -50,72 +50,7 @@ $hosts = getHosts( $path );
 <head>
 	<title>Varying Vagrant Vagrants Dashboard</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
-
-	<style type="text/css">
-
-		/* Move down content because we have a fixed navbar that is 50px tall */
-		body {
-			padding-top: 50px;
-		}
-
-		.sidebar-title {
-			margin:         10px;
-			font-size:      20px;
-			font-weight:    bold;
-			padding-bottom: 10px;
-			border-bottom:  1px solid #eee;
-		}
-
-		@media (min-width: 768px) {
-			.sidebar {
-				position:         fixed;
-				top:              51px;
-				bottom:           0;
-				left:             0;
-				z-index:          1000;
-				display:          block;
-				padding:          20px;
-				overflow-x:       hidden;
-				overflow-y:       auto; /* Scrollable contents if viewport is shorter than content. */
-				background-color: #f5f5f5;
-				border-right:     1px solid #eee;
-			}
-		}
-
-		/*
-		 * Main content
-		 */
-		.main {
-			padding: 20px;
-		}
-
-		@media (min-width: 768px) {
-			.main {
-				padding-right: 40px;
-				padding-left:  40px;
-			}
-		}
-
-		.main .page-header {
-			margin-top: 0;
-		}
-
-		.list-unstyled li {
-			padding: 7px 0;
-			border-radius: 5px;
-			-moz-border-radius: 5px;
-			-webkit-border-radius: 5px;
-		}
-
-		.list-unstyled.sites li:hover {
-			background: #ded;
-		}
-	</style>
-	<!--Not really needed-->
-	<!--<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">-->
+	<link rel="stylesheet"  type="text/css" href="style.css" />
 
 </head>
 <body>
@@ -123,15 +58,9 @@ $hosts = getHosts( $path );
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	<div class="container">
 		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
 			<a class="navbar-brand" href="./">Dashboard</a>
 		</div>
-		<div class="navbar-collapse collapse">
+
 			<ul class="nav navbar-nav">
 				<li><a href="database-admin/" target="_blank">phpMyAdmin</a></li>
 				<li><a href="memcached-admin/" target="_blank">phpMemcachedAdmin</a></li>
@@ -139,13 +68,12 @@ $hosts = getHosts( $path );
 				<li><a href="webgrind/" target="_blank">Webgrind</a></li>
 				<li><a href="phpinfo/" target="_blank">PHP Info</a></li>
 			</ul>
-		</div>
-		<!--/.nav-collapse -->
+
 	</div>
 </div>
 
 <div class="container-fluid">
-	<div class="row">
+
 		<div class="col-sm-4 col-md-3 sidebar">
 
 			<p class="sidebar-title">References &amp; Extras</p>
@@ -166,7 +94,7 @@ $hosts = getHosts( $path );
 			<h1 class="page-header">VVV Dashboard</h1>
 
 			<div class="row">
-				<div class="col-sm-7">
+				<div class="col-sm-8 col-md-7">
 
 					<p><strong>Current Hosts</strong></p>
 					<small>Note: To profile, <code>xdebug_on</code> must be set.</small>
@@ -186,7 +114,7 @@ $hosts = getHosts( $path );
 					</ul>
 
 				</div>
-				<div class="col-sm-5">
+				<div class="col-sm-8 col-md-4">
 					<p><strong>Useful Commands</strong></p>
 					<a href="https://github.com/varying-vagrant-vagrants/vvv/#now-what" target="_blank">Commands Link</a>
 					<br />
@@ -271,15 +199,9 @@ vvv -a delete mysite
 				</tbody>
 			</table>
 
-			<div class="row">
-				<p><strong>NOTE: </strong>This Dashboard project has no affiliation with Varying Vagrant Vagrants or any other components listed here.</p>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+			<p><strong>NOTE: </strong>This Dashboard project has no affiliation with Varying Vagrant Vagrants or any other components listed here.</p>
 
+		</div>
+</div>
 </body>
 </html>

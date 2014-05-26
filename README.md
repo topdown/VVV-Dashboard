@@ -9,6 +9,7 @@ Instructions
 Clone this repo to your VVV/www directory
 
 Copy the dashboard-custom.php to VVV/www/default/dashboard-custom.php
+Copy the style.css to VVV/www/default/style.css
 
 
 With Vagrant Up you should be able browse to your vagrant root www usually [vvv](http://vvv) or [vvv.dev](http://vvv.dev) and see the new dashboard.
