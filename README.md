@@ -9,6 +9,7 @@ Instructions
 Clone this repo to your VVV/www directory
 
 Copy the dashboard-custom.php to VVV/www/default/dashboard-custom.php
+
 Copy the style.css to VVV/www/default/style.css
 
 
