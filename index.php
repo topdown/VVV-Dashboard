@@ -105,9 +105,9 @@ $hosts = getHosts( $path );
 							<span class=" col-sm-7">' . $host . '</span>
 
 							<div class=" col-sm-5">
-							<a class="btn btn-primary btn-xs" href="http://' . $host . '/" target="_blank">Load</a>
-							<a class="btn btn-warning btn-xs" href="http://' . $host . '/wp-login.php" target="_blank">Admin Login</a>
-							<a class="btn btn-success btn-xs" href="http://' . $host . '/?XDEBUG_PROFILE" target="_blank">Profile</a>
+							<a class="btn btn-primary btn-xs" href="http://' . $host . '/" target="_blank">Visit Site</a>
+							<a class="btn btn-warning btn-xs" href="http://' . $host . '/wp-admin" target="_blank">Admin/Login</a>
+							<a class="btn btn-success btn-xs" href="http://' . $host . '/?XDEBUG_PROFILE" target="_blank">Profiler</a>
 							</div>
 							</li>' . "\n";
 						} // end foreach
