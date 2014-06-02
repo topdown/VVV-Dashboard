@@ -106,6 +106,7 @@ $hosts = getHosts( $path );
 
 							<div class=" col-sm-5">
 							<a class="btn btn-primary btn-xs" href="http://' . $host . '/" target="_blank">Load</a>
+							<a class="btn btn-warning btn-xs" href="http://' . $host . '/wp-login.php" target="_blank">Admin Login</a>
 							<a class="btn btn-success btn-xs" href="http://' . $host . '/?XDEBUG_PROFILE" target="_blank">Profile</a>
 							</div>
 							</li>' . "\n";
