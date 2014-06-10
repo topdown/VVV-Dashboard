@@ -79,15 +79,10 @@ $hosts = getHosts( $path );
 			<p class="sidebar-title">References &amp; Extras</p>
 			<ul class="nav">
 				<li><a target="_blank" href="https://github.com/aliso/vvv-site-wizard">VVV Site Wizard</a></li>
-				<li>
-					<a href="https://github.com/varying-vagrant-vagrants/vvv/" target="_blank">Varying Vagrant Vagrants</a>
-				</li>
-				<li>
-					<a href="https://github.com/topdown/VVV-Dashboard" target="_blank">VVV Dashboard Repo</a>
-				</li>
-				<li>
-					<a href="https://github.com/topdown/VVV-Dashboard/issues" target="_blank">VVV Dashboard Issues</a>
-				</li>
+				<li><a href="https://github.com/varying-vagrant-vagrants/vvv/" target="_blank">Varying Vagrant Vagrants</a></li>
+				<li><a href="https://github.com/topdown/VVV-Dashboard" target="_blank">VVV Dashboard Repo</a></li>
+				<li><a href="https://github.com/topdown/VVV-Dashboard/issues" target="_blank">VVV Dashboard Issues</a></li>
+				<li><a href="https://github.com/aubreypwd/wordpress-themereview-vvv" target="_blank">VVV WordPress ThemeReview</a></li>
 			</ul>
 		</div>
 		<div class="col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3 main">
