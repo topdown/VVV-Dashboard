@@ -6,7 +6,7 @@ It also suggests the wonderful add-on bash script [VVV Site Wizard](https://gith
 
 Instructions
 -
-Clone this repo to your VVV/www directory
+Clone this repo to your VVV/www directory (`git clone git@github.com:topdown/VVV-Dashboard.git dashboard`)
 
 Copy the dashboard-custom.php to VVV/www/default/dashboard-custom.php
 
