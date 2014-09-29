@@ -17,7 +17,7 @@ $path = '..';
 function getHosts( $path ) {
 
 	$array = array();
-	$depth = 1;
+	$depth = 2;
 	$ite   = new RecursiveDirectoryIterator( $path, RecursiveDirectoryIterator::SKIP_DOTS );
 	$files = new RecursiveIteratorIterator( $ite );
 	$files->setMaxDepth( $depth );
