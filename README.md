@@ -6,14 +6,17 @@ It also suggests the wonderful add-on bash script [VVV Site Wizard](https://gith
 
 Instructions
 -
-Clone this repo to your VVV/www directory (`git clone https://github.com/topdown/VVV-Dashboard.git dashboard`)
+Clone this repo to your VVV/www/default/ directory (`git clone https://github.com/topdown/VVV-Dashboard.git dashboard`)
 
 Copy the dashboard-custom.php to VVV/www/default/dashboard-custom.php
 
-Copy the style.css to VVV/www/default/style.css
+You no longer need to copy the style.css anywhere.
 
 
 With Vagrant Up you should be able browse to your vagrant root www usually [vvv](http://vvv) or [vvv.dev](http://vvv.dev) and see the new dashboard.
+
+** NEW: There are bound keys for the search feature, the enter key and down arrow key search down the list and the up arrow searches up.**
+
 
 ![image](https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshot.png)
 
@@ -21,3 +24,22 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 ** NOTE: ** This Dashboard project has no affiliation with Varying Vagrant Vagrants or any other components listed here.
 
 ---
+
+### Change Log
+
+---
+5/15/2015
+
+Update bower components
+
+Added jQuery
+
+Added Search Hosts feature
+
+Added max-height with automated scroll
+
+Updated install instruction and ReadMe
+
+Updated Screenshot
+
+--- 
