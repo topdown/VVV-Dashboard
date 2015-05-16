@@ -10,8 +10,17 @@ Clone this repo to your VVV/www/default/ directory (`git clone https://github.co
 
 Copy the dashboard-custom.php to VVV/www/default/dashboard-custom.php
 
+---
+### UPDATE Instructions 
+From your dashboard directory ```git pull```
+
 You no longer need to copy the style.css anywhere.
 
+Delete the old VVV/www/default/dashboard-custom.php and copy the new version to VVV/www/default/dashboard-custom.php
+
+Now move your dashboard directory so it is inside VVV/www/default/
+
+---
 
 With Vagrant Up you should be able browse to your vagrant root www usually [vvv](http://vvv) or [vvv.dev](http://vvv.dev) and see the new dashboard.
 
