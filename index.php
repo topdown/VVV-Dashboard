@@ -17,6 +17,8 @@ $path = '../../';
 function getHosts( $path ) {
 
 	$array = array();
+	$debug = array();
+	$hosts = array();
 	$depth = 2;
 	$site  = new RecursiveDirectoryIterator( $path, RecursiveDirectoryIterator::SKIP_DOTS );
 	$files = new RecursiveIteratorIterator( $site );
@@ -31,17 +33,73 @@ function getHosts( $path ) {
 		if ( strstr( $name, 'vvv-hosts' ) && ! is_dir( 'vvv-hosts' ) ) {
 
 			$lines = file( $name );
+			$name  = str_replace( array( '../../', '/vvv-hosts' ), array(), $name );
 
 			// read through the lines in our host files
 			foreach ( $lines as $num => $line ) {
 
 				// skip comment lines
-				if ( ! strstr( $line, '#' ) && trim( $line ) != 'vvv.dev' ) {
-					$array[] = trim( $line );
+				if ( ! strstr( $line, '#' ) && 'vvv.dev' != trim( $line ) ) {
+					if ( 'vvv-hosts' == $name ) {
+						switch ( trim( $line ) ) {
+							case "local.wordpress.dev" :
+								$hosts['wordpress-default'] = array( 'host' => trim( $line ) );
+								break;
+							case "local.wordpress-trunk.dev" :
+								$hosts['wordpress-trunk'] = array( 'host' => trim( $line ) );
+								break;
+							case "src.wordpress-develop.dev" :
+								$hosts['wordpress-develop/src'] = array( 'host' => trim( $line ) );
+								break;
+							case "build.wordpress-develop.dev" :
+								$hosts['wordpress-develop/build'] = array( 'host' => trim( $line ) );
+								break;
+						}
+					}
+					if ( 'vvv-hosts' != $name ) {
+						$hosts[ $name ] = array( 'host' => trim( $line ) );
+					}
+					//$count          = ++ $count;
 				}
 			} // end foreach
 		}
+
+		if ( strstr( $name, 'wp-config.php' ) ) {
+
+			$config_lines = file( $name );
+
+			// read through the lines in our host files
+			foreach ( $config_lines as $num => $line ) {
+				$name = str_replace( array( '../../', '/wp-config.php', '/htdocs' ), array(), $name );
+
+				// skip comment lines
+				if ( strstr( $line, "define('WP_DEBUG', true);" )
+				     || strstr( $line, 'define("WP_DEBUG", true);' )
+				     || strstr( $line, 'define( "WP_DEBUG", true );' )
+				     || strstr( $line, "define( 'WP_DEBUG', true );" )
+				) {
+					$debug[ $name ] = array(
+						'path'  => $name,
+						'debug' => 'true',
+					);
+				}
+
+			} // end foreach
+		}
+
 	} // end foreach
+
+	foreach ( $hosts as $key => $val ) {
+
+		if ( array_key_exists( $key, $debug ) ) {
+			$array[ $key ] = $val + array( 'debug' => 'true' );
+		} else {
+			$array[ $key ] = $val + array( 'debug' => 'false' );
+		}
+	} // end foreach
+
+	$array['site_count'] = count( $hosts );
+
 	return $array;
 }
 
@@ -94,11 +152,11 @@ $hosts = getHosts( $path );
 		</div>
 
 		<ul class="nav navbar-nav">
-			<li><a href="database-admin/" target="_blank">phpMyAdmin</a></li>
-			<li><a href="memcached-admin/" target="_blank">phpMemcachedAdmin</a></li>
-			<li><a href="opcache-status/opcache.php" target="_blank">Opcache Status</a></li>
-			<li><a href="webgrind/" target="_blank">Webgrind</a></li>
-			<li><a href="phpinfo/" target="_blank">PHP Info</a></li>
+			<li><a href="/database-admin/" target="_blank">phpMyAdmin</a></li>
+			<li><a href="/memcached-admin/" target="_blank">phpMemcachedAdmin</a></li>
+			<li><a href="/opcache-status/opcache.php" target="_blank">Opcache Status</a></li>
+			<li><a href="/webgrind/" target="_blank">Webgrind</a></li>
+			<li><a href="/phpinfo/" target="_blank">PHP Info</a></li>
 		</ul>
 
 	</div>
@@ -108,9 +166,25 @@ $hosts = getHosts( $path );
 
 	<div class="col-sm-4 col-md-3 sidebar">
 
+
+		<p class="sidebar-title">Useful Commands</p>
+		<ul class="nav">
+			<li><a href="https://github.com/varying-vagrant-vagrants/vvv/#now-what" target="_blank">Commands Link</a></li>
+			<li><code>vagrant up</code></li>
+			<li><code>vagrant halt</code></li>
+			<li><code>vagrant ssh</code></li>
+			<li><code>vagrant suspend</code></li>
+			<li><code>vagrant resume</code></li>
+			<li><code>xdebug_on</code>
+				<a href="https://github.com/Varying-Vagrant-Vagrants/VVV/wiki/Code-Debugging#turning-on-xdebug" target="_blank">xDebug Link</a>
+			</li>
+		</ul>
+
+
 		<p class="sidebar-title">References &amp; Extras</p>
 		<ul class="nav">
-			<li><a target="_blank" href="https://github.com/aliso/vvv-site-wizard">VVV Site Wizard</a></li>
+			<li><a target="_blank" href="https://github.com/bradp/vv">Variable VVV (newest)</a></li>
+			<li><a target="_blank" href="https://github.com/aliso/vvv-site-wizard">VVV Site Wizard (old)</a></li>
 			<li><a href="https://github.com/varying-vagrant-vagrants/vvv/" target="_blank">Varying Vagrant Vagrants</a>
 			</li>
 			<li><a href="https://github.com/topdown/VVV-Dashboard" target="_blank">VVV Dashboard Repo</a></li>
@@ -124,123 +198,60 @@ $hosts = getHosts( $path );
 		<h1 class="page-header">VVV Dashboard</h1>
 
 		<div class="row">
-			<div class="col-sm-8 col-md-7 hosts">
+			<div class="col-sm-12 hosts">
 
-				<p><strong>Current Hosts</strong></p>
+				<p>
+					<strong>Current Hosts = <?php echo isset( $hosts['site_count'] ) ? $hosts['site_count'] : ''; ?></strong>
+				</p>
 				<small>Note: To profile, <code>xdebug_on</code> must be set.</small>
 
 				<p class="search-box">Search: <input type="text" id="text-search" />
 					<input id="search" type="button" value="Search" />
 					<input id="back" type="button" value="Search Up" />
-					<small>Enter, Up and Down keys are bound.</small>
+					&nbsp; <small>Enter, Up and Down keys are bound.</small>
 				</p>
 
 				<ul class="list-unstyled sites">
 					<?php
-					foreach ( $hosts as $host ) {
-						echo '<li class="row">
-							<span class=" col-sm-7">' . $host . '</span>
+					foreach ( $hosts as $key => $array ) {
+						if ( 'site_count' != $key ) {
+							echo '<li class="row">';
+							if ( 'true' == $array['debug'] ) {
+								echo '<div class="col-sm-1 "><span class="label label-success">Debug On</span></div>';
+							} else {
+								echo '<div class="col-sm-1 "><span class="label label-danger">Debug Off</span></div>';
+							}
+							echo '<span class=" col-sm-6">' . $array['host'] . '</span>
 
 							<div class=" col-sm-5">
-							<a class="btn btn-primary btn-xs" href="http://' . $host . '/" target="_blank">Visit Site</a>
-							<a class="btn btn-warning btn-xs" href="http://' . $host . '/wp-admin" target="_blank">Admin/Login</a>
-							<a class="btn btn-success btn-xs" href="http://' . $host . '/?XDEBUG_PROFILE" target="_blank">Profiler</a>
+							<a class="btn btn-primary btn-xs" href="http://' . $array['host'] . '/" target="_blank">Visit Site</a>
+							<a class="btn btn-warning btn-xs" href="http://' . $array['host'] . '/wp-admin" target="_blank">Admin/Login</a>
+							<a class="btn btn-success btn-xs" href="http://' . $array['host'] . '/?XDEBUG_PROFILE" target="_blank">Profiler</a>
 							</div>
 							</li>' . "\n";
+						}
 					} // end foreach
-					unset( $host ); ?>
+					unset( $array ); ?>
 					<li class="bottom"></li>
 				</ul>
 
 			</div>
-			<div class="col-sm-8 col-md-4">
-				<p><strong>Useful Commands</strong></p>
-				<a href="https://github.com/varying-vagrant-vagrants/vvv/#now-what" target="_blank">Commands Link</a>
-				<br />
-				<ul class="list-unstyled">
-					<li><code>vagrant up</code></li>
-					<li><code>vagrant halt</code></li>
-					<li><code>vagrant ssh</code></li>
-					<li><code>vagrant suspend</code></li>
-					<li><code>vagrant resume</code></li>
-					<li><code>xdebug_on</code>
-						<a href="https://github.com/Varying-Vagrant-Vagrants/VVV/wiki/Code-Debugging#turning-on-xdebug" target="_blank">Link</a>
-					</li>
-				</ul>
-			</div>
+
 		</div>
 
-		<h1>If Using <a href="https://github.com/aliso/vvv-site-wizard" target="_blank">VVV Site Wizard</a></h1>
+		<h1>To easily spin up new WordPress sites;</h1>
 
+		<p>Use <a target="_blank" href="https://github.com/bradp/vv">Variable VVV (newest)</a></p>
 		<p>This bash script makes it easy to spin up a new WordPress site using
 			<a href="https://github.com/Varying-Vagrant-Vagrants/VVV">Varying Vagrant Vagrants</a>.</p>
 
-
-		<h2>Usage</h2>
-
-		<p>Type
-			<code>vvv</code> in the command line to use. None of the options are required: if a required piece of information is not included in the original command, the wizard will prompt you for it.
-		</p>
-
-		<pre><code>vvv -a list vvv -a new -n mysite -d mysite.dev -v 3.9.1 -x vvv -a delete mysite </code></pre>
-
-		<h3>Options</h3>
-
-		<table class="table table-striped">
-			<thead>
-			<tr>
-				<th>Option</th>
-				<th>Name</th>
-				<th>Description</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr>
-				<td><code>-a</code></td>
-				<td>action</td>
-				<td>
-					<code>new</code>/<code>create</code>/<code>make</code> runs the site creation wizard,
-					<br /><code>rm</code>/<code>delete</code>/<code>teardown</code> runs the site teardown wizard,
-					<br /><code>list</code> lists all current VVV sites
-				</td>
-			</tr>
-			<tr>
-				<td><code>-d</code></td>
-				<td>domain</td>
-				<td>Desired domain (e.g. mysite.dev)</td>
-			</tr>
-			<tr>
-				<td><code>-f</code></td>
-				<td>files only</td>
-				<td>Do not provision Vagrant, just create the site directory and files</td>
-			</tr>
-			<tr>
-				<td><code>-n</code></td>
-				<td>site name</td>
-				<td>Desired name for the site directory (e.g. mysite)</td>
-			</tr>
-			<tr>
-				<td><code>-p</code></td>
-				<td>path</td>
-				<td>Path to VVV root (e.g. ~/vagrant-local)</td>
-			</tr>
-			<tr>
-				<td><code>-v</code></td>
-				<td>version</td>
-				<td>Version of WordPress to install</td>
-			</tr>
-			<tr>
-				<td><code>-x</code></td>
-				<td>debug</td>
-				<td>Turn on WP_DEBUG and WP_DEBUG_LOG</td>
-			</tr>
-			</tbody>
-		</table>
+		<p>You can also use the old script If Using <a href="https://github.com/aliso/vvv-site-wizard" target="_blank">VVV Site Wizard</a> <strong>But it is no longer maintained!</strong></p>
 
 		<p>
 			<strong>NOTE: </strong>This Dashboard project has no affiliation with Varying Vagrant Vagrants or any other components listed here.
 		</p>
 
+		<p><small>VVV Dashboard Version: 0.0.2</small></p>
 	</div>
 </div>
 </body>

@@ -3968,6 +3968,89 @@ input[type="button"].btn-block {
   color: #fff;
 }
 
+/* line 5, bower_components/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_labels.scss */
+.label {
+  display: inline;
+  padding: .2em .6em .3em;
+  font-size: 75%;
+  font-weight: bold;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+}
+/* line 19, bower_components/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_labels.scss */
+.label[href]:hover, .label[href]:focus {
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+}
+/* line 28, bower_components/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_labels.scss */
+.label:empty {
+  display: none;
+}
+/* line 33, bower_components/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_labels.scss */
+.btn .label {
+  position: relative;
+  top: -1px;
+}
+
+/* line 42, bower_components/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_labels.scss */
+.label-default {
+  background-color: #999999;
+}
+/* line 525, bower_components/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+.label-default[href]:hover, .label-default[href]:focus {
+  background-color: gray;
+}
+
+/* line 46, bower_components/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_labels.scss */
+.label-primary {
+  background-color: #428bca;
+}
+/* line 525, bower_components/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+.label-primary[href]:hover, .label-primary[href]:focus {
+  background-color: #3071a9;
+}
+
+/* line 50, bower_components/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_labels.scss */
+.label-success {
+  background-color: #5cb85c;
+}
+/* line 525, bower_components/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+.label-success[href]:hover, .label-success[href]:focus {
+  background-color: #449d44;
+}
+
+/* line 54, bower_components/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_labels.scss */
+.label-info {
+  background-color: #5bc0de;
+}
+/* line 525, bower_components/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+.label-info[href]:hover, .label-info[href]:focus {
+  background-color: #31b0d5;
+}
+
+/* line 58, bower_components/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_labels.scss */
+.label-warning {
+  background-color: #f0ad4e;
+}
+/* line 525, bower_components/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+.label-warning[href]:hover, .label-warning[href]:focus {
+  background-color: #ec971f;
+}
+
+/* line 62, bower_components/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_labels.scss */
+.label-danger {
+  background-color: #d9534f;
+}
+/* line 525, bower_components/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
+.label-danger[href]:hover, .label-danger[href]:focus {
+  background-color: #c9302c;
+}
+
 /* line 20, bower_components/bootstrap-sass/vendor/assets/stylesheets/bootstrap/_mixins.scss */
 .clearfix:before, .clearfix:after {
   content: " ";
@@ -4777,4 +4860,9 @@ body {
 .highlight {
   background: yellow;
   padding: 3px;
+}
+
+/* line 82, compass/sass/_layout.scss */
+.center {
+  text-align: center;
 }
