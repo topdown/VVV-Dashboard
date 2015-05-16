@@ -13,12 +13,13 @@ body {
 
 @media (max-width: 768px) {
 	body {
-		padding-top: 0px;
+		padding-top: 0;
 	}
 	.navbar-fixed-top {
-			position: relative;
+		position: relative;
 	}
 }
+
 @media (min-width: 768px) {
 
 	.sidebar {
@@ -61,4 +62,19 @@ body {
 
 .list-unstyled.sites li:hover {
 	background: #ded;
+}
+
+.sites {
+	max-height: 240px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.search-box {
+	margin: 10px 0;
+}
+
+.highlight {
+	background: yellow;
+	padding:    3px;
 }
