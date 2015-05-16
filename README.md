@@ -52,3 +52,7 @@ Updated install instruction and ReadMe
 Updated Screenshot
 
 --- 
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/topdown/vvv-dashboard/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
