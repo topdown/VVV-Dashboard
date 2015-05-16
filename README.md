@@ -37,18 +37,23 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 ### Change Log
 
 ---
+5/16/2015
+
+* Refactored getHosts function to also check if WP_DEBUG is true in each host
+* Added it to the host list.
+* Added host count
+* Updated Screenshot
+* Made the main view port wider moving commands to the sidebar
+
+---
 5/15/2015
 
-Update bower components
-
-Added jQuery
-
-Added Search Hosts feature
-
-Added max-height with automated scroll
-
-Updated install instruction and ReadMe
-
-Updated Screenshot
+* Update bower components
+* Added jQuery
+* Added Search Hosts feature
+* Added max-height with automated scroll
+* Updated install instruction and ReadMe
+* Updated Screenshot
 
 --- 
+Version: 0.0.2
