@@ -44,6 +44,7 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 * Added host count
 * Updated Screenshot
 * Made the main view port wider moving commands to the sidebar
+* Support for none WordPress sites
 
 ---
 5/15/2015
@@ -56,4 +57,4 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 * Updated Screenshot
 
 --- 
-Version: 0.0.2
+Version: 0.0.3

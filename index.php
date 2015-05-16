@@ -19,6 +19,7 @@ function getHosts( $path ) {
 	$array = array();
 	$debug = array();
 	$hosts = array();
+	$wp    = array();
 	$depth = 2;
 	$site  = new RecursiveDirectoryIterator( $path, RecursiveDirectoryIterator::SKIP_DOTS );
 	$files = new RecursiveIteratorIterator( $site );
@@ -67,10 +68,10 @@ function getHosts( $path ) {
 		if ( strstr( $name, 'wp-config.php' ) ) {
 
 			$config_lines = file( $name );
+			$name         = str_replace( array( '../../', '/wp-config.php', '/htdocs' ), array(), $name );
 
 			// read through the lines in our host files
 			foreach ( $config_lines as $num => $line ) {
-				$name = str_replace( array( '../../', '/wp-config.php', '/htdocs' ), array(), $name );
 
 				// skip comment lines
 				if ( strstr( $line, "define('WP_DEBUG', true);" )
@@ -83,18 +84,28 @@ function getHosts( $path ) {
 						'debug' => 'true',
 					);
 				}
-
 			} // end foreach
+
+			$wp[ $name ] = 'true';
 		}
 
 	} // end foreach
 
+
 	foreach ( $hosts as $key => $val ) {
 
 		if ( array_key_exists( $key, $debug ) ) {
-			$array[ $key ] = $val + array( 'debug' => 'true' );
+			if ( array_key_exists( $key, $wp ) ) {
+				$array[ $key ] = $val + array( 'debug' => 'true', 'is_wp' => 'true' );
+			} else {
+				$array[ $key ] = $val + array( 'debug' => 'true', 'is_wp' => 'false' );
+			}
 		} else {
-			$array[ $key ] = $val + array( 'debug' => 'false' );
+			if ( array_key_exists( $key, $wp ) ) {
+				$array[ $key ] = $val + array( 'debug' => 'false', 'is_wp' => 'true' );
+			} else {
+				$array[ $key ] = $val + array( 'debug' => 'false', 'is_wp' => 'false' );
+			}
 		}
 	} // end foreach
 
@@ -169,7 +180,8 @@ $hosts = getHosts( $path );
 
 		<p class="sidebar-title">Useful Commands</p>
 		<ul class="nav">
-			<li><a href="https://github.com/varying-vagrant-vagrants/vvv/#now-what" target="_blank">Commands Link</a></li>
+			<li><a href="https://github.com/varying-vagrant-vagrants/vvv/#now-what" target="_blank">Commands Link</a>
+			</li>
 			<li><code>vagrant up</code></li>
 			<li><code>vagrant halt</code></li>
 			<li><code>vagrant ssh</code></li>
@@ -207,8 +219,8 @@ $hosts = getHosts( $path );
 
 				<p class="search-box">Search: <input type="text" id="text-search" />
 					<input id="search" type="button" value="Search" />
-					<input id="back" type="button" value="Search Up" />
-					&nbsp; <small>Enter, Up and Down keys are bound.</small>
+					<input id="back" type="button" value="Search Up" /> &nbsp;
+					<small>Enter, Up and Down keys are bound.</small>
 				</p>
 
 				<ul class="list-unstyled sites">
@@ -224,9 +236,11 @@ $hosts = getHosts( $path );
 							echo '<span class=" col-sm-6">' . $array['host'] . '</span>
 
 							<div class=" col-sm-5">
-							<a class="btn btn-primary btn-xs" href="http://' . $array['host'] . '/" target="_blank">Visit Site</a>
-							<a class="btn btn-warning btn-xs" href="http://' . $array['host'] . '/wp-admin" target="_blank">Admin/Login</a>
-							<a class="btn btn-success btn-xs" href="http://' . $array['host'] . '/?XDEBUG_PROFILE" target="_blank">Profiler</a>
+							<a class="btn btn-primary btn-xs" href="http://' . $array['host'] . '/" target="_blank">Visit Site</a>';
+							if ( 'true' == $array['is_wp'] ) {
+								echo ' <a class="btn btn-warning btn-xs" href="http://' . $array['host'] . '/wp-admin" target="_blank">Admin/Login</a>';
+							}
+							echo ' <a class="btn btn-success btn-xs" href="http://' . $array['host'] . '/?XDEBUG_PROFILE" target="_blank">Profiler</a>
 							</div>
 							</li>' . "\n";
 						}
@@ -242,16 +256,21 @@ $hosts = getHosts( $path );
 		<h1>To easily spin up new WordPress sites;</h1>
 
 		<p>Use <a target="_blank" href="https://github.com/bradp/vv">Variable VVV (newest)</a></p>
+
 		<p>This bash script makes it easy to spin up a new WordPress site using
 			<a href="https://github.com/Varying-Vagrant-Vagrants/VVV">Varying Vagrant Vagrants</a>.</p>
 
-		<p>You can also use the old script If Using <a href="https://github.com/aliso/vvv-site-wizard" target="_blank">VVV Site Wizard</a> <strong>But it is no longer maintained!</strong></p>
+		<p>You can also use the old script If Using
+			<a href="https://github.com/aliso/vvv-site-wizard" target="_blank">VVV Site Wizard</a>
+			<strong>But it is no longer maintained!</strong></p>
 
 		<p>
 			<strong>NOTE: </strong>This Dashboard project has no affiliation with Varying Vagrant Vagrants or any other components listed here.
 		</p>
 
-		<p><small>VVV Dashboard Version: 0.0.2</small></p>
+		<p>
+			<small>VVV Dashboard Version: 0.0.3</small>
+		</p>
 	</div>
 </div>
 </body>
