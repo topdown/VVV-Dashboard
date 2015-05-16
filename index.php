@@ -60,9 +60,8 @@ function getHosts( $path ) {
 					if ( 'vvv-hosts' != $name ) {
 						$hosts[ $name ] = array( 'host' => trim( $line ) );
 					}
-					//$count          = ++ $count;
 				}
-			} // end foreach
+			}
 		}
 
 		if ( strstr( $name, 'wp-config.php' ) ) {
@@ -84,12 +83,12 @@ function getHosts( $path ) {
 						'debug' => 'true',
 					);
 				}
-			} // end foreach
+			}
 
 			$wp[ $name ] = 'true';
 		}
 
-	} // end foreach
+	}
 
 
 	foreach ( $hosts as $key => $val ) {
@@ -107,7 +106,7 @@ function getHosts( $path ) {
 				$array[ $key ] = $val + array( 'debug' => 'false', 'is_wp' => 'false' );
 			}
 		}
-	} // end foreach
+	}
 
 	$array['site_count'] = count( $hosts );
 
@@ -244,7 +243,7 @@ $hosts = getHosts( $path );
 							</div>
 							</li>' . "\n";
 						}
-					} // end foreach
+					}
 					unset( $array ); ?>
 					<li class="bottom"></li>
 				</ul>
