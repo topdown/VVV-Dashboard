@@ -4763,7 +4763,7 @@ body {
 
 /* line 67, compass/sass/_layout.scss */
 .sites {
-  max-height: 240px;
+  max-height: 300px;
   overflow-y: auto;
   overflow-x: hidden;
 }
