@@ -93,38 +93,21 @@ function getHosts( $path ) {
 	foreach ( $hosts as $key => $val ) {
 
 		if ( array_key_exists( $key, $debug ) ) {
-			$array = build_hosts_array( $key, $wp, $val, $array );
+			if ( array_key_exists( $key, $wp ) ) {
+				$array[ $key ] = $val + array( 'debug' => 'true', 'is_wp' => 'true' );
+			} else {
+				$array[ $key ] = $val + array( 'debug' => 'true', 'is_wp' => 'false' );
+			}
 		} else {
-			$array = build_hosts_array( $key, $wp, $val, $array );
+			if ( array_key_exists( $key, $wp ) ) {
+				$array[ $key ] = $val + array( 'debug' => 'false', 'is_wp' => 'true' );
+			} else {
+				$array[ $key ] = $val + array( 'debug' => 'false', 'is_wp' => 'false' );
+			}
 		}
 	}
 
 	$array['site_count'] = count( $hosts );
-
-	return $array;
-}
-
-/**
- * Build the required checks into an array for each hosts
- *
- * @author         Jeff Behnke <code@validwebs.com>
- * @copyright  (c) 2009-15 ValidWebs.com
- *
- * Created:    5/17/15, 2:39 PM
- *
- * @param $key
- * @param $wp
- * @param $val
- * @param $array
- *
- * @return array
- */
-function build_hosts_array( $key, $wp, $val, $array ) {
-	if ( array_key_exists( $key, $wp ) ) {
-		$array[ $key ] = $val + array( 'debug' => 'true', 'is_wp' => 'true' );
-	} else {
-		$array[ $key ] = $val + array( 'debug' => 'true', 'is_wp' => 'false' );
-	}
 
 	return $array;
 }
@@ -236,25 +219,23 @@ $hosts = getHosts( $path );
 				<ul class="list-unstyled sites">
 					<?php
 					foreach ( $hosts as $key => $array ) {
-						if ( 'site_count' != $key ) { ?>
-							<li class="row">
-								<?php if ( 'true' == $array['debug'] ) { ?>
-									<div class="col-sm-1 "><span class="label label-success">Debug On</span></div>
-								<?php } else { ?>
-									<div class="col-sm-1 "><span class="label label-danger">Debug Off</span></div>
-								<?php } ?>
+						if ( 'site_count' != $key ) {
+							echo '<li class="row">';
+							if ( 'true' == $array['debug'] ) {
+								echo '<div class="col-sm-1 "><span class="label label-success">Debug On</span></div>';
+							} else {
+								echo '<div class="col-sm-1 "><span class="label label-danger">Debug Off</span></div>';
+							}
+							echo '<span class=" col-sm-6">' . $array['host'] . '</span>
 
-								<div class=" col-sm-6"><?php echo $array['host']; ?></div>
-
-								<div class=" col-sm-5">
-									<a class="btn btn-primary btn-xs" href="http://<?php echo $array['host']; ?>/" target="_blank">Visit Site</a>
-									<?php if ( 'true' == $array['is_wp'] ) { ?>
-										<a class="btn btn-warning btn-xs" href="http://<?php echo $array['host']; ?>/wp-admin" target="_blank">Admin/Login</a>
-									<?php } ?>
-									<a class="btn btn-success btn-xs" href="http://<?php echo $array['host']; ?>/?XDEBUG_PROFILE" target="_blank">Profiler</a>
-								</div>
-							</li>
-							<?php
+							<div class=" col-sm-5">
+							<a class="btn btn-primary btn-xs" href="http://' . $array['host'] . '/" target="_blank">Visit Site</a>';
+							if ( 'true' == $array['is_wp'] ) {
+								echo ' <a class="btn btn-warning btn-xs" href="http://' . $array['host'] . '/wp-admin" target="_blank">Admin/Login</a>';
+							}
+							echo ' <a class="btn btn-success btn-xs" href="http://' . $array['host'] . '/?XDEBUG_PROFILE" target="_blank">Profiler</a>
+							</div>
+							</li>' . "\n";
 						}
 					}
 					unset( $array ); ?>

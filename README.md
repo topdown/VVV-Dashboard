@@ -39,7 +39,7 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 ---
 5/17/2015
 
-* code cleanup
+* created develop branch
 
 ---
 5/16/2015
