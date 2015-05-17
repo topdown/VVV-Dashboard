@@ -37,6 +37,11 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 ### Change Log
 
 ---
+5/17/2015
+
+* code cleanup
+
+---
 5/16/2015
 
 * Refactored getHosts function to also check if WP_DEBUG is true in each host
@@ -57,4 +62,4 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 * Updated Screenshot
 
 --- 
-Version: 0.0.3
+Version: 0.0.4

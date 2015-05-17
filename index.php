@@ -90,25 +90,41 @@ function getHosts( $path ) {
 
 	}
 
-
 	foreach ( $hosts as $key => $val ) {
 
 		if ( array_key_exists( $key, $debug ) ) {
-			if ( array_key_exists( $key, $wp ) ) {
-				$array[ $key ] = $val + array( 'debug' => 'true', 'is_wp' => 'true' );
-			} else {
-				$array[ $key ] = $val + array( 'debug' => 'true', 'is_wp' => 'false' );
-			}
+			$array = build_hosts_array( $key, $wp, $val, $array );
 		} else {
-			if ( array_key_exists( $key, $wp ) ) {
-				$array[ $key ] = $val + array( 'debug' => 'false', 'is_wp' => 'true' );
-			} else {
-				$array[ $key ] = $val + array( 'debug' => 'false', 'is_wp' => 'false' );
-			}
+			$array = build_hosts_array( $key, $wp, $val, $array );
 		}
 	}
 
 	$array['site_count'] = count( $hosts );
+
+	return $array;
+}
+
+/**
+ * Build the required checks into an array for each hosts
+ *
+ * @author         Jeff Behnke <code@validwebs.com>
+ * @copyright  (c) 2009-15 ValidWebs.com
+ *
+ * Created:    5/17/15, 2:39 PM
+ *
+ * @param $key
+ * @param $wp
+ * @param $val
+ * @param $array
+ *
+ * @return array
+ */
+function build_hosts_array( $key, $wp, $val, $array ) {
+	if ( array_key_exists( $key, $wp ) ) {
+		$array[ $key ] = $val + array( 'debug' => 'true', 'is_wp' => 'true' );
+	} else {
+		$array[ $key ] = $val + array( 'debug' => 'true', 'is_wp' => 'false' );
+	}
 
 	return $array;
 }
@@ -154,7 +170,6 @@ $hosts = getHosts( $path );
 	</script>
 </head>
 <body>
-<!-- Fixed navbar -->
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	<div class="container">
 		<div class="navbar-header">
@@ -168,14 +183,11 @@ $hosts = getHosts( $path );
 			<li><a href="/webgrind/" target="_blank">Webgrind</a></li>
 			<li><a href="/phpinfo/" target="_blank">PHP Info</a></li>
 		</ul>
-
 	</div>
 </div>
 
 <div class="container-fluid">
-
 	<div class="col-sm-4 col-md-3 sidebar">
-
 
 		<p class="sidebar-title">Useful Commands</p>
 		<ul class="nav">
@@ -210,7 +222,6 @@ $hosts = getHosts( $path );
 
 		<div class="row">
 			<div class="col-sm-12 hosts">
-
 				<p>
 					<strong>Current Hosts = <?php echo isset( $hosts['site_count'] ) ? $hosts['site_count'] : ''; ?></strong>
 				</p>
@@ -225,31 +236,31 @@ $hosts = getHosts( $path );
 				<ul class="list-unstyled sites">
 					<?php
 					foreach ( $hosts as $key => $array ) {
-						if ( 'site_count' != $key ) {
-							echo '<li class="row">';
-							if ( 'true' == $array['debug'] ) {
-								echo '<div class="col-sm-1 "><span class="label label-success">Debug On</span></div>';
-							} else {
-								echo '<div class="col-sm-1 "><span class="label label-danger">Debug Off</span></div>';
-							}
-							echo '<span class=" col-sm-6">' . $array['host'] . '</span>
+						if ( 'site_count' != $key ) { ?>
+							<li class="row">
+								<?php if ( 'true' == $array['debug'] ) { ?>
+									<div class="col-sm-1 "><span class="label label-success">Debug On</span></div>
+								<?php } else { ?>
+									<div class="col-sm-1 "><span class="label label-danger">Debug Off</span></div>
+								<?php } ?>
 
-							<div class=" col-sm-5">
-							<a class="btn btn-primary btn-xs" href="http://' . $array['host'] . '/" target="_blank">Visit Site</a>';
-							if ( 'true' == $array['is_wp'] ) {
-								echo ' <a class="btn btn-warning btn-xs" href="http://' . $array['host'] . '/wp-admin" target="_blank">Admin/Login</a>';
-							}
-							echo ' <a class="btn btn-success btn-xs" href="http://' . $array['host'] . '/?XDEBUG_PROFILE" target="_blank">Profiler</a>
-							</div>
-							</li>' . "\n";
+								<div class=" col-sm-6"><?php echo $array['host']; ?></div>
+
+								<div class=" col-sm-5">
+									<a class="btn btn-primary btn-xs" href="http://<?php echo $array['host']; ?>/" target="_blank">Visit Site</a>
+									<?php if ( 'true' == $array['is_wp'] ) { ?>
+										<a class="btn btn-warning btn-xs" href="http://<?php echo $array['host']; ?>/wp-admin" target="_blank">Admin/Login</a>
+									<?php } ?>
+									<a class="btn btn-success btn-xs" href="http://<?php echo $array['host']; ?>/?XDEBUG_PROFILE" target="_blank">Profiler</a>
+								</div>
+							</li>
+							<?php
 						}
 					}
 					unset( $array ); ?>
 					<li class="bottom"></li>
 				</ul>
-
 			</div>
-
 		</div>
 
 		<h1>To easily spin up new WordPress sites;</h1>
@@ -268,7 +279,7 @@ $hosts = getHosts( $path );
 		</p>
 
 		<p>
-			<small>VVV Dashboard Version: 0.0.3</small>
+			<small>VVV Dashboard Version: 0.0.4</small>
 		</p>
 	</div>
 </div>
