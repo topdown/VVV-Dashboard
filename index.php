@@ -319,7 +319,7 @@ $hosts = get_hosts( $path );
 		</p>
 
 		<p>
-			<small>VVV Dashboard Version: 0.0.4</small>
+			<small>VVV Dashboard Version: 0.0.5</small>
 		</p>
 	</div>
 </div>

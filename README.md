@@ -37,6 +37,13 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 ### Change Log
 
 ---
+5/18/2015
+
+* Added VV Command table
+* Changed host list to responsive tables
+* Changed host search to a live search
+
+---
 5/17/2015
 
 * created develop branch
@@ -62,4 +69,4 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 * Updated Screenshot
 
 --- 
-Version: 0.0.4
+Version: 0.0.5
