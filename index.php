@@ -117,39 +117,13 @@ $hosts = get_hosts( $path );
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="UTF-8">
 	<title>Varying Vagrant Vagrants Dashboard</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="style.css?ver=5" />
 	<script type="text/JavaScript" src="bower_components/jquery/dist/jquery.min.js"></script>
 
 	<script type="text/javascript" src="src/js/scripts.js"></script>
-	<script type="text/javascript">
-
-		jQuery(document).ready(function () {
-
-			var search_box = $("#text-search");
-
-			$('#search').on('click', function () {
-				$('.highlight').scrollViewUp();
-			});
-
-			$('#back').on('click', function () {
-				$('.highlight').scrollViewDown();
-			});
-
-			$(search_box).keyup(function (event) {
-				if (event.keyCode == 13 || event.keyCode == 40) {
-					$("#search").click();
-				}
-			});
-
-			$(search_box).keyup(function (event) {
-				if (event.keyCode == 38) {
-					$("#back").click();
-				}
-			});
-		});
-	</script>
 </head>
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -209,10 +183,10 @@ $hosts = get_hosts( $path );
 				</p>
 				<small>Note: To profile, <code>xdebug_on</code> must be set.</small>
 
-				<p class="search-box">Search: <input type="text" id="text-search" />
-					<input id="search" type="button" value="Search" />
+				<p class="search-box">Live Search: <input type="text" id="text-search" />
+					<!--<input id="search" type="button" value="Search" />
 					<input id="back" type="button" value="Search Up" /> &nbsp;
-					<small>Enter, Up and Down keys are bound.</small>
+					<small>Enter, Up and Down keys are bound.</small>-->
 				</p>
 
 				<table class="sites table table-responsive table-striped">
@@ -251,9 +225,10 @@ $hosts = get_hosts( $path );
 			</div>
 		</div>
 
-		<h1>To easily spin up new WordPress sites;</h1>
+		<h1>To easily spin up new WordPress sites</h1>
 
 		<p>Use <a target="_blank" href="https://github.com/bradp/vv">Variable VVV (newest)</a></p>
+
 		<h2>Variable VVV Commands</h2>
 
 		<table class="table table-responsive table-bordered table-striped">
