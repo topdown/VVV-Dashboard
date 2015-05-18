@@ -14,7 +14,7 @@ $path = '../../';
  *
  * @return array
  */
-function getHosts( $path ) {
+function get_hosts( $path ) {
 
 	$array = array();
 	$debug = array();
@@ -24,7 +24,7 @@ function getHosts( $path ) {
 	$site  = new RecursiveDirectoryIterator( $path, RecursiveDirectoryIterator::SKIP_DOTS );
 	$files = new RecursiveIteratorIterator( $site );
 	if ( ! is_object( $files ) ) {
-		return;
+		return null;
 	}
 	$files->setMaxDepth( $depth );
 
@@ -43,16 +43,16 @@ function getHosts( $path ) {
 				if ( ! strstr( $line, '#' ) && 'vvv.dev' != trim( $line ) ) {
 					if ( 'vvv-hosts' == $name ) {
 						switch ( trim( $line ) ) {
-							case "local.wordpress.dev" :
+							case 'local.wordpress.dev' :
 								$hosts['wordpress-default'] = array( 'host' => trim( $line ) );
 								break;
-							case "local.wordpress-trunk.dev" :
+							case 'local.wordpress-trunk.dev' :
 								$hosts['wordpress-trunk'] = array( 'host' => trim( $line ) );
 								break;
-							case "src.wordpress-develop.dev" :
+							case 'src.wordpress-develop.dev' :
 								$hosts['wordpress-develop/src'] = array( 'host' => trim( $line ) );
 								break;
-							case "build.wordpress-develop.dev" :
+							case 'build.wordpress-develop.dev' :
 								$hosts['wordpress-develop/build'] = array( 'host' => trim( $line ) );
 								break;
 						}
@@ -87,7 +87,6 @@ function getHosts( $path ) {
 
 			$wp[ $name ] = 'true';
 		}
-
 	}
 
 	foreach ( $hosts as $key => $val ) {
@@ -112,7 +111,7 @@ function getHosts( $path ) {
 	return $array;
 }
 
-$hosts = getHosts( $path );
+$hosts = get_hosts( $path );
 
 ?>
 <!DOCTYPE html>
@@ -237,7 +236,7 @@ $hosts = getHosts( $path );
 									<a class="btn btn-success btn-xs" href="http://<?php echo $array['host']; ?>/?XDEBUG_PROFILE" target="_blank">Profiler</a>
 								</div>
 							</li>
-						<?php
+							<?php
 						}
 					}
 					unset( $array ); ?>
@@ -249,6 +248,83 @@ $hosts = getHosts( $path );
 		<h1>To easily spin up new WordPress sites;</h1>
 
 		<p>Use <a target="_blank" href="https://github.com/bradp/vv">Variable VVV (newest)</a></p>
+		<h2>Variable VVV Commands</h2>
+
+		<table class="table table-responsive table-bordered table-striped">
+			<thead>
+			<tr>
+				<th>Command</th>
+				<th>Description</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td>
+					list or --list or -l
+				</td>
+				<td>
+					List all VVV sites
+				</td>
+			</tr>
+			<tr>
+				<td>
+					create or --create or -c
+				</td>
+				<td>
+					Create a new site
+				</td>
+			</tr>
+			<tr>
+				<td>
+					remove or --remove or -r
+				</td>
+				<td>
+					Remove a site
+				</td>
+			</tr>
+			<tr>
+				<td>
+					deployment-create or --deployment-create
+				</td>
+				<td>
+					Set up deployment for a site
+				</td>
+			</tr>
+			<tr>
+				<td>
+					deployment-remove or --deployment-remove
+				</td>
+				<td>
+					Remove deployment for a site
+				</td>
+			</tr>
+			<tr>
+				<td>
+					deployment-config or --deployment-config
+				</td>
+				<td>
+					Manually edit deployment configuration
+				</td>
+			</tr>
+			<tr>
+				<td>
+					blueprint-init or --blueprint-init
+				</td>
+				<td>
+					Initialize blueprint file
+				</td>
+			</tr>
+			<tr>
+				<td>
+					vagrant v --vagrant -v
+				</td>
+				<td>
+					Pass vagrant command through to VVV
+				</td>
+			</tr>
+
+			</tbody>
+		</table>
 
 		<p>This bash script makes it easy to spin up a new WordPress site using
 			<a href="https://github.com/Varying-Vagrant-Vagrants/VVV">Varying Vagrant Vagrants</a>.</p>
