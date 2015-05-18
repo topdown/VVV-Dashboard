@@ -215,33 +215,39 @@ $hosts = get_hosts( $path );
 					<small>Enter, Up and Down keys are bound.</small>
 				</p>
 
-				<ul class="list-unstyled sites">
+				<table class="sites table table-responsive table-striped">
+					<thead>
+					<tr>
+						<th>Debug Mode</th>
+						<th>Sites</th>
+						<th>Actions</th>
+					</tr>
+					</thead>
 					<?php
 					foreach ( $hosts as $key => $array ) {
 						if ( 'site_count' != $key ) { ?>
-							<li class="row">
+							<tr>
 								<?php if ( 'true' == $array['debug'] ) { ?>
-									<div class="col-sm-1"><span class="label label-success">Debug On</span></div>
+									<td><span class="label label-success">Debug On</span></td>
 								<?php } else { ?>
-									<div class="col-sm-1"><span class="label label-danger">Debug Off</span></div>
+									<td><span class="label label-danger">Debug Off</span></td>
 								<?php } ?>
-								<div class=" col-sm-6"><?php echo $array['host']; ?></div>
+								<td><?php echo $array['host']; ?></td>
 
-								<div class="col-sm-5">
+								<td>
 									<a class="btn btn-primary btn-xs" href="http://<?php echo $array['host']; ?>/" target="_blank">Visit Site</a>
 
 									<?php if ( 'true' == $array['is_wp'] ) { ?>
 										<a class="btn btn-warning btn-xs" href="http://<?php echo $array['host']; ?>/wp-admin" target="_blank">Admin/Login</a>
 									<?php } ?>
 									<a class="btn btn-success btn-xs" href="http://<?php echo $array['host']; ?>/?XDEBUG_PROFILE" target="_blank">Profiler</a>
-								</div>
-							</li>
+								</td>
+							</tr>
 							<?php
 						}
 					}
 					unset( $array ); ?>
-					<li class="bottom"></li>
-				</ul>
+				</table>
 			</div>
 		</div>
 
