@@ -14,7 +14,7 @@ $path = '../../';
  *
  * @return array
  */
-function getHosts( $path ) {
+function get_hosts( $path ) {
 
 	$array = array();
 	$debug = array();
@@ -24,7 +24,7 @@ function getHosts( $path ) {
 	$site  = new RecursiveDirectoryIterator( $path, RecursiveDirectoryIterator::SKIP_DOTS );
 	$files = new RecursiveIteratorIterator( $site );
 	if ( ! is_object( $files ) ) {
-		return;
+		return null;
 	}
 	$files->setMaxDepth( $depth );
 
@@ -43,16 +43,16 @@ function getHosts( $path ) {
 				if ( ! strstr( $line, '#' ) && 'vvv.dev' != trim( $line ) ) {
 					if ( 'vvv-hosts' == $name ) {
 						switch ( trim( $line ) ) {
-							case "local.wordpress.dev" :
+							case 'local.wordpress.dev' :
 								$hosts['wordpress-default'] = array( 'host' => trim( $line ) );
 								break;
-							case "local.wordpress-trunk.dev" :
+							case 'local.wordpress-trunk.dev' :
 								$hosts['wordpress-trunk'] = array( 'host' => trim( $line ) );
 								break;
-							case "src.wordpress-develop.dev" :
+							case 'src.wordpress-develop.dev' :
 								$hosts['wordpress-develop/src'] = array( 'host' => trim( $line ) );
 								break;
-							case "build.wordpress-develop.dev" :
+							case 'build.wordpress-develop.dev' :
 								$hosts['wordpress-develop/build'] = array( 'host' => trim( $line ) );
 								break;
 						}
@@ -87,7 +87,6 @@ function getHosts( $path ) {
 
 			$wp[ $name ] = 'true';
 		}
-
 	}
 
 	foreach ( $hosts as $key => $val ) {
@@ -112,45 +111,19 @@ function getHosts( $path ) {
 	return $array;
 }
 
-$hosts = getHosts( $path );
+$hosts = get_hosts( $path );
 
 ?>
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="UTF-8">
 	<title>Varying Vagrant Vagrants Dashboard</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="style.css?ver=5" />
 	<script type="text/JavaScript" src="bower_components/jquery/dist/jquery.min.js"></script>
 
 	<script type="text/javascript" src="src/js/scripts.js"></script>
-	<script type="text/javascript">
-
-		jQuery(document).ready(function () {
-
-			var search_box = $("#text-search");
-
-			$('#search').on('click', function () {
-				$('.highlight').scrollViewUp();
-			});
-
-			$('#back').on('click', function () {
-				$('.highlight').scrollViewDown();
-			});
-
-			$(search_box).keyup(function (event) {
-				if (event.keyCode == 13 || event.keyCode == 40) {
-					$("#search").click();
-				}
-			});
-
-			$(search_box).keyup(function (event) {
-				if (event.keyCode == 38) {
-					$("#back").click();
-				}
-			});
-		});
-	</script>
 </head>
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -210,43 +183,129 @@ $hosts = getHosts( $path );
 				</p>
 				<small>Note: To profile, <code>xdebug_on</code> must be set.</small>
 
-				<p class="search-box">Search: <input type="text" id="text-search" />
-					<input id="search" type="button" value="Search" />
+				<p class="search-box">Live Search: <input type="text" id="text-search" />
+					<!--<input id="search" type="button" value="Search" />
 					<input id="back" type="button" value="Search Up" /> &nbsp;
-					<small>Enter, Up and Down keys are bound.</small>
+					<small>Enter, Up and Down keys are bound.</small>-->
 				</p>
 
-				<ul class="list-unstyled sites">
+				<table class="sites table table-responsive table-striped">
+					<thead>
+					<tr>
+						<th>Debug Mode</th>
+						<th>Sites</th>
+						<th>Actions</th>
+					</tr>
+					</thead>
 					<?php
 					foreach ( $hosts as $key => $array ) {
-						if ( 'site_count' != $key ) {
-							echo '<li class="row">';
-							if ( 'true' == $array['debug'] ) {
-								echo '<div class="col-sm-1 "><span class="label label-success">Debug On</span></div>';
-							} else {
-								echo '<div class="col-sm-1 "><span class="label label-danger">Debug Off</span></div>';
-							}
-							echo '<span class=" col-sm-6">' . $array['host'] . '</span>
+						if ( 'site_count' != $key ) { ?>
+							<tr>
+								<?php if ( 'true' == $array['debug'] ) { ?>
+									<td><span class="label label-success">Debug On</span></td>
+								<?php } else { ?>
+									<td><span class="label label-danger">Debug Off</span></td>
+								<?php } ?>
+								<td><?php echo $array['host']; ?></td>
 
-							<div class=" col-sm-5">
-							<a class="btn btn-primary btn-xs" href="http://' . $array['host'] . '/" target="_blank">Visit Site</a>';
-							if ( 'true' == $array['is_wp'] ) {
-								echo ' <a class="btn btn-warning btn-xs" href="http://' . $array['host'] . '/wp-admin" target="_blank">Admin/Login</a>';
-							}
-							echo ' <a class="btn btn-success btn-xs" href="http://' . $array['host'] . '/?XDEBUG_PROFILE" target="_blank">Profiler</a>
-							</div>
-							</li>' . "\n";
+								<td>
+									<a class="btn btn-primary btn-xs" href="http://<?php echo $array['host']; ?>/" target="_blank">Visit Site</a>
+
+									<?php if ( 'true' == $array['is_wp'] ) { ?>
+										<a class="btn btn-warning btn-xs" href="http://<?php echo $array['host']; ?>/wp-admin" target="_blank">Admin/Login</a>
+									<?php } ?>
+									<a class="btn btn-success btn-xs" href="http://<?php echo $array['host']; ?>/?XDEBUG_PROFILE" target="_blank">Profiler</a>
+								</td>
+							</tr>
+							<?php
 						}
 					}
 					unset( $array ); ?>
-					<li class="bottom"></li>
-				</ul>
+				</table>
 			</div>
 		</div>
 
-		<h1>To easily spin up new WordPress sites;</h1>
+		<h1>To easily spin up new WordPress sites</h1>
 
 		<p>Use <a target="_blank" href="https://github.com/bradp/vv">Variable VVV (newest)</a></p>
+
+		<h2>Variable VVV Commands</h2>
+
+		<table class="table table-responsive table-bordered table-striped">
+			<thead>
+			<tr>
+				<th>Command</th>
+				<th>Description</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td>
+					list or --list or -l
+				</td>
+				<td>
+					List all VVV sites
+				</td>
+			</tr>
+			<tr>
+				<td>
+					create or --create or -c
+				</td>
+				<td>
+					Create a new site
+				</td>
+			</tr>
+			<tr>
+				<td>
+					remove or --remove or -r
+				</td>
+				<td>
+					Remove a site
+				</td>
+			</tr>
+			<tr>
+				<td>
+					deployment-create or --deployment-create
+				</td>
+				<td>
+					Set up deployment for a site
+				</td>
+			</tr>
+			<tr>
+				<td>
+					deployment-remove or --deployment-remove
+				</td>
+				<td>
+					Remove deployment for a site
+				</td>
+			</tr>
+			<tr>
+				<td>
+					deployment-config or --deployment-config
+				</td>
+				<td>
+					Manually edit deployment configuration
+				</td>
+			</tr>
+			<tr>
+				<td>
+					blueprint-init or --blueprint-init
+				</td>
+				<td>
+					Initialize blueprint file
+				</td>
+			</tr>
+			<tr>
+				<td>
+					vagrant v --vagrant -v
+				</td>
+				<td>
+					Pass vagrant command through to VVV
+				</td>
+			</tr>
+
+			</tbody>
+		</table>
 
 		<p>This bash script makes it easy to spin up a new WordPress site using
 			<a href="https://github.com/Varying-Vagrant-Vagrants/VVV">Varying Vagrant Vagrants</a>.</p>
@@ -260,7 +319,7 @@ $hosts = getHosts( $path );
 		</p>
 
 		<p>
-			<small>VVV Dashboard Version: 0.0.4</small>
+			<small>VVV Dashboard Version: 0.0.5</small>
 		</p>
 	</div>
 </div>

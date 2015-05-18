@@ -65,6 +65,7 @@ body {
 }
 
 .sites {
+	display: block;
 	max-height: 300px;
 	overflow-y: auto;
 	overflow-x: hidden;
@@ -77,6 +78,10 @@ body {
 .highlight {
 	background: yellow;
 	padding:    3px;
+}
+
+tr.highlight {
+	background: darkseagreen;
 }
 
 .center {

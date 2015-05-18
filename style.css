@@ -4846,23 +4846,29 @@ body {
 
 /* line 67, compass/sass/_layout.scss */
 .sites {
+  display: block;
   max-height: 300px;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-/* line 73, compass/sass/_layout.scss */
+/* line 74, compass/sass/_layout.scss */
 .search-box {
   margin: 10px 0;
 }
 
-/* line 77, compass/sass/_layout.scss */
+/* line 78, compass/sass/_layout.scss */
 .highlight {
   background: yellow;
   padding: 3px;
 }
 
-/* line 82, compass/sass/_layout.scss */
+/* line 83, compass/sass/_layout.scss */
+tr.highlight {
+  background: darkseagreen;
+}
+
+/* line 87, compass/sass/_layout.scss */
 .center {
   text-align: center;
 }

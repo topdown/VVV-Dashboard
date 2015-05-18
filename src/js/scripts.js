@@ -86,12 +86,29 @@ $(function () {
 
 		// remove any old highlighted terms
 		$(site_list).removeHighlight();
+		$('tr').removeClass('highlight');
 
 		// disable highlighting if empty
 		if (searchTerm) {
-
 			// highlight the new term
 			$(site_list).highlight(searchTerm);
 		}
+
+		// Highlight the table row
+		if ($('.sites td span.highlight').length) {
+
+			$('.sites td span.highlight').closest('tr').addClass('highlight');
+		}
+
+		if ($('.sites table tr').not('.highlight')) {
+			$('.sites tr').addClass('hide');
+		}
+
+		$('.sites tr.highlight').removeClass('hide');
+
+		if($('#text-search').val() == '') {
+			$('.sites tr').removeClass('hide');
+		}
+
 	});
 });
