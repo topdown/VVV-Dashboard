@@ -29,6 +29,8 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 
 ![image](https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshot.png)
 
+![image](https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/live-search.gif)
+
 ---
 ** NOTE: ** This Dashboard project has no affiliation with Varying Vagrant Vagrants or any other components listed here.
 
