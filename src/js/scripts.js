@@ -106,16 +106,30 @@ $(function () {
 
 		$('.sites tr.highlight').removeClass('hide');
 
-		if($('#text-search').val() == '') {
+		if ($('#text-search').val() == '') {
 			$('.sites tr').removeClass('hide');
 		}
 
 	});
 });
 
-$(function() {
-	   $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
+$(function () {
+
+	if(Cookies.get('vvv_dash_sidebar') == 'hidden') {
+		$("#wrapper").addClass('toggled');
+	}
+
+	$('#menu-toggle').click(function (e) {
+		e.preventDefault();
+
+		var wrapper = $('#wrapper');
+
+		wrapper.toggleClass('toggled');
+
+		if(wrapper.hasClass('toggled')) {
+			Cookies.set('vvv_dash_sidebar', 'hidden', { expires: 7 });
+		} else {
+			Cookies.remove('vvv_dash_sidebar');
+		}
+	});
 });

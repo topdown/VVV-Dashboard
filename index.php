@@ -124,7 +124,7 @@ $hosts = get_hosts( $path );
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="style.css?ver=5" />
 	<script type="text/JavaScript" src="bower_components/jquery/dist/jquery.min.js"></script>
-
+	<script type="text/javascript" src="bower_components/js-cookie/src/js.cookie.js"></script>
 	<script type="text/javascript" src="src/js/scripts.js"></script>
 </head>
 <body>
