@@ -132,7 +132,7 @@ $hosts = get_hosts( $path );
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container">
 			<div class="navbar-header">
-				<a href="#menu-toggle" class="btn btn-success btn-xs" id="menu-toggle">Toggle Menu</a>
+				<a href="#menu-toggle" class="btn btn-success btn-xs" id="menu-toggle">Sidebar</a>
 				<a class="navbar-brand" href="./">Dashboard</a>
 			</div>
 
