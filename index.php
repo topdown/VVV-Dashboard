@@ -1,6 +1,8 @@
 <?php
 
+// Settings
 $path = '../../';
+define( 'VVV_DASH_DEBUG', false );
 
 /**
  * Create an array of the hosts from all of the VVV host files
