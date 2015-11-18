@@ -147,7 +147,7 @@ $hosts = get_hosts( $path );
 
 		<p class="sidebar-title">Useful Commands</p>
 		<ul class="nav">
-			<li><a href="https://github.com/varying-vagrant-vagrants/vvv/#now-what" target="_blank">Commands Link</a>
+			<li><a href="https://github.com/varying-vagrant-vagrants/vvv/#now-what" target="_blank">Vagrant Commands</a>
 			</li>
 			<li><code>vagrant up</code></li>
 			<li><code>vagrant halt</code></li>
@@ -155,15 +155,14 @@ $hosts = get_hosts( $path );
 			<li><code>vagrant suspend</code></li>
 			<li><code>vagrant resume</code></li>
 			<li><code>xdebug_on</code>
-				<a href="https://github.com/Varying-Vagrant-Vagrants/VVV/wiki/Code-Debugging#turning-on-xdebug" target="_blank">xDebug Link</a>
+				<a href="https://github.com/Varying-Vagrant-Vagrants/VVV/wiki/Code-Debugging#turning-on-xdebug" target="_blank">xDebug Instructions</a>
 			</li>
 		</ul>
 
 
 		<p class="sidebar-title">References &amp; Extras</p>
 		<ul class="nav">
-			<li><a target="_blank" href="https://github.com/bradp/vv">Variable VVV (newest)</a></li>
-			<li><a target="_blank" href="https://github.com/aliso/vvv-site-wizard">VVV Site Wizard (old)</a></li>
+			<li><a target="_blank" href="https://github.com/bradp/vv">Variable VVV</a></li>
 			<li><a href="https://github.com/varying-vagrant-vagrants/vvv/" target="_blank">Varying Vagrant Vagrants</a>
 			</li>
 			<li><a href="https://github.com/topdown/VVV-Dashboard" target="_blank">VVV Dashboard Repo</a></li>
@@ -227,7 +226,12 @@ $hosts = get_hosts( $path );
 
 		<h1>To easily spin up new WordPress sites</h1>
 
-		<p>Use <a target="_blank" href="https://github.com/bradp/vv">Variable VVV (newest)</a></p>
+		<p>
+			Install and use <a target="_blank" href="https://github.com/bradp/vv">Variable VVV (newest)</a><br />
+			<a target="_blank" href="https://github.com/bradp/vv#vv-options">VV Options</a><br />
+			<a target="_blank" href="https://github.com/bradp/vv#options-for-site-creation">VV Site Create Options</a>
+
+		</p>
 
 		<h2>Variable VVV Commands</h2>
 
@@ -309,10 +313,6 @@ $hosts = get_hosts( $path );
 
 		<p>This bash script makes it easy to spin up a new WordPress site using
 			<a href="https://github.com/Varying-Vagrant-Vagrants/VVV">Varying Vagrant Vagrants</a>.</p>
-
-		<p>You can also use the old script If Using
-			<a href="https://github.com/aliso/vvv-site-wizard" target="_blank">VVV Site Wizard</a>
-			<strong>But it is no longer maintained!</strong></p>
 
 		<p>
 			<strong>NOTE: </strong>This Dashboard project has no affiliation with Varying Vagrant Vagrants or any other components listed here.
