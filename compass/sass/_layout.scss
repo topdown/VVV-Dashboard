@@ -9,6 +9,17 @@ body {
 	font-weight:    bold;
 	padding-bottom: 10px;
 	border-bottom:  1px solid #eee;
+
+	span {
+		font-size:   12px;
+		font-weight: normal;
+		float:       right;
+		cursor:      pointer;
+	}
+
+	span:hover {
+		text-decoration: underline;
+	}
 }
 
 @media (max-width: 768px) {
@@ -65,7 +76,7 @@ body {
 }
 
 .sites {
-	display: block;
+	display:    block;
 	max-height: 300px;
 	overflow-y: auto;
 	overflow-x: hidden;
@@ -86,4 +97,45 @@ tr.highlight {
 
 .center {
 	text-align: center;
+}
+
+
+
+#wrapper {
+	padding-left:       0;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition:    all 0.5s ease;
+	-o-transition:      all 0.5s ease;
+	transition:         all 0.5s ease;
+}
+
+#wrapper.toggled {
+	//padding-left: 250px;
+}
+
+.sidebar {
+	z-index:            1000;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition:    all 0.5s ease;
+	-o-transition:      all 0.5s ease;
+	transition:         all 0.5s ease;
+}
+
+#wrapper.toggled .sidebar {
+	width: 0;
+	left: -40px;
+}
+
+
+#wrapper.toggled .main {
+	//position:     absolute;
+	//margin-right: -250px;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+#menu-toggle {
+	position: absolute;
+	top: 14px;
+	left: 8px;
 }
