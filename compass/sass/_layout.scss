@@ -99,8 +99,6 @@ tr.highlight {
 	text-align: center;
 }
 
-
-
 #wrapper {
 	padding-left:       0;
 	-webkit-transition: all 0.5s ease;
@@ -123,19 +121,49 @@ tr.highlight {
 
 #wrapper.toggled .sidebar {
 	width: 0;
-	left: -40px;
+	left:  -40px;
 }
-
 
 #wrapper.toggled .main {
 	//position:     absolute;
 	//margin-right: -250px;
-	margin-left: 10%;
+	margin-left:  10%;
 	margin-right: 10%;
 }
 
 #menu-toggle {
 	position: absolute;
-	top: 14px;
-	left: 8px;
+	top:      14px;
+	left:     8px;
+}
+
+form.get-themes, form.get-plugins {
+	display: inline;
+}
+
+span.red {
+	color: red;
+}
+
+td.activated {
+
+}
+
+td.activated,
+.table-hover td.activated :hover,
+.table-hover tr:hover > td.activated,
+.table-striped > tbody > tr:nth-child(odd) > td.activated {
+	background:      green;
+	font-weight:     bold;
+	//text-decoration: underline;
+	color:           #fff;
+}
+
+td.update,
+.table-hover td.update:hover,
+.table-hover tr:hover > td.update,
+.table-striped > tbody > tr:nth-child(odd) > td.update {
+	background:  red;
+	font-weight: bold;
+	color:       #fff;
 }

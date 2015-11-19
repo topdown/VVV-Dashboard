@@ -4884,7 +4884,7 @@ tr.highlight {
   text-align: center;
 }
 
-/* line 104, compass/sass/_layout.scss */
+/* line 102, compass/sass/_layout.scss */
 #wrapper {
   padding-left: 0;
   -webkit-transition: all 0.5s ease;
@@ -4893,7 +4893,7 @@ tr.highlight {
   transition: all 0.5s ease;
 }
 
-/* line 116, compass/sass/_layout.scss */
+/* line 114, compass/sass/_layout.scss */
 .sidebar {
   z-index: 1000;
   -webkit-transition: all 0.5s ease;
@@ -4902,21 +4902,51 @@ tr.highlight {
   transition: all 0.5s ease;
 }
 
-/* line 124, compass/sass/_layout.scss */
+/* line 122, compass/sass/_layout.scss */
 #wrapper.toggled .sidebar {
   width: 0;
   left: -40px;
 }
 
-/* line 130, compass/sass/_layout.scss */
+/* line 127, compass/sass/_layout.scss */
 #wrapper.toggled .main {
   margin-left: 10%;
   margin-right: 10%;
 }
 
-/* line 137, compass/sass/_layout.scss */
+/* line 134, compass/sass/_layout.scss */
 #menu-toggle {
   position: absolute;
   top: 14px;
   left: 8px;
+}
+
+/* line 140, compass/sass/_layout.scss */
+form.get-themes, form.get-plugins {
+  display: inline;
+}
+
+/* line 144, compass/sass/_layout.scss */
+span.red {
+  color: red;
+}
+
+/* line 152, compass/sass/_layout.scss */
+td.activated,
+.table-hover td.activated :hover,
+.table-hover tr:hover > td.activated,
+.table-striped > tbody > tr:nth-child(odd) > td.activated {
+  background: green;
+  font-weight: bold;
+  color: #fff;
+}
+
+/* line 162, compass/sass/_layout.scss */
+td.update,
+.table-hover td.update:hover,
+.table-hover tr:hover > td.update,
+.table-striped > tbody > tr:nth-child(odd) > td.update {
+  background: red;
+  font-weight: bold;
+  color: #fff;
 }
