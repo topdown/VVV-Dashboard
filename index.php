@@ -149,6 +149,16 @@ $hosts = get_hosts( $path );
 	<div class="container-fluid">
 		<div class="col-sm-4 col-md-3 sidebar">
 
+			<p class="sidebar-title">Quick Info</p>
+			<ul class="nav">
+				<li>Public IP: <?php echo $_SERVER['SERVER_ADDR']; ?>     </li>
+				<li>Main Address: <?php echo $_SERVER['SERVER_NAME']; ?>     </li>
+				<li>Server: <?php echo $_SERVER['SERVER_SOFTWARE']; ?> </li>
+				<li>Document Root: <?php echo $_SERVER['DOCUMENT_ROOT']; ?>   </li>
+				<li>HTTP Port: <?php echo $_SERVER['SERVER_PORT']; ?>     </li>
+				<li>See PHP Info for more details.</li>
+			</ul>
+
 			<p class="sidebar-title">Useful Commands</p>
 			<ul class="nav">
 				<li>
@@ -181,7 +191,6 @@ $hosts = get_hosts( $path );
 		</div>
 		<div class="col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3 main">
 			<h1 class="page-header">VVV Dashboard</h1>
-
 			<div class="row">
 				<div class="col-sm-12 hosts">
 					<p>
