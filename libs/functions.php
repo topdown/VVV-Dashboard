@@ -126,6 +126,99 @@ function get_hosts( $path ) {
 }
 
 /**
+ * Get the hosts list of plugins and save to cache
+ *
+ * @author         Jeff Behnke <code@validwebs.com>
+ * @copyright  (c) 2009-15 ValidWebs.com
+ *
+ * Created:    11/19/15, 2:55 PM
+ *
+ * @param        $host
+ * @param string $path
+ *
+ * @return bool|string
+ */
+function get_plugins( $host, $path = '' ) {
+	$cache = new vvv_dash_cache();
+
+	if ( ( $plugins = $cache->get( $host . '-plugins', VVV_DASH_PLUGINS_TTL ) ) == false ) {
+
+		$plugins = shell_exec( 'wp plugin list --path=' . VVV_WEB_ROOT . '/' . $host . $path . ' --format=csv --debug ' );
+
+		// Don't save unless we have data
+		if ( $plugins ) {
+			$status = $cache->set( $host . '-plugins', $plugins );
+		}
+	}
+
+	return $plugins;
+}
+
+/**
+ * Get the hosts list of themes and save to cache
+ *
+ * @author         Jeff Behnke <code@validwebs.com>
+ * @copyright  (c) 2009-15 ValidWebs.com
+ *
+ * Created:    11/19/15, 2:56 PM
+ *
+ * @param        $host
+ * @param string $path
+ *
+ * @return bool|string
+ */
+function get_themes( $host, $path = '' ) {
+	$cache = new vvv_dash_cache();
+
+	if ( ( $themes = $cache->get( $host . '-themes', VVV_DASH_THEMES_TTL ) ) == false ) {
+
+		$themes = shell_exec( 'wp theme list --path=' . VVV_WEB_ROOT . '/' . $host . $path . ' --format=csv' );
+
+		// Don't save unless we have data
+		if ( $themes ) {
+			$status = $cache->set( $host . '-themes', $themes );
+		}
+	}
+
+	return $themes;
+}
+
+
+function check_host_type( $host ) {
+
+	switch ( trim( $host ) ) {
+		case 'local.wordpress.dev' :
+			$host = array(
+				'host' => trim( $host ),
+				'key'  => 'wordpress-default',
+			);
+			break;
+		case 'local.wordpress-trunk.dev' :
+			$host = array(
+				'host' => trim( $host ),
+				'key'  => 'wordpress-trunk',
+			);
+			break;
+		case 'src.wordpress-develop.dev' :
+			$host = array(
+				'host' => trim( $host ),
+				'key'  => 'wordpress-develop',
+				'path' => '/src',
+			);
+			break;
+		case 'build.wordpress-develop.dev' :
+			$host = array(
+				'host' => trim( $host ),
+				'key'  => 'wordpress-develop/build',
+				'path' => '/build'
+			);
+			break;
+	}
+
+	return $host;
+}
+
+/**
  * Formats csv data strings into bootstrap tables
  *
  * @author         Jeff Behnke <code@validwebs.com>
@@ -155,7 +248,18 @@ function format_table( $data ) {
 			$row = explode( ',', $line );
 			if ( isset( $row[0] ) && ! empty( $row[0] ) ) {
 				$table_data[] .= '<tr>';
-				$table_data[] .= '</td><td>' . implode( '<td>', $row ) . '</td>';
+				foreach ( $row as $index => $cell ) {
+
+					if ( 'active' == $cell ) {
+						$table_data[] .= '<td class="activated">' . $cell . '</td>';
+					} elseif ( 'available' == $cell ) {
+						$table_data[] .= '<td class="update">' . $cell . '</td>';
+					} else {
+						$table_data[] .= '<td>' . $cell . '</td>';
+					}
+
+				} // end foreach
+				unset( $cell );
 				$table_data[] .= '</tr>';
 			}
 		}
