@@ -20,6 +20,8 @@ Delete the old VVV/www/default/dashboard-custom.php and copy the new version to 
 
 Now move your dashboard directory so it is inside VVV/www/default/
 
+As of 11/19/2015 there is a cache system, If don't see cache files on first dashboard load make sure dashboard/cache/ is writable. (It should be)
+
 ---
 
 With Vagrant Up you should be able browse to your vagrant root www usually [vvv](http://vvv) or [vvv.dev](http://vvv.dev) and see the new dashboard.
@@ -27,16 +29,35 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 ** NEW: There are bound keys for the search feature, the enter key and down arrow key search down the list and the up arrow searches up.**
 
 
-![image](https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshot.png)
+![image](https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshots/screenshot.png)
 
-![image](https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/live-search.gif)
+![image](https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshots/live-search.gif)
 
+** More Screenshots
+[New Buttons](https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshots/host-list.png)
+[Quick Server Info](https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshots/server-info.png)
+[Theme List](https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshots/theme-list.png)
+[Plugin List](https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshots/plugin-list.png)
 ---
 ** NOTE: ** This Dashboard project has no affiliation with Varying Vagrant Vagrants or any other components listed here.
 
 ---
 
 ### Change Log
+
+---
+11/19/2015
+
+* Added a simple Cache System to improve performance when collecting data
+* Added get_plugins feature which will collect the plugins info from a selected installed site
+* Added get_themes feature which will collect the themes info from a selected installed site
+* Added quick server info to the sidebar
+* Show/Hide sidebar
+* Cookies for sidebar state (7 day cookie)
+* Added some defined constants to the dashboard-custom.php (which means updating you need to replace the old)
+* Added more screenshots
+* Moved screenshots
+* Updated Readme
 
 ---
 5/18/2015
@@ -71,4 +92,4 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 * Updated Screenshot
 
 --- 
-Version: 0.0.5
+Version: 0.0.6
