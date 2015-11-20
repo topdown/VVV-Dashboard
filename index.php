@@ -235,6 +235,8 @@ $lines = get_php_errors();
 $lines = format_php_errors( $lines );
 
 echo $lines;
+
+
 ?></div><?php
 
 include_once 'views/commands-table.php';

@@ -407,4 +407,9 @@ function format_php_errors( $lines = array() ) {
 
 	return $html;
 }
+
+function get_version(  ) {
+
+
+}
 // End functions.php
