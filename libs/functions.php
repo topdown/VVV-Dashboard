@@ -219,6 +219,27 @@ function check_host_type( $host ) {
 }
 
 /**
+ * Simply displays the purge status alert
+ *
+ * @author         Jeff Behnke <code@validwebs.com>
+ * @copyright  (c) 2009-15 ValidWebs.com
+ *
+ * Created:    11/20/15, 12:32 AM
+ *
+ * @param $purge_status
+ */
+function purge_status( $purge_status ) {
+	if ( $purge_status ) { ?>
+		<div class="alert alert-success alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			Purged <?php echo $purge_status ?> files from cache!
+		</div><?php
+	}
+}
+
+/**
  * Formats csv data strings into bootstrap tables
  *
  * @author         Jeff Behnke <code@validwebs.com>
