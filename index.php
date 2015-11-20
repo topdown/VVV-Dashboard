@@ -2,7 +2,7 @@
 
 define( 'VVV_DASH_BASE', true );
 define( 'VVV_WEB_ROOT', '/srv/www' );
-define( 'VVV_DASH_VERSION', '0.0.6' );
+define( 'VVV_DASH_VERSION', '0.0.7' );
 
 // Settings
 $path = '../../';

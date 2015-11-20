@@ -54,6 +54,16 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 ### Change Log
 
 ---
+11/20/15  version: 0.0.7
+
+* Added a scan depth setting
+* Added purge forms for each of the cached systems
+* Started cleaning up the index and moving HTML to views
+* Added the ability for people to create custom.css to override our styles
+* Added version constant to static files
+
+
+---
 11/19/2015 version: 0.0.6
 
 * Added a simple Cache System to improve performance when collecting data
@@ -112,4 +122,4 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 * Update plugins and Themes from dashboard
 
 
-Version: 0.0.6
+Version: 0.0.7
