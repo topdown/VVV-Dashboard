@@ -302,4 +302,109 @@ function format_table( $data, $host, $type = '' ) {
 
 	return $table;
 }
+
+/**
+ * Fetch the PHP error log from the machine
+ *
+ * @author         Jeff Behnke <code@validwebs.com>
+ * @copyright  (c) 2009-15 ValidWebs.com
+ *
+ * Created:    11/20/15, 12:38 PM
+ *
+ * @param int    $linecount
+ * @param int    $length
+ * @param string $file
+ * @param int    $offset_factor we double the offset factor on each iteration
+ *                              if our first guess at the file offset doesn't
+ *                              yield $linecount lines
+ *
+ * @return array
+ */
+function get_php_errors( $linecount = 11, $length = 140, $file = "/srv/log/php_errors.log", $offset_factor = 1 ) {
+
+	$lines = array();
+	$bytes = filesize( $file );
+	$fp = fopen( $file, "r" ) or die( "Can't open $file" );
+
+
+	$complete = false;
+	while ( ! $complete ) {
+		//seek to a position close to end of file
+		$offset = $linecount * $length * $offset_factor;
+		fseek( $fp, - $offset, SEEK_END );
+
+
+		//we might seek mid-line, so read partial line
+		//if our offset means we're reading the whole file,
+		//we don't skip...
+		if ( $offset < $bytes ) {
+			fgets( $fp );
+		}
+
+		//read all following lines, store last x
+		$lines = array();
+		while ( ! feof( $fp ) ) {
+			$line = fgets( $fp );
+			array_push( $lines, $line );
+			if ( count( $lines ) > $linecount ) {
+				array_shift( $lines );
+				$complete = true;
+			}
+		}
+
+		//if we read the whole file, we're done, even if we
+		//don't have enough lines
+		if ( $offset >= $bytes ) {
+			$complete = true;
+		} else {
+			$offset_factor *= 2;
+		} //otherwise let's seek even further back
+
+	}
+	fclose( $fp );
+
+	return $lines;
+}
+
+/**
+ *
+ *
+ * @author         Jeff Behnke <code@validwebs.com>
+ * @copyright  (c) 2009-15 ValidWebs.com
+ *
+ * Created:    11/20/15, 12:40 PM
+ *
+ * @param array $lines
+ *
+ * @return string
+ */
+function format_php_errors( $lines = array() ) {
+
+	$lines = array_filter( $lines );
+	$lines = array_reverse( $lines );
+	$html  = implode( '', $lines );
+	$html  = str_replace(
+		array(
+			"\n",
+			'[',
+			']',
+			'on line ',
+			' Parse error:',
+			'PHP Warning:',
+			' Fatal error:',
+			' in /',
+		),
+		array(
+			'</span></p>',
+			'<p><span class="time">[',
+			']</span> <span class="error-type">',
+			'</span><span class="line"> on line ',
+			' Parse error:</span> ',
+			'PHP Warning:</span> ',
+			' Fatal error:</span> ',
+			' <br />in <span class="in-file">/'
+		), $html );
+
+	return $html;
+}
 // End functions.php

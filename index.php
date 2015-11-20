@@ -228,6 +228,14 @@ include_once 'views/navbar.php';
 		</div>
 	</div>
 
+	<div class="error_logs">
+		<h2>Last 10 PHP Errors</h2>
 <?php
+$lines = get_php_errors();
+$lines = format_php_errors( $lines );
+
+echo $lines;
+?></div><?php
+
 include_once 'views/commands-table.php';
 include_once 'views/footer.php';
