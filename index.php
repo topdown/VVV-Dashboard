@@ -1,120 +1,71 @@
 <?php
 
+define( 'VVV_DASH_BASE', true );
+define( 'VVV_WEB_ROOT', '/srv/www' );
+define('VVV_DASH_VERSION', '0.0.6');
+
 // Settings
 $path = '../../';
-define( 'VVV_DASH_DEBUG', false );
 
-/**
- * Create an array of the hosts from all of the VVV host files
- *
- * @author         Jeff Behnke <code@validwebs.com>
- * @copyright  (c) 2014 ValidWebs.com
- *
- * Created:    5/23/14, 12:57 PM
- *
- * @param $path
- *
- * @return array
- */
-function get_hosts( $path ) {
+include_once '../dashboard-custom.php';
+include_once 'libs/vvv-dash-cache.php';
+include_once 'libs/functions.php';
 
-	$array = array();
-	$debug = array();
-	$hosts = array();
-	$wp    = array();
-	$depth = 2;
-	$site  = new RecursiveDirectoryIterator( $path, RecursiveDirectoryIterator::SKIP_DOTS );
-	$files = new RecursiveIteratorIterator( $site );
-	if ( ! is_object( $files ) ) {
-		return null;
-	}
-	$files->setMaxDepth( $depth );
+$plugins = '';
+$themes  = '';
+$host    = '';
+$cache   = new vvv_dash_cache();
 
-	// Loop through the file list and find what we want
-	foreach ( $files as $name => $object ) {
+if ( ( $hosts = $cache->get( 'host-sites', VVV_DASH_HOSTS_TTL ) ) == false ) {
 
-		if ( strstr( $name, 'vvv-hosts' ) && ! is_dir( 'vvv-hosts' ) ) {
-
-			$lines = file( $name );
-			$name  = str_replace( array( '../../', '/vvv-hosts' ), array(), $name );
-
-			// read through the lines in our host files
-			foreach ( $lines as $num => $line ) {
-
-				// skip comment lines
-				if ( ! strstr( $line, '#' ) && 'vvv.dev' != trim( $line ) ) {
-					if ( 'vvv-hosts' == $name ) {
-						switch ( trim( $line ) ) {
-							case 'local.wordpress.dev' :
-								$hosts['wordpress-default'] = array( 'host' => trim( $line ) );
-								break;
-							case 'local.wordpress-trunk.dev' :
-								$hosts['wordpress-trunk'] = array( 'host' => trim( $line ) );
-								break;
-							case 'src.wordpress-develop.dev' :
-								$hosts['wordpress-develop/src'] = array( 'host' => trim( $line ) );
-								break;
-							case 'build.wordpress-develop.dev' :
-								$hosts['wordpress-develop/build'] = array( 'host' => trim( $line ) );
-								break;
-						}
-					}
-					if ( 'vvv-hosts' != $name ) {
-						$hosts[ $name ] = array( 'host' => trim( $line ) );
-					}
-				}
-			}
-		}
-
-		if ( strstr( $name, 'wp-config.php' ) ) {
-
-			$config_lines = file( $name );
-			$name         = str_replace( array( '../../', '/wp-config.php', '/htdocs' ), array(), $name );
-
-			// read through the lines in our host files
-			foreach ( $config_lines as $num => $line ) {
-
-				// skip comment lines
-				if ( strstr( $line, "define('WP_DEBUG', true);" )
-				     || strstr( $line, 'define("WP_DEBUG", true);' )
-				     || strstr( $line, 'define( "WP_DEBUG", true );' )
-				     || strstr( $line, "define( 'WP_DEBUG', true );" )
-				) {
-					$debug[ $name ] = array(
-						'path'  => $name,
-						'debug' => 'true',
-					);
-				}
-			}
-
-			$wp[ $name ] = 'true';
-		}
-	}
-
-	foreach ( $hosts as $key => $val ) {
-
-		if ( array_key_exists( $key, $debug ) ) {
-			if ( array_key_exists( $key, $wp ) ) {
-				$array[ $key ] = $val + array( 'debug' => 'true', 'is_wp' => 'true' );
-			} else {
-				$array[ $key ] = $val + array( 'debug' => 'true', 'is_wp' => 'false' );
-			}
-		} else {
-			if ( array_key_exists( $key, $wp ) ) {
-				$array[ $key ] = $val + array( 'debug' => 'false', 'is_wp' => 'true' );
-			} else {
-				$array[ $key ] = $val + array( 'debug' => 'false', 'is_wp' => 'false' );
-			}
-		}
-	}
-
-	$array['site_count'] = count( $hosts );
-
-	return $array;
+	$hosts  = get_hosts( $path );
+	$status = $cache->set( 'host-sites', serialize( $hosts ) );
 }
 
-$hosts = get_hosts( $path );
+if ( is_string( $hosts ) ) {
+	$hosts = unserialize( $hosts );
+}
 
+
+if ( isset( $_POST ) ) {
+
+	if ( isset( $_POST['host'] ) && isset( $_POST['themes'] ) ) {
+
+		$type = check_host_type( $_POST['host'] );
+
+		if ( isset( $type['key'] ) ) {
+			//$host   = strstr( $_POST['host'], '.', true );
+			if ( isset( $type['path'] ) ) {
+				$themes = get_themes( $type['key'], $type['path'] );
+			} else {
+				$themes = get_themes( $type['key'], '/' );
+			}
+
+		} else {
+			$host   = strstr( $_POST['host'], '.', true );
+			$themes = get_themes( $host, '/htdocs' );
+		}
+
+	}
+
+	if ( isset( $_POST['host'] ) && isset( $_POST['plugins'] ) ) {
+
+		$type = check_host_type( $_POST['host'] );
+
+		if ( isset( $type['key'] ) ) {
+			//$host   = strstr( $_POST['host'], '.', true );
+			if ( isset( $type['path'] ) ) {
+				$plugins = get_plugins( $type['key'], $type['path'] );
+			} else {
+				$plugins = get_plugins( $type['key'], '/' );
+			}
+
+		} else {
+			$host    = strstr( $_POST['host'], '.', true );
+			$plugins = get_plugins( $host, '/htdocs' );
+		}
+	}
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -154,7 +105,7 @@ $hosts = get_hosts( $path );
 				<li>Public IP: <?php echo $_SERVER['SERVER_ADDR']; ?>     </li>
 				<li>Main Address: <?php echo $_SERVER['SERVER_NAME']; ?>     </li>
 				<li>Server: <?php echo $_SERVER['SERVER_SOFTWARE']; ?> </li>
-				<li>Document Root: <?php echo $_SERVER['DOCUMENT_ROOT']; ?>   </li>
+				<li>Document Root: <?php echo str_replace( '/default', '', $_SERVER['DOCUMENT_ROOT'] ); ?>   </li>
 				<li>HTTP Port: <?php echo $_SERVER['SERVER_PORT']; ?>     </li>
 				<li>See PHP Info for more details.</li>
 			</ul>
@@ -191,8 +142,29 @@ $hosts = get_hosts( $path );
 		</div>
 		<div class="col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3 main">
 			<h1 class="page-header">VVV Dashboard</h1>
+
 			<div class="row">
 				<div class="col-sm-12 hosts">
+
+					<?php
+
+					$close = '<a class="btn btn-primary btn-xs" href="./">Close</a>';
+					if ( ! empty( $plugins ) ) {
+						if ( isset( $_POST['host'] ) ) {
+							?><h4>The plugin list for
+							<span class="red"><?php echo $_POST['host']; ?></span> <?php echo $close; ?></h4><?php
+						}
+						echo format_table( $plugins );
+					}
+					if ( ! empty( $themes ) ) {
+						if ( isset( $_POST['host'] ) ) {
+							?><h4>The theme list for
+							<span class="red"><?php echo $_POST['host']; ?></span> <?php echo $close; ?></h4><?php
+						}
+						echo format_table( $themes );
+					}
+
+					?>
 					<p>
 						<strong>Current Hosts = <?php echo isset( $hosts['site_count'] ) ? $hosts['site_count'] : ''; ?></strong>
 					</p>
@@ -204,7 +176,7 @@ $hosts = get_hosts( $path );
 						<small>Enter, Up and Down keys are bound.</small>-->
 					</p>
 
-					<table class="sites table table-responsive table-striped">
+					<table class="sites table table-responsive table-striped table">
 						<thead>
 						<tr>
 							<th>Debug Mode</th>
@@ -230,6 +202,17 @@ $hosts = get_hosts( $path );
 											<a class="btn btn-warning btn-xs" href="http://<?php echo $array['host']; ?>/wp-admin" target="_blank">Admin/Login</a>
 										<?php } ?>
 										<a class="btn btn-success btn-xs" href="http://<?php echo $array['host']; ?>/?XDEBUG_PROFILE" target="_blank">Profiler</a>
+
+										<form class="get-themes" action="" method="post">
+											<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
+											<input type="hidden" name="get_themes" value="true" />
+											<input type="submit" class="btn btn-default btn-xs" name="themes" value="Themes" />
+										</form>
+										<form class="get-plugins" action="" method="post">
+											<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
+											<input type="hidden" name="get_plugins" value="true" />
+											<input type="submit" class="btn btn-default btn-xs" name="plugins" value="Plugins" />
+										</form>
 									</td>
 								</tr>
 								<?php
@@ -335,7 +318,7 @@ $hosts = get_hosts( $path );
 			</p>
 
 			<p>
-				<small>VVV Dashboard Version: 0.0.5</small>
+				<small>VVV Dashboard Version: <?php echo VVV_DASH_VERSION; ?></small>
 			</p>
 		</div>
 	</div>
