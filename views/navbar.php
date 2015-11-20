@@ -29,6 +29,7 @@
 				<li><a href="/opcache-status/opcache.php" target="_blank">Opcache Status</a></li>
 				<li><a href="/webgrind/" target="_blank">Webgrind</a></li>
 				<li><a href="/phpinfo/" target="_blank">PHP Info</a></li>
+				<li><a href="//vvv.dev:1080/" target="_blank">Mailcatcher</a></li>
 			</ul>
 		</div>
 	</div>
