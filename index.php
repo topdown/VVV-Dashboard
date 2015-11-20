@@ -229,7 +229,7 @@ include_once 'views/navbar.php';
 	</div>
 
 	<div class="error_logs">
-		<h2>Last 10 PHP Errors</h2>
+		<h3>Last 10 PHP Errors</h3>
 <?php
 $lines = get_php_errors();
 $lines = format_php_errors( $lines );
