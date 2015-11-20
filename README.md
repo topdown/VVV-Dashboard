@@ -33,7 +33,7 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 
 ![image](https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshots/live-search.gif)
 
-** More Screenshots **
+** More Screenshots**
 
 [New Buttons](https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshots/host-list.png)
 
@@ -97,5 +97,18 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 * Updated install instruction and ReadMe
 * Updated Screenshot
 
---- 
+---
+
+---
+
+### ToDo's
+
+---
+
+* Add cache purge buttons
+* Maybe some wiki docs since this is getting a little bigger
+* Fuzzy search for plugins and themes ? not sure yet
+* Update plugins and Themes from dashboard
+
+
 Version: 0.0.6
