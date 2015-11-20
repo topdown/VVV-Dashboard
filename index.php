@@ -87,14 +87,14 @@ if ( isset( $_POST ) ) {
 	<meta charset="UTF-8">
 	<title>Varying Vagrant Vagrants Dashboard</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" type="text/css" href="style.css?ver=7" />
+	<link rel="stylesheet" type="text/css" href="style.css?ver=<?php echo VVV_DASH_VERSION; ?>" />
 	<?php if(file_exists('custom.css')) {
 		?><link rel="stylesheet" type="text/css" href="custom.css" /><?php
 	} ?>
 	<script type="text/JavaScript" src="bower_components/jquery/dist/jquery.min.js"></script>
 	<script type="text/javascript" src="bower_components/js-cookie/src/js.cookie.js"></script>
 	<script type="text/javascript" src="bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/alert.js"></script>
-	<script type="text/javascript" src="src/js/scripts.js"></script>
+	<script type="text/javascript" src="src/js/scripts.js?ver=<?php echo VVV_DASH_VERSION; ?>"></script>
 </head>
 <body>
 <div id="wrapper">
