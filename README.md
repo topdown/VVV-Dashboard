@@ -124,8 +124,7 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 ---
 
 * Maybe some wiki docs since this is getting a little bigger
-* Fuzzy search for plugins and themes ? not sure yet
-* Update plugins and Themes from dashboard
+* Fuzzy search for plugins and themes ? not sure yetRemove
 
 
 Version: 0.0.7
