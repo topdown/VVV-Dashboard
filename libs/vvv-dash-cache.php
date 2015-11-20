@@ -91,10 +91,18 @@ class vvv_dash_cache {
 
 	public function purge( $name ) {
 
-		$cache_exists = glob( $this->_cache_path . $name . '-*' );
+		$cache_exists = glob( $this->_cache_path . '*' . $name . '-*' );
 
 		if ( $cache_exists ) {
-			return unlink( $cache_exists[0] );
+			if(is_array($cache_exists)) {
+				$count = count($cache_exists);
+				foreach ( $cache_exists as $file ) {
+					unlink($file);
+				} // end foreach
+				return $count;
+			} else {
+				return unlink( $cache_exists[0] );
+			}
 		}
 
 		return false;

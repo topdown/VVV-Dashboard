@@ -2,7 +2,7 @@
 
 define( 'VVV_DASH_BASE', true );
 define( 'VVV_WEB_ROOT', '/srv/www' );
-define('VVV_DASH_VERSION', '0.0.6');
+define( 'VVV_DASH_VERSION', '0.0.6' );
 
 // Settings
 $path = '../../';
@@ -11,10 +11,11 @@ include_once '../dashboard-custom.php';
 include_once 'libs/vvv-dash-cache.php';
 include_once 'libs/functions.php';
 
-$plugins = '';
-$themes  = '';
-$host    = '';
-$cache   = new vvv_dash_cache();
+$plugins      = '';
+$themes       = '';
+$host         = '';
+$purge_status = '';
+$cache        = new vvv_dash_cache();
 
 if ( ( $hosts = $cache->get( 'host-sites', VVV_DASH_HOSTS_TTL ) ) == false ) {
 
@@ -65,6 +66,19 @@ if ( isset( $_POST ) ) {
 			$plugins = get_plugins( $host, '/htdocs' );
 		}
 	}
+
+	if ( isset( $_POST['purge_hosts'] ) ) {
+		$purge_status = $cache->purge( 'host-sites' );
+	}
+
+	if ( isset( $_POST['purge_themes'] ) ) {
+		$purge_status = $cache->purge( '-themes' );
+
+	}
+
+	if ( isset( $_POST['purge_plugins'] ) ) {
+		$purge_status = $cache->purge( '-plugins' );
+	}
 }
 ?>
 <!DOCTYPE html>
@@ -76,6 +90,7 @@ if ( isset( $_POST ) ) {
 	<link rel="stylesheet" type="text/css" href="style.css?ver=5" />
 	<script type="text/JavaScript" src="bower_components/jquery/dist/jquery.min.js"></script>
 	<script type="text/javascript" src="bower_components/js-cookie/src/js.cookie.js"></script>
+	<script type="text/javascript" src="bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/alert.js"></script>
 	<script type="text/javascript" src="src/js/scripts.js"></script>
 </head>
 <body>
@@ -110,6 +125,20 @@ if ( isset( $_POST ) ) {
 				<li>See PHP Info for more details.</li>
 			</ul>
 
+			<p class="sidebar-title">Purge Cache</p>
+
+			<form class="get-plugins" action="" method="post">
+				<input type="submit" class="btn btn-success btn-xs" name="purge_hosts" value="Purge Hosts" />
+			</form>
+			<form class="get-plugins" action="" method="post">
+				<input type="submit" class="btn btn-danger btn-xs" name="purge_plugins" value="Purge Plugins" />
+			</form>
+			<form class="get-plugins" action="" method="post">
+				<input type="submit" class="btn btn-primary btn-xs" name="purge_themes" value="Purge Themes" />
+			</form>
+
+			<br /> <br />
+
 			<p class="sidebar-title">Useful Commands</p>
 			<ul class="nav">
 				<li>
@@ -141,11 +170,18 @@ if ( isset( $_POST ) ) {
 			</ul>
 		</div>
 		<div class="col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3 main">
+			<?php if ( $purge_status ) {
+				?>
+				<div class="alert alert-success alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span></button>
+					Purged <?php echo $purge_status ?> files from cache!
+				</div><?php
+			} ?>
 			<h1 class="page-header">VVV Dashboard</h1>
 
 			<div class="row">
 				<div class="col-sm-12 hosts">
-
 					<?php
 
 					$close = '<a class="btn btn-primary btn-xs" href="./">Close</a>';

@@ -54,7 +54,7 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 ### Change Log
 
 ---
-11/19/2015
+11/19/2015 version: 0.0.6
 
 * Added a simple Cache System to improve performance when collecting data
 * Added get_plugins feature which will collect the plugins info from a selected installed site
@@ -68,7 +68,7 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 * Updated Readme
 
 ---
-5/18/2015
+5/18/2015  version: 0.0.5
 
 * Added VV Command table
 * Changed host list to responsive tables
@@ -80,7 +80,7 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 * created develop branch
 
 ---
-5/16/2015
+5/16/2015  version: 0.0.4
 
 * Refactored getHosts function to also check if WP_DEBUG is true in each host
 * Added it to the host list.
@@ -107,7 +107,6 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 
 ---
 
-* Add cache purge buttons
 * Maybe some wiki docs since this is getting a little bigger
 * Fuzzy search for plugins and themes ? not sure yet
 * Update plugins and Themes from dashboard
