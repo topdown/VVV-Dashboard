@@ -34,7 +34,7 @@ if ( isset( $_POST ) ) {
 		$type = check_host_type( $_POST['host'] );
 
 		if ( isset( $type['key'] ) ) {
-			//$host   = strstr( $_POST['host'], '.', true );
+
 			if ( isset( $type['path'] ) ) {
 				$themes = get_themes( $type['key'], $type['path'] );
 			} else {
@@ -53,7 +53,7 @@ if ( isset( $_POST ) ) {
 		$type = check_host_type( $_POST['host'] );
 
 		if ( isset( $type['key'] ) ) {
-			//$host   = strstr( $_POST['host'], '.', true );
+
 			if ( isset( $type['path'] ) ) {
 				$plugins = get_plugins( $type['key'], $type['path'] );
 			} else {
