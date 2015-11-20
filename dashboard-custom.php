@@ -12,7 +12,7 @@ define( 'VVV_DASH_DEBUG', false );
 define( 'VVV_DASH_THEMES_TTL', 86400 );
 define( 'VVV_DASH_PLUGINS_TTL', 86400 );
 define( 'VVV_DASH_HOSTS_TTL', 86400 );
-
+define('VVV_DASH_SCAN_DEPTH', 2);
 
 /**
  * Redirects to the proper location

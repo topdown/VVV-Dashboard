@@ -34,7 +34,7 @@ function get_hosts( $path ) {
 	$debug = array();
 	$hosts = array();
 	$wp    = array();
-	$depth = 2;
+	$depth = VVV_DASH_SCAN_DEPTH;
 	$site  = new RecursiveDirectoryIterator( $path, RecursiveDirectoryIterator::SKIP_DOTS );
 	$files = new RecursiveIteratorIterator( $site );
 	if ( ! is_object( $files ) ) {
