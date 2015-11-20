@@ -120,11 +120,7 @@ include_once 'views/navbar.php';
 			</p>
 			<small>Note: To profile, <code>xdebug_on</code> must be set.</small>
 
-			<p class="search-box">Live Search: <input type="text" id="text-search" />
-				<!--<input id="search" type="button" value="Search" />
-				<input id="back" type="button" value="Search Up" /> &nbsp;
-				<small>Enter, Up and Down keys are bound.</small>-->
-			</p>
+			<p class="search-box">Live Search: <input type="text" id="text-search" /></p>
 
 			<table class="sites table table-responsive table-striped table">
 				<thead>
