@@ -54,6 +54,12 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 ### Change Log
 
 ---
+11/20/15  version: 0.0.8
+
+* Added update capabilities for plugins and themes
+* Add mailcatcher menu item props: @atimmer topdown/VVV-Dashboard/pull/9
+
+---
 11/20/15  version: 0.0.7
 
 * Added a scan depth setting
