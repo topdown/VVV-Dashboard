@@ -92,4 +92,4 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 * Updated Screenshot
 
 --- 
-Version: 0.0.6
+Version: 0.0.5
