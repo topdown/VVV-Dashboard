@@ -73,11 +73,67 @@ if ( isset( $_POST ) ) {
 
 	if ( isset( $_POST['purge_themes'] ) ) {
 		$purge_status = $cache->purge( '-themes' );
-
 	}
 
 	if ( isset( $_POST['purge_plugins'] ) ) {
 		$purge_status = $cache->purge( '-plugins' );
+	}
+
+	if ( isset( $_POST['update_item'] ) ) {
+
+		if ( isset( $_POST['host'] ) ) {
+
+			$type = check_host_type( $_POST['host'] );
+
+			if ( isset( $type['key'] ) ) {
+
+				if ( isset( $type['path'] ) ) {
+
+					if ( ! empty( $_POST['type'] ) && 'plugins' == $_POST['type'] ) {
+						$update_status = shell_exec( 'wp plugin update ' . $_POST['item'] . ' --path=' . VVV_WEB_ROOT . '/' . $type['key'] . $type['path'] );
+						$purge_status  = $_POST['item'] . ' was updated!<br />';
+						$purge_status .= $cache->purge( '-plugins' );
+					}
+
+					if ( ! empty( $_POST['type'] ) && 'themes' == $_POST['type'] ) {
+						$update_status = shell_exec( 'wp theme update ' . $_POST['item'] . ' --path=' . VVV_WEB_ROOT . '/' . $type['key'] . $type['path'] );
+						$purge_status  = $_POST['item'] . ' was updated!<br />';
+						$purge_status .= $cache->purge( '-themes' );
+					}
+
+				} else {
+
+					if ( ! empty( $_POST['type'] ) && 'plugins' == $_POST['type'] ) {
+						$update_status = shell_exec( 'wp plugin update ' . $_POST['item'] . ' --path=' . VVV_WEB_ROOT . '/' . $type['key'] . '/' );
+						$purge_status  = $_POST['item'] . ' was updated!<br />';
+						$purge_status .= $cache->purge( '-plugins' );
+					}
+
+					if ( ! empty( $_POST['type'] ) && 'themes' == $_POST['type'] ) {
+						$update_status = shell_exec( 'wp theme update ' . $_POST['item'] . ' --path=' . VVV_WEB_ROOT . '/' . $type['key'] . '/' );
+						$purge_status  = $_POST['item'] . ' was updated!<br />';
+						$purge_status .= $cache->purge( '-themes' );
+					}
+				}
+
+			} else {
+				$host = strstr( $_POST['host'], '.', true );
+
+				if ( ! empty( $_POST['type'] ) && 'plugins' == $_POST['type'] ) {
+					$update_status = shell_exec( 'wp plugin update ' . $_POST['item'] . ' --path=' . VVV_WEB_ROOT . '/' . $host . '/htdocs' );
+					$purge_status  = $_POST['item'] . ' was updated!<br />';
+					$purge_status .= $cache->purge( '-plugins' );
+				}
+
+				if ( ! empty( $_POST['type'] ) && 'themes' == $_POST['type'] ) {
+					$update_status = shell_exec( 'wp theme update ' . $_POST['item'] . ' --path=' . VVV_WEB_ROOT . '/' . $host . '/htdocs' );
+					$purge_status  = $_POST['item'] . ' was updated!<br />';
+					$purge_status .= $cache->purge( '-themes' );
+				}
+
+
+			}
+		}
 	}
 }
 
@@ -103,15 +159,18 @@ include_once 'views/navbar.php';
 				if ( isset( $_POST['host'] ) ) {
 					?><h4>The plugin list for
 					<span class="red"><?php echo $_POST['host']; ?></span> <?php echo $close; ?></h4><?php
+
+					echo format_table( $plugins, $_POST['host'], 'plugins' );
 				}
-				echo format_table( $plugins );
+
 			}
 			if ( ! empty( $themes ) ) {
 				if ( isset( $_POST['host'] ) ) {
 					?><h4>The theme list for
 					<span class="red"><?php echo $_POST['host']; ?></span> <?php echo $close; ?></h4><?php
+
+					echo format_table( $themes, $_POST['host'], 'themes' );
 				}
-				echo format_table( $themes );
 			}
 
 			?>

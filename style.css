@@ -6100,7 +6100,7 @@ tr.highlight {
 }
 
 /* line 140, compass/sass/_layout.scss */
-form.get-themes, form.get-plugins {
+form.get-themes, form.get-plugins, form.update-items {
   display: inline;
 }
 
@@ -6127,4 +6127,10 @@ td.update,
   background: red;
   font-weight: bold;
   color: #fff;
+}
+
+/* line 171, compass/sass/_layout.scss */
+.update-items .btn {
+  float: right;
+  margin-right: 5%;
 }

@@ -137,7 +137,7 @@ tr.highlight {
 	left:     8px;
 }
 
-form.get-themes, form.get-plugins {
+form.get-themes, form.get-plugins, form.update-items {
 	display: inline;
 }
 
@@ -166,4 +166,9 @@ td.update,
 	background:  red;
 	font-weight: bold;
 	color:       #fff;
+}
+
+.update-items .btn {
+	float: right;
+	margin-right: 5%;
 }

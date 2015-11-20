@@ -231,10 +231,10 @@ function check_host_type( $host ) {
 function purge_status( $purge_status ) {
 	if ( $purge_status ) { ?>
 		<div class="alert alert-success alert-dismissible" role="alert">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-			Purged <?php echo $purge_status ?> files from cache!
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<?php echo $purge_status ?> files were purged from cache!
 		</div><?php
 	}
 }
@@ -251,11 +251,12 @@ function purge_status( $purge_status ) {
  *
  * @return string
  */
-function format_table( $data ) {
+function format_table( $data, $host, $type = '' ) {
 	$table_data = array();
 
-	$table = '<table class="table table-responsive table-striped table-bordered table-hover">';
-	$data  = explode( "\n", $data );
+	$table       = '<table class="table table-responsive table-striped table-bordered table-hover">';
+	$data        = explode( "\n", $data );
+	$update_form = '';
 
 	foreach ( $data as $key => $line ) {
 
@@ -269,12 +270,21 @@ function format_table( $data ) {
 			$row = explode( ',', $line );
 			if ( isset( $row[0] ) && ! empty( $row[0] ) ) {
 				$table_data[] .= '<tr>';
-				foreach ( $row as $index => $cell ) {
 
+				foreach ( $row as $index => $cell ) {
+					if ( $index == 0 ) {
+						$update_form
+							= '<form class="update-items" action="" method="post">
+								<input type="hidden" name="host" value="' . $host . '" />
+								<input type="hidden" name="item" value="' . $cell . '" />
+								<input type="hidden" name="type" value="' . $type . '" />
+								<input type="submit" class="btn btn-default btn-xs" name="update_item" value="Update" />
+							</form>';
+					}
 					if ( 'active' == $cell ) {
 						$table_data[] .= '<td class="activated">' . $cell . '</td>';
 					} elseif ( 'available' == $cell ) {
-						$table_data[] .= '<td class="update">' . $cell . '</td>';
+						$table_data[] .= '<td class="update">' . $cell . $update_form . '</td>';
 					} else {
 						$table_data[] .= '<td>' . $cell . '</td>';
 					}
