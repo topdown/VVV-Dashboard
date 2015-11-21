@@ -58,6 +58,7 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 
 * Added version check for VVV Dashboard
 * Version check notice if a new version is available
+* Display the last 10 PHP errors
 
 ---
 11/20/15  version: 0.0.8
