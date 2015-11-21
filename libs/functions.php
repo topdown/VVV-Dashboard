@@ -408,9 +408,19 @@ function format_php_errors( $lines = array() ) {
 	return $html;
 }
 
+/**
+ * Fetch the data from URL
+ *
+ * @author         Jeff Behnke <code@validwebs.com>
+ * @copyright  (c) 2009-15 ValidWebs.com
+ *
+ * Created:    11/20/15, 6:27 PM
+ *
+ * @param $url
+ *
+ * @return mixed|string
+ */
 function get_version( $url ) {
-
-	//$github_json['readme']['blob']['data']
 
 	$ch = curl_init();
 	curl_setopt( $ch, CURLOPT_URL, $url );
@@ -430,7 +440,16 @@ function get_version( $url ) {
 	return $data;
 }
 
-
+/**
+ * Collect the version info from the repo and cache it.
+ *
+ * @author         Jeff Behnke <code@validwebs.com>
+ * @copyright  (c) 2009-15 ValidWebs.com
+ *
+ * Created:    11/20/15, 6:27 PM
+ *
+ * @return bool|mixed|string
+ */
 function version_check() {
 
 	$cache = new vvv_dash_cache();
