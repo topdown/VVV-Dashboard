@@ -30,6 +30,7 @@
 				<li><a href="/webgrind/" target="_blank">Webgrind</a></li>
 				<li><a href="/phpinfo/" target="_blank">PHP Info</a></li>
 				<li><a href="//vvv.dev:1080/" target="_blank">Mailcatcher</a></li>
+				<li><a href="new-site.php">New Site</a></li>
 			</ul>
 		</div>
 	</div>
