@@ -408,8 +408,43 @@ function format_php_errors( $lines = array() ) {
 	return $html;
 }
 
-function get_version(  ) {
+function get_version( $url ) {
+
+	//$github_json['readme']['blob']['data']
+
+	$ch = curl_init();
+	curl_setopt( $ch, CURLOPT_URL, $url );
+	curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
+	curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+	curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, true );
+	curl_setopt( $ch, CURLOPT_USERAGENT, 'VVV Dashboard' );
+
+	if ( curl_exec( $ch ) === false ) {
+		$data = "Error: " . curl_error( $ch );
+	} else {
+		$data = curl_exec( $ch );
+	}
+
+	curl_close( $ch );
+
+	return $data;
+}
 
 
+function version_check() {
+
+	$cache = new vvv_dash_cache();
+
+	if ( ( $version = $cache->get('version-cache', VVV_DASH_THEMES_TTL ) ) == false ) {
+
+		$url     = 'https://raw.githubusercontent.com/topdown/VVV-Dashboard/develop/version.txt';
+		$version = get_version( $url );
+		// Don't save unless we have data
+		if ( $version && !strstr($version, 'Error') ) {
+			$status = $cache->set('version-cache', $version );
+		}
+	}
+
+	return $version;
 }
 // End functions.php

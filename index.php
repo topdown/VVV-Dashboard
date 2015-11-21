@@ -2,7 +2,7 @@
 
 define( 'VVV_DASH_BASE', true );
 define( 'VVV_WEB_ROOT', '/srv/www' );
-define( 'VVV_DASH_VERSION', '0.0.8' );
+define( 'VVV_DASH_VERSION', '0.0.7' );
 
 // Settings
 $path = '../../';
@@ -146,7 +146,24 @@ include_once 'views/navbar.php';
 
 	<div class="col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3 main">
 
-<?php purge_status( $purge_status ); ?>
+<?php
+
+purge_status( $purge_status );
+
+if ( VVV_DASH_VERSION < version_check() ) {
+	?>
+	<div class="alert alert-success alert-dismissible" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<p>A new version of <em> VVV Dashboard</em> is available.
+	<br />Your current version: <?php echo VVV_DASH_VERSION ?><br />
+	<strong> New version: <?php echo version_check(); ?></strong></p>
+	</div><?php
+}
+
+
+?>
 
 	<h1 class="page-header">VVV Dashboard</h1>
 
@@ -228,14 +245,12 @@ include_once 'views/navbar.php';
 		</div>
 	</div>
 
-	<div class="error_logs">
-		<h3>Last 10 PHP Errors</h3>
+	<div class="error_logs">        <h3>Last 10 PHP Errors</h3>
 <?php
 $lines = get_php_errors();
 $lines = format_php_errors( $lines );
 
 echo $lines;
-
 
 ?></div><?php
 
