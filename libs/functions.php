@@ -456,7 +456,7 @@ function version_check() {
 
 	if ( ( $version = $cache->get('version-cache', VVV_DASH_THEMES_TTL ) ) == false ) {
 
-		$url     = 'https://raw.githubusercontent.com/topdown/VVV-Dashboard/develop/version.txt';
+		$url     = 'https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/version.txt';
 		$version = get_version( $url );
 		// Don't save unless we have data
 		if ( $version && !strstr($version, 'Error') ) {
