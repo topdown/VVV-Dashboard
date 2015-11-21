@@ -54,6 +54,12 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 ### Change Log
 
 ---
+11/20/15  version: 0.0.9
+
+* Added version check for VVV Dashboard
+* Version check notice if a new version is available
+
+---
 11/20/15  version: 0.0.8
 
 * Added update capabilities for plugins and themes
@@ -126,5 +132,3 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 * Maybe some wiki docs since this is getting a little bigger
 * Fuzzy search for plugins and themes ? not sure yetRemove
 
-
-Version: 0.0.8
