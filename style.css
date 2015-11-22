@@ -6100,7 +6100,7 @@ tr.highlight {
 }
 
 /* line 140, compass/sass/_layout.scss */
-form.get-themes, form.get-plugins, form.update-items {
+.table form, .sidebar form {
   display: inline;
 }
 

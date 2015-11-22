@@ -6,8 +6,8 @@
  *
  * Created: 11/20/15, 12:26 AM
  *
- * LICENSE: This is PRIVATE source code developed for clients.
- * It is in no way transferable and copy rights belong to Jeff Behnke @ ValidWebs.com
+ * LICENSE:
+ *
  *
  * @author         Jeff Behnke <code@validwebs.com>
  * @copyright  (c) 2015 ValidWebs.com
@@ -30,7 +30,6 @@
 				<li><a href="/webgrind/" target="_blank">Webgrind</a></li>
 				<li><a href="/phpinfo/" target="_blank">PHP Info</a></li>
 				<li><a href="//vvv.dev:1080/" target="_blank">Mailcatcher</a></li>
-				<li><a href="new-site.php">New Site</a></li>
 			</ul>
 		</div>
 	</div>

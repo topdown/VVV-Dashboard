@@ -6,8 +6,8 @@
  *
  * Created: 11/19/15, 11:53 AM
  *
- * LICENSE: This is PRIVATE source code developed for clients.
- * It is in no way transferable and copy rights belong to Jeff Behnke @ ValidWebs.com
+ * LICENSE:
+ *
  *
  * @author         Jeff Behnke <code@validwebs.com>
  * @copyright  (c) 2015 ValidWebs.com
@@ -15,6 +15,108 @@
  * dashboard
  * functions.php
  */
+
+/**
+ * Performs host check and then does a backup of the DB
+ *
+ *
+ * @author         Jeff Behnke <code@validwebs.com>
+ * @copyright  (c) 2009-15 ValidWebs.com
+ *
+ * Created:    11/22/15, 2:45 PM
+ *
+ * @param $host
+ *
+ * @return bool|string
+ */
+function vvv_dash_wp_backup( $host ) {
+
+	if ( isset( $host ) ) {
+
+		$type = check_host_type( $host );
+
+		if ( isset( $type['key'] ) ) {
+
+			if ( isset( $type['path'] ) ) {
+
+				$path        = VVV_WEB_ROOT . '/' . $type['key'] . $type['path'];
+				$db_settings = get_wp_db_settings( $path );
+
+			} else {
+
+				$path        = VVV_WEB_ROOT . '/' . $type['key'] . '/';
+				$db_settings = get_wp_db_settings( $path );
+
+			}
+
+		} else {
+
+			$host        = strstr( $host, '.', true );
+			$path        = VVV_WEB_ROOT . '/' . $host . '/htdocs';
+			$db_settings = get_wp_db_settings( $path );
+		}
+
+		if ( is_array( $db_settings ) && $path ) {
+			$file_name = 'dump/' . $host . '_' . date( 'm-d-Y_g-i-s', time() ) . '.sql';
+			$export    = shell_exec( 'wp db export --add-drop-table --path=' . $path . ' ' . $file_name );
+
+			if ( file_exists( $file_name ) ) {
+               return vvv_dash_notice('Your backup is ready at ' . VVV_WEB_ROOT . '/' . $file_name);
+			}
+		} else {
+			return false;
+		}
+	}
+
+	return false;
+}
+
+/**
+ * Does not seem that we actually need this but will leave it for now
+ *
+ * @author         Jeff Behnke <code@validwebs.com>
+ * @copyright  (c) 2009-15 ValidWebs.com
+ *
+ * Created:    11/22/15, 2:47 PM
+ *
+ * @param $file_path
+ *
+ * @return array|string
+ */
+function get_wp_db_settings( $file_path ) {
+
+	$file_path = $file_path . '/wp-config.php';
+
+	if ( file_exists( $file_path ) ) {
+		$config_lines = file( $file_path );
+		$db           = array();
+		// read through the lines in our host files
+		foreach ( $config_lines as $num => $line ) {
+
+			if ( strstr( $line, "define('DB_NAME'," ) ) {
+				$parts         = explode( ', ', $line );
+				$db['db_name'] = str_replace( array( ');', '\'' ), '', $parts[1] );
+
+			}
+
+			if ( strstr( $line, "define('DB_USER'," ) ) {
+				$parts         = explode( ', ', $line );
+				$db['db_user'] = str_replace( array( ');', '\'' ), '', $parts[1] );
+
+			}
+
+			if ( strstr( $line, "define('DB_PASSWORD'," ) ) {
+				$parts             = explode( ', ', $line );
+				$db['db_password'] = str_replace( array( ');', '\'' ), '', $parts[1] );
+
+			}
+		}
+
+		return $db;
+	}
+
+	return 'No Database';
+}
 
 /**
  * Create an array of the hosts from all of the VVV host files
@@ -240,6 +342,36 @@ function purge_status( $purge_status ) {
 }
 
 /**
+ * Notice for dashboard
+ *
+ * @ToDo           convert the others to use this one
+ *
+ * @author         Jeff Behnke <code@validwebs.com>
+ * @copyright  (c) 2009-15 ValidWebs.com
+ *
+ * Created:    11/22/15, 2:40 PM
+ *
+ * @param $message
+ *
+ * @return bool|string
+ */
+function vvv_dash_notice( $message ) {
+
+	$notice = false;
+
+	if ( $message ) {
+	$notice = '<div class="alert alert-success alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>' .
+		 $message . '
+		</div>';
+	}
+
+	return $notice;
+}
+
+/**
  * Formats csv data strings into bootstrap tables
  *
  * @author         Jeff Behnke <code@validwebs.com>
@@ -454,13 +586,13 @@ function version_check() {
 
 	$cache = new vvv_dash_cache();
 
-	if ( ( $version = $cache->get('version-cache', VVV_DASH_THEMES_TTL ) ) == false ) {
+	if ( ( $version = $cache->get( 'version-cache', VVV_DASH_THEMES_TTL ) ) == false ) {
 
 		$url     = 'https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/version.txt';
 		$version = get_version( $url );
 		// Don't save unless we have data
-		if ( $version && !strstr($version, 'Error') ) {
-			$status = $cache->set('version-cache', $version );
+		if ( $version && ! strstr( $version, 'Error' ) ) {
+			$status = $cache->set( 'version-cache', $version );
 		}
 	}
 

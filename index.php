@@ -2,7 +2,7 @@
 
 define( 'VVV_DASH_BASE', true );
 define( 'VVV_WEB_ROOT', '/srv/www' );
-define( 'VVV_DASH_VERSION', '0.0.9' );
+define( 'VVV_DASH_VERSION', '0.1.0' );
 
 // Settings
 $path = '../../';
@@ -10,11 +10,12 @@ include_once '../dashboard-custom.php';
 include_once 'libs/vvv-dash-cache.php';
 include_once 'libs/functions.php';
 
-$plugins      = '';
-$themes       = '';
-$host         = '';
-$purge_status = '';
-$cache        = new vvv_dash_cache();
+$backup_status = false;
+$plugins       = '';
+$themes        = '';
+$host          = '';
+$purge_status  = '';
+$cache         = new vvv_dash_cache();
 
 if ( ( $hosts = $cache->get( 'host-sites', VVV_DASH_HOSTS_TTL ) ) == false ) {
 
@@ -28,6 +29,13 @@ if ( is_string( $hosts ) ) {
 
 
 if ( isset( $_POST ) ) {
+
+	if ( isset( $_POST['backup'] ) && isset( $_POST['host'] ) ) {
+
+		$backup_status = vvv_dash_wp_backup( $_POST['host'] );
+
+	}
+
 
 	if ( isset( $_POST['host'] ) && isset( $_POST['themes'] ) ) {
 
@@ -160,6 +168,10 @@ include_once 'views/navbar.php';
 				<strong> New version: <?php echo version_check(); ?></strong></p>
 			</div><?php
 		}
+
+		if($backup_status) {
+			echo $backup_status;
+		}
 		?>
 
 		<h1 class="page-header">VVV Dashboard</h1>
@@ -231,6 +243,12 @@ include_once 'views/navbar.php';
 										<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
 										<input type="hidden" name="get_plugins" value="true" />
 										<input type="submit" class="btn btn-default btn-xs" name="plugins" value="Plugins" />
+									</form>
+
+									<form class="backup" action="" method="post">
+										<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
+										<input type="hidden" name="backup" value="true" />
+										<input type="submit" class="btn btn-danger btn-xs" name="backup" value="Backup DB" />
 									</form>
 								</td>
 							</tr>
