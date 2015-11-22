@@ -54,7 +54,7 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 ### Change Log
 
 ---
-11/20/15  version: 0.1.0
+11/22/15  version: 0.1.0
 
 * Added DB Backups to the dashboard
 
