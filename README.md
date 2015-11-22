@@ -139,4 +139,6 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 * Maybe some wiki docs since this is getting a little bigger
 * Fuzzy search for plugins and themes ? not sure yetRemove
 * Do a count and maybe a list of DB backups for each host
+* Refactor time, clean up some code and remove redundancy
+
 
