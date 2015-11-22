@@ -30,6 +30,16 @@ include_once 'views/navbar.php';
 
 if(isset($_POST['new-site'])) {
 
+	$site_name = (isset($_POST['site-name'])) ? $_POST['site-name'] : false;
+
+	if($site_name) {
+		$site_name = str_replace(' ', '_', $site_name);
+		$site_name = strtolower($site_name);
+	}
+	echo '<pre style="text-align: left;">' . "FILE: ". __FILE__ . "\nLINE: " . __LINE__ . "\n";
+	var_dump($_POST, $site_name);
+	echo '</pre>------------ Debug End ------------';
+	
 }
 ?>
 	<div class="container-fluid">
@@ -43,7 +53,7 @@ if(isset($_POST['new-site'])) {
 
 				<p>
 					<label for="site-name">Name of new site directory <em>(small letters and underscores)</em></label>
-					<input type="text" name="site-name" id="site-name">
+					<br /><input type="text" name="site-name" id="site-name">
 				</p>
 				<!--
 				Domain to use (leave blank for test.dev):
@@ -64,15 +74,19 @@ Provisioning Vagrant will do the following:
 
 
 				<p>
-					<label for="is-wordpress">Is WordPress</label>
-					<input type="checkbox" name="is-wordpress" id="is-wordpress" />
+					<label for="is-wordpress">Is WordPress: </label>
+					<input type="checkbox" name="is-wordpress" id="is-wordpress"  checked="checked" />
 				</p>
 
 				<p>
-					<label for="debug">Debug On</label>
+					<label for="debug">Debug On: </label>
 					<input type="checkbox" name="debug" id="debug" />
 				</p>
 
+				<p>
+					<label for="git-repo">Clone Git Repo for wp-content</label>
+					<br /><input style="width: 440px" type="text" name="git-repo" id="git-repo" value="" />
+				</p>
 				<input class="btn btn-primary btn-xs" type="submit" name="new-site" value="Create New Site" />
 			</form>
 		</div>
