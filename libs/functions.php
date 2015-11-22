@@ -57,7 +57,7 @@ function vvv_dash_wp_backup( $host ) {
 		}
 
 		if ( is_array( $db_settings ) && $path ) {
-			$file_name = 'dump/' . $host . '_' . date( 'm-d-Y_g-i-s', time() ) . '.sql';
+			$file_name = 'dumps/' . $host . '_' . date( 'm-d-Y_g-i-s', time() ) . '.sql';
 			$export    = shell_exec( 'wp db export --add-drop-table --path=' . $path . ' ' . $file_name );
 
 			if ( file_exists( $file_name ) ) {
