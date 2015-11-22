@@ -54,6 +54,12 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 ### Change Log
 
 ---
+11/20/15  version: 0.1.0
+
+* Added DB Backups to the dashboard
+
+
+---
 11/20/15  version: 0.0.9
 
 * Added version check for VVV Dashboard
@@ -132,4 +138,5 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 
 * Maybe some wiki docs since this is getting a little bigger
 * Fuzzy search for plugins and themes ? not sure yetRemove
+* Do a count and maybe a list of DB backups for each host
 
