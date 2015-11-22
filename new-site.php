@@ -28,18 +28,28 @@ include_once '../dashboard-custom.php';
 include_once 'views/header.php';
 include_once 'views/navbar.php';
 
-if(isset($_POST['new-site'])) {
+if ( isset( $_POST['new-site'] ) ) {
 
-	$site_name = (isset($_POST['site-name'])) ? $_POST['site-name'] : false;
+	$site_name = ( isset( $_POST['site-name'] ) ) ? $_POST['site-name'] : false;
 
-	if($site_name) {
-		$site_name = str_replace(' ', '_', $site_name);
-		$site_name = strtolower($site_name);
+	// Make sure site name is formatted correctly and is required to move on
+	if ( $site_name ) {
+		$site_name = str_replace( ' ', '_', $site_name );
+		$site_name = strtolower( $site_name );
+
+
+		// We do a clone if this is filled in
+		if ( isset( $_POST['git-repo'] ) && ! empty( $_POST['git-repo'] ) ) {
+
+		}
+
 	}
-	echo '<pre style="text-align: left;">' . "FILE: ". __FILE__ . "\nLINE: " . __LINE__ . "\n";
-	var_dump($_POST, $site_name);
+
+
+	echo '<pre style="text-align: left;">' . "FILE: " . __FILE__ . "\nLINE: " . __LINE__ . "\n";
+	print_r( $_POST );
 	echo '</pre>------------ Debug End ------------';
-	
+
 }
 ?>
 	<div class="container-fluid">
@@ -75,12 +85,11 @@ Provisioning Vagrant will do the following:
 
 				<p>
 					<label for="is-wordpress">Is WordPress: </label>
-					<input type="checkbox" name="is-wordpress" id="is-wordpress"  checked="checked" />
+					<input type="checkbox" name="is-wordpress" id="is-wordpress" checked="checked" />
 				</p>
 
 				<p>
-					<label for="debug">Debug On: </label>
-					<input type="checkbox" name="debug" id="debug" />
+					<label for="debug">Debug On: </label> <input type="checkbox" name="debug" id="debug" />
 				</p>
 
 				<p>
