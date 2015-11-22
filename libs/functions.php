@@ -413,7 +413,7 @@ function format_table( $data, $host, $type = '' ) {
 								<input type="submit" class="btn btn-default btn-xs" name="update_item" value="Update" />
 							</form>';
 					}
-					if ( 'active' == $cell ) {
+					if ( 'active' == $cell || 'parent' == $cell ) {
 						$table_data[] .= '<td class="activated">' . $cell . '</td>';
 					} elseif ( 'available' == $cell ) {
 						$table_data[] .= '<td class="update">' . $cell . $update_form . '</td>';
