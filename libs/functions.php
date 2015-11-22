@@ -61,7 +61,7 @@ function vvv_dash_wp_backup( $host ) {
 			$export    = shell_exec( 'wp db export --add-drop-table --path=' . $path . ' ' . $file_name );
 
 			if ( file_exists( $file_name ) ) {
-               return vvv_dash_notice('Your backup is ready at ' . VVV_WEB_ROOT . '/' . $file_name);
+               return vvv_dash_notice('Your backup is ready at www/default/dashboard/' . $file_name);
 			}
 		} else {
 			return false;
