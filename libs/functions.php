@@ -16,6 +16,17 @@
  * functions.php
  */
 
+function vvv_dash_prep() {
+	if ( ! is_dir( VVV_WEB_ROOT . '/default/dashboard/cache' ) ) {
+		mkdir( VVV_WEB_ROOT . '/default/dashboard/cache' );
+	}
+
+	if ( ! is_dir( VVV_WEB_ROOT . '/default/dashboard/dumps' ) ) {
+		mkdir( VVV_WEB_ROOT . '/default/dashboard/dumps' );
+	}
+}
+
+
 /**
  * Performs host check and then does a backup of the DB
  *
@@ -61,7 +72,7 @@ function vvv_dash_wp_backup( $host ) {
 			$export    = shell_exec( 'wp db export --add-drop-table --path=' . $path . ' ' . $file_name );
 
 			if ( file_exists( $file_name ) ) {
-               return vvv_dash_notice('Your backup is ready at www/default/dashboard/' . $file_name);
+				return vvv_dash_notice( 'Your backup is ready at www/default/dashboard/' . $file_name );
 			}
 		} else {
 			return false;
@@ -360,11 +371,12 @@ function vvv_dash_notice( $message ) {
 	$notice = false;
 
 	if ( $message ) {
-	$notice = '<div class="alert alert-success alert-dismissible" role="alert">
+		$notice
+			= '<div class="alert alert-success alert-dismissible" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		</button>' .
-		 $message . '
+			  $message . '
 		</div>';
 	}
 

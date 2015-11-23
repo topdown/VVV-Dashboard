@@ -10,6 +10,9 @@ include_once '../dashboard-custom.php';
 include_once 'libs/vvv-dash-cache.php';
 include_once 'libs/functions.php';
 
+// Make sure everything is ready
+vvv_dash_prep();
+
 $backup_status = false;
 $plugins       = '';
 $themes        = '';
