@@ -146,5 +146,6 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 * Fuzzy search for plugins and themes ? not sure yetRemove
 * Do a count and maybe a list of DB backups for each host
 * Refactor time, clean up some code and remove redundancy
+* Dropdown Menu for tools but not Bootstrap it should be CSS only
 
 

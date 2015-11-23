@@ -172,7 +172,7 @@ include_once 'views/navbar.php';
 			</div><?php
 		}
 
-		if($backup_status) {
+		if ( $backup_status ) {
 			echo $backup_status;
 		}
 		?>
@@ -203,14 +203,19 @@ include_once 'views/navbar.php';
 				}
 
 				?>
-				<p>
-					<strong>Current Hosts = <?php echo isset( $hosts['site_count'] ) ? $hosts['site_count'] : ''; ?></strong>
-				</p>
+
 				<small>Note: To profile, <code>xdebug_on</code> must be set.</small>
 
-				<p class="search-box">Live Search: <input type="text" id="text-search" /></p>
+				<div id="search_container" class="input-group search-box">
+					<span class="input-group-addon"> <i class="fa fa-search"></i> </span>
+					<input type="text" class="form-control search-input" id="text-search" placeholder="Live Search..." />
+					<span class="input-group-addon"> Hosts
+						<span class="badge"><?php echo isset( $hosts['site_count'] ) ? $hosts['site_count'] : ''; ?></span>
+					</span>
+				</div>
 
-				<table class="sites table table-responsive table-striped table">
+
+				<table class="sites table table-responsive table-striped">
 					<thead>
 					<tr>
 						<th>Debug Mode</th>
@@ -223,35 +228,46 @@ include_once 'views/navbar.php';
 						if ( 'site_count' != $key ) { ?>
 							<tr>
 								<?php if ( 'true' == $array['debug'] ) { ?>
-									<td><span class="label label-success">Debug On</span></td>
+									<td><span class="label label-success">Debug On <i class="fa fa-check-circle-o"></i></span>
+									</td>
 								<?php } else { ?>
-									<td><span class="label label-danger">Debug Off</span></td>
+									<td><span class="label label-danger">Debug Off <i class="fa fa-times-circle-o"></i></span>
+									</td>
 								<?php } ?>
 								<td><?php echo $array['host']; ?></td>
 
 								<td>
-									<a class="btn btn-primary btn-xs" href="http://<?php echo $array['host']; ?>/" target="_blank">Visit Site</a>
+									<a class="btn btn-primary btn-xs" href="http://<?php echo $array['host']; ?>/" target="_blank">Visit Site
+										<i class="fa fa-external-link"></i></a>
 
 									<?php if ( 'true' == $array['is_wp'] ) { ?>
-										<a class="btn btn-warning btn-xs" href="http://<?php echo $array['host']; ?>/wp-admin" target="_blank">Admin/Login</a>
+										<a class="btn btn-warning btn-xs" href="http://<?php echo $array['host']; ?>/wp-admin" target="_blank">Admin/Login
+											<i class="fa fa-wordpress"></i></a>
 									<?php } ?>
-									<a class="btn btn-success btn-xs" href="http://<?php echo $array['host']; ?>/?XDEBUG_PROFILE" target="_blank">Profiler</a>
+									<a class="btn btn-success btn-xs" href="http://<?php echo $array['host']; ?>/?XDEBUG_PROFILE" target="_blank">Profiler
+										<i class="fa fa-search-plus"></i></a>
 
 									<form class="get-themes" action="" method="post">
 										<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
 										<input type="hidden" name="get_themes" value="true" />
+
 										<input type="submit" class="btn btn-default btn-xs" name="themes" value="Themes" />
+
 									</form>
 									<form class="get-plugins" action="" method="post">
 										<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
 										<input type="hidden" name="get_plugins" value="true" />
+
 										<input type="submit" class="btn btn-default btn-xs" name="plugins" value="Plugins" />
+
 									</form>
 
 									<form class="backup" action="" method="post">
 										<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
 										<input type="hidden" name="backup" value="true" />
+
 										<input type="submit" class="btn btn-danger btn-xs" name="backup" value="Backup DB" />
+
 									</form>
 								</td>
 							</tr>

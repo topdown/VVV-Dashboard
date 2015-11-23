@@ -26,6 +26,8 @@
 	<?php if(file_exists('custom.css')) {
 		?><link rel="stylesheet" type="text/css" href="custom.css" /><?php
 	} ?>
+	<link rel="stylesheet" type="text/css" href="bower_components/fontawesome/css/font-awesome.min.css">
+
 	<script type="text/JavaScript" src="bower_components/jquery/dist/jquery.min.js"></script>
 	<script type="text/javascript" src="bower_components/js-cookie/src/js.cookie.js"></script>
 	<script type="text/javascript" src="bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/alert.js"></script>
