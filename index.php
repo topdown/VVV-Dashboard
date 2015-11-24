@@ -30,19 +30,11 @@ if ( is_string( $hosts ) ) {
 	$hosts = unserialize( $hosts );
 }
 
+if ( isset( $_GET['host'] ) && isset( $_GET['themes'] ) || isset( $_GET['host'] ) && isset( $_GET['plugins'] ) ) {
 
-if ( isset( $_POST ) ) {
+	if ( isset( $_GET['host'] ) && isset( $_GET['themes'] ) ) {
 
-	if ( isset( $_POST['backup'] ) && isset( $_POST['host'] ) ) {
-
-		$backup_status = vvv_dash_wp_backup( $_POST['host'] );
-
-	}
-
-
-	if ( isset( $_POST['host'] ) && isset( $_POST['themes'] ) ) {
-
-		$type = check_host_type( $_POST['host'] );
+		$type = check_host_type( $_GET['host'] );
 
 		if ( isset( $type['key'] ) ) {
 
@@ -53,15 +45,15 @@ if ( isset( $_POST ) ) {
 			}
 
 		} else {
-			$host   = strstr( $_POST['host'], '.', true );
+			$host   = strstr( $_GET['host'], '.', true );
 			$themes = get_themes( $host, '/htdocs' );
 		}
 
 	}
 
-	if ( isset( $_POST['host'] ) && isset( $_POST['plugins'] ) ) {
+	if ( isset( $_GET['host'] ) && isset( $_GET['plugins'] ) ) {
 
-		$type = check_host_type( $_POST['host'] );
+		$type = check_host_type( $_GET['host'] );
 
 		if ( isset( $type['key'] ) ) {
 
@@ -72,9 +64,19 @@ if ( isset( $_POST ) ) {
 			}
 
 		} else {
-			$host    = strstr( $_POST['host'], '.', true );
+			$host    = strstr( $_GET['host'], '.', true );
 			$plugins = get_plugins( $host, '/htdocs' );
 		}
+	}
+}
+
+
+if ( isset( $_POST ) ) {
+
+	if ( isset( $_POST['backup'] ) && isset( $_POST['host'] ) ) {
+
+		$backup_status = vvv_dash_wp_backup( $_POST['host'] );
+
 	}
 
 	if ( isset( $_POST['purge_hosts'] ) ) {
@@ -185,20 +187,20 @@ include_once 'views/navbar.php';
 
 				$close = '<a class="btn btn-primary btn-xs" href="./">Close</a>';
 				if ( ! empty( $plugins ) ) {
-					if ( isset( $_POST['host'] ) ) {
+					if ( isset( $_GET['host'] ) ) {
 						?><h4>The plugin list for
-						<span class="red"><?php echo $_POST['host']; ?></span> <?php echo $close; ?></h4><?php
+						<span class="red"><?php echo $_GET['host']; ?></span> <?php echo $close; ?></h4><?php
 
-						echo format_table( $plugins, $_POST['host'], 'plugins' );
+						echo format_table( $plugins, $_GET['host'], 'plugins' );
 					}
 
 				}
 				if ( ! empty( $themes ) ) {
-					if ( isset( $_POST['host'] ) ) {
+					if ( isset( $_GET['host'] ) ) {
 						?><h4>The theme list for
-						<span class="red"><?php echo $_POST['host']; ?></span> <?php echo $close; ?></h4><?php
+						<span class="red"><?php echo $_GET['host']; ?></span> <?php echo $close; ?></h4><?php
 
-						echo format_table( $themes, $_POST['host'], 'themes' );
+						echo format_table( $themes, $_GET['host'], 'themes' );
 					}
 				}
 
@@ -247,14 +249,14 @@ include_once 'views/navbar.php';
 									<a class="btn btn-success btn-xs" href="http://<?php echo $array['host']; ?>/?XDEBUG_PROFILE" target="_blank">Profiler
 										<i class="fa fa-search-plus"></i></a>
 
-									<form class="get-themes" action="" method="post">
+									<form class="get-themes" action="" method="get">
 										<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
 										<input type="hidden" name="get_themes" value="true" />
 
 										<input type="submit" class="btn btn-default btn-xs" name="themes" value="Themes" />
 
 									</form>
-									<form class="get-plugins" action="" method="post">
+									<form class="get-plugins" action="" method="get">
 										<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
 										<input type="hidden" name="get_plugins" value="true" />
 
