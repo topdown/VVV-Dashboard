@@ -30,6 +30,19 @@ if ( is_string( $hosts ) ) {
 	$hosts = unserialize( $hosts );
 }
 
+if(isset($_POST['update-dashboard'])) {
+	$update_dash    = shell_exec( './bin/_update.sh' );
+
+	echo '<pre style="text-align: left;">' . "FILE: ". __FILE__ . "\nLINE: " . __LINE__ . "\n";
+	var_dump($update_dash);
+	echo '</pre>------------ Debug End ------------';
+
+	if('Update complete ...' == $update_dash) {
+		$purge_status = $cache->purge( 'version-cache' );
+	}
+}
+
+
 if ( isset( $_GET['host'] ) && isset( $_GET['themes'] ) || isset( $_GET['host'] ) && isset( $_GET['plugins'] ) ) {
 
 	if ( isset( $_GET['host'] ) && isset( $_GET['themes'] ) ) {
@@ -178,6 +191,10 @@ include_once 'views/navbar.php';
 			echo $backup_status;
 		}
 		?>
+
+		<form class="get-themes" action="" method="post">
+			<input type="submit" class="btn btn-danger" name="update-dashboard" value="Update the Dashboard" />
+		</form>
 
 		<h1 class="page-header">VVV Dashboard</h1>
 
