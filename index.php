@@ -2,7 +2,7 @@
 
 define( 'VVV_DASH_BASE', true );
 define( 'VVV_WEB_ROOT', '/srv/www' );
-define( 'VVV_DASH_VERSION', '0.1.1' );
+define( 'VVV_DASH_VERSION', '0.1.0' );
 
 // Settings
 $path = '../../';
@@ -30,14 +30,14 @@ if ( is_string( $hosts ) ) {
 	$hosts = unserialize( $hosts );
 }
 
-if(isset($_POST['update-dashboard'])) {
-	$update_dash    = shell_exec( './bin/_update.sh' );
+if ( isset( $_POST['update-dashboard'] ) ) {
+	$update_dash = shell_exec( './bin/_update.sh' );
 
-	echo '<pre style="text-align: left;">' . "FILE: ". __FILE__ . "\nLINE: " . __LINE__ . "\n";
-	var_dump($update_dash);
+	echo '<pre style="text-align: left;">' . "FILE: " . __FILE__ . "\nLINE: " . __LINE__ . "\n";
+	var_dump( $update_dash );
 	echo '</pre>------------ Debug End ------------';
 
-	if('Update complete ...' == $update_dash) {
+	if ( 'Update complete ...' == $update_dash ) {
 		$purge_status = $cache->purge( 'version-cache' );
 	}
 }
@@ -184,6 +184,11 @@ include_once 'views/navbar.php';
 			<p>A new version of <em> VVV Dashboard</em> is available.
 				<br />Your current version: <?php echo VVV_DASH_VERSION ?><br />
 				<strong> New version: <?php echo version_check(); ?></strong></p>
+
+			<form class="get-themes" action="" method="post">
+				<input type="submit" class="btn btn-danger" name="update-dashboard" value="Update the Dashboard" />
+			</form>
+
 			</div><?php
 		}
 
@@ -191,11 +196,6 @@ include_once 'views/navbar.php';
 			echo $backup_status;
 		}
 		?>
-
-		<form class="get-themes" action="" method="post">
-			<input type="submit" class="btn btn-danger" name="update-dashboard" value="Update the Dashboard" />
-		</form>
-
 		<h1 class="page-header">VVV Dashboard</h1>
 
 		<div class="row">
