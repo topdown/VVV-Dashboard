@@ -20,27 +20,31 @@ Copy the dashboard-custom.php to VVV/www/default/dashboard-custom.php
   * Visit Site Link
   * Visit Admin Link
   * Profiler Link
-  * Backup Database (SQL Dump)
+  * Backup Database (SQL Dump) host-timestamped name
 * Live/Fuzzy search host list
 * List Plugins for each installed WordPress Site
   * Plugin Name
-  * Status (inactive / active)
+  * Status (inactive / active) highlighted
   * Update (None / Available - Update Button)
   * Version
 * List Themes
   * Theme Name
-  * Status (inactive / active / parent)
+  * Status (inactive / active / parent) highlighted
   * Update (None / Available - Update Button)
   * Version
 * Last 10 PHP Errors
 * Show Hide Sidebar
 * Quick server info
 * Command list
+* Reference links
 * Cache
   * Theme list for each site
   * Plugin list for each site
-  * Host list
+  * Host list ( Speeds up loading greatly )
   * VVV Dashboard version check
+  * Delete cache for Hosts, Themes or Plugins
+  * 24 hour cache for each system, separate TTL settings
+* VVV Dashboard version check with notice
 * All buttons are colored for separation
 * Twitter Bootstrap theme
 * Sass CSS
