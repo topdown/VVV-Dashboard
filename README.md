@@ -49,6 +49,7 @@ Copy the dashboard-custom.php to VVV/www/default/dashboard-custom.php
 * Twitter Bootstrap theme
 * Sass CSS
 * Bower to manage JS
+* xDebug check and notice to show if its on or off
 
 ---
 ### UPDATE Instructions 

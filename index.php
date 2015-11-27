@@ -30,6 +30,15 @@ if ( is_string( $hosts ) ) {
 	$hosts = unserialize( $hosts );
 }
 
+if( isset($_POST['xdebug_on'])) {
+	$xdebug = shell_exec( 'bin/test.sh');
+
+	echo '<pre style="text-align: left;">' . "FILE: ". __FILE__ . "\nLINE: " . __LINE__ . "\n";
+	var_dump($xdebug);
+	echo '</pre>------------ Debug End ------------';
+	
+}
+
 if ( isset( $_GET['host'] ) && isset( $_GET['themes'] ) || isset( $_GET['host'] ) && isset( $_GET['plugins'] ) ) {
 
 	if ( isset( $_GET['host'] ) && isset( $_GET['themes'] ) ) {
@@ -205,8 +214,18 @@ include_once 'views/navbar.php';
 
 				?>
 
-				<small>Note: To profile, <code>xdebug_on</code> must be set.</small>
-
+				<p><small>Note: To profile, <code>xdebug_on</code> must be set.</small>
+				<?php $xdebug = (extension_loaded('xdebug') ? true : false);
+				if($xdebug) {
+					?>
+					xDebug is currently <span class="label label-success">on</span>
+					<?php
+				} else {
+					?>
+					xDebug is currently <span class="label label-danger">off</span>
+					<?php
+				}?>
+				</p>
 				<div id="search_container" class="input-group search-box">
 					<span class="input-group-addon"> <i class="fa fa-search"></i> </span>
 					<input type="text" class="form-control search-input" id="text-search" placeholder="Live Search..." />
