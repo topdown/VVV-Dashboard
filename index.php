@@ -1,6 +1,5 @@
 <?php
 
-
 define( 'VVV_DASH_BASE', true );
 define( 'VVV_WEB_ROOT', '/srv/www' );
 define( 'VVV_DASH_VERSION', '0.1.1' );

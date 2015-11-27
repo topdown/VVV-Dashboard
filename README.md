@@ -13,6 +13,38 @@ Clone this repo to your VVV/www/default/ directory (`git clone https://github.co
 Copy the dashboard-custom.php to VVV/www/default/dashboard-custom.php
 
 ---
+### Feature List
+
+* List hosts in VVV
+  * Debug On/Off for WP sites
+  * Visit Site Link
+  * Visit Admin Link
+  * Profiler Link
+  * Backup Database
+* Live/Fuzzy search host list
+* List Plugins for each installed WordPress Site
+  * Status (inactive / active)
+  * Update (None / Available - Update Button)
+  * Version
+* List Themes
+  * Status (inactive / active / parent)
+  * Update (None / Available - Update Button)
+  * Version
+* Last 10 PHP Errors
+* Show Hide Sidebar
+* Quick server info
+* Command list
+* Cache
+  * Theme list for each site
+  * Plugin list for each site
+  * Host list
+  * VVV Dashboard version check
+* All buttons are colored for separation
+* Twitter Bootstrap theme
+* Sass CSS
+* Bower to manage JS
+
+---
 ### UPDATE Instructions 
 From your dashboard directory ```git pull```
 
