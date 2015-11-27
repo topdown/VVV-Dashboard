@@ -20,13 +20,15 @@ Copy the dashboard-custom.php to VVV/www/default/dashboard-custom.php
   * Visit Site Link
   * Visit Admin Link
   * Profiler Link
-  * Backup Database
+  * Backup Database (SQL Dump)
 * Live/Fuzzy search host list
 * List Plugins for each installed WordPress Site
+  * Plugin Name
   * Status (inactive / active)
   * Update (None / Available - Update Button)
   * Version
 * List Themes
+  * Theme Name
   * Status (inactive / active / parent)
   * Update (None / Available - Update Button)
   * Version
