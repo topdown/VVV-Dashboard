@@ -30,15 +30,6 @@ if ( is_string( $hosts ) ) {
 	$hosts = unserialize( $hosts );
 }
 
-if( isset($_POST['xdebug_on'])) {
-	$xdebug = shell_exec( 'bin/test.sh');
-
-	echo '<pre style="text-align: left;">' . "FILE: ". __FILE__ . "\nLINE: " . __LINE__ . "\n";
-	var_dump($xdebug);
-	echo '</pre>------------ Debug End ------------';
-	
-}
-
 if ( isset( $_GET['host'] ) && isset( $_GET['themes'] ) || isset( $_GET['host'] ) && isset( $_GET['plugins'] ) ) {
 
 	if ( isset( $_GET['host'] ) && isset( $_GET['themes'] ) ) {
