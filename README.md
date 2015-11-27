@@ -32,7 +32,7 @@ Copy the dashboard-custom.php to VVV/www/default/dashboard-custom.php
   * Status (inactive / active / parent) highlighted
   * Update (None / Available - Update Button)
   * Version
-* Last 10 PHP Errors
+* Last 10 PHP Errors (with highlighting)
 * Show Hide Sidebar
 * Quick server info
 * Command list
