@@ -50,7 +50,7 @@ Copy the dashboard-custom.php to VVV/www/default/dashboard-custom.php
 * Sass CSS
 * Bower to manage JS
 * xDebug check and notice to show if its on or off
-* Debug Log viewer, if there is a debug.log show button by host and make it viewable
+* Debug Log viewer, if there is a debug.log show button by host and make the last 20 viewable
 
 ---
 ### UPDATE Instructions 
