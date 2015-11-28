@@ -235,11 +235,17 @@ include_once 'views/navbar.php';
 				}
 
 				if ( $debug_log_path && file_exists( $debug_log_path ) && ! empty( $debug_log_lines ) ) {
-					?>
-					<div class="wp-debug-log">
-						<?php echo $debug_log_lines; ?>
-					</div>
-					<?php
+
+					if ( isset( $_GET['host'] ) ) {
+						?><h4>Debug Log for
+						<span class="red"><?php echo $_GET['host']; ?></span> <?php echo $close; ?></h4><?php
+
+						?>
+						<div class="wp-debug-log">
+							<?php echo $debug_log_lines; ?>
+						</div>
+						<?php
+					}
 				}
 
 				?>
@@ -320,7 +326,7 @@ include_once 'views/navbar.php';
 									</form>
 									<?php
 									$type = check_host_type( $array['host'] );
-									
+
 									if ( isset( $type['key'] ) ) {
 
 										if ( isset( $type['path'] ) ) {
@@ -330,7 +336,7 @@ include_once 'views/navbar.php';
 										}
 
 									} else {
-										$this_host           = strstr( $array['host'], '.', true );
+										$this_host      = strstr( $array['host'], '.', true );
 										$debug_log_path = VVV_WEB_ROOT . '/' . $this_host . '/htdocs/wp-content/debug.log';
 									}
 
