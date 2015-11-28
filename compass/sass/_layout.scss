@@ -153,10 +153,10 @@ td.activated,
 .table-hover td.activated :hover,
 .table-hover tr:hover > td.activated,
 .table-striped > tbody > tr:nth-child(odd) > td.activated {
-	background:      green;
-	font-weight:     bold;
+	background:  green;
+	font-weight: bold;
 	//text-decoration: underline;
-	color:           #fff;
+	color:       #fff;
 }
 
 td.update,
@@ -169,17 +169,17 @@ td.update,
 }
 
 .update-items .btn {
-	float: right;
+	float:        right;
 	margin-right: 5%;
 }
 
 .line {
-	font-weight:bold;
-	color: blue;
+	font-weight: bold;
+	color:       blue;
 }
 
 .time {
-	color: green;
+	color:       green;
 	font-weight: bold;
 }
 
@@ -189,5 +189,14 @@ td.update,
 
 .in-file {
 	font-weight: bold;
-	color: #000;
+	color:       #000;
+}
+
+.wp-debug-log {
+	max-height: 400px;
+	overflow-x: scroll;
+}
+
+.wp-debug-log p {
+	margin-top: 20px;
 }

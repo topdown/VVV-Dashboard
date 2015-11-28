@@ -13,12 +13,15 @@ include_once 'libs/functions.php';
 // Make sure everything is ready
 vvv_dash_prep();
 
-$backup_status = false;
-$plugins       = '';
-$themes        = '';
-$host          = '';
-$purge_status  = '';
-$cache         = new vvv_dash_cache();
+$backup_status   = false;
+$plugins         = '';
+$themes          = '';
+$host            = '';
+$purge_status    = '';
+$debug_log       = '';
+$debug_log_lines = '';
+$debug_log_path  = '';
+$cache           = new vvv_dash_cache();
 
 if ( ( $hosts = $cache->get( 'host-sites', VVV_DASH_HOSTS_TTL ) ) == false ) {
 
@@ -68,6 +71,34 @@ if ( isset( $_GET['host'] ) && isset( $_GET['themes'] ) || isset( $_GET['host'] 
 			$plugins = get_plugins( $host, '/htdocs' );
 		}
 	}
+}
+
+if ( isset( $_GET['host'] ) && isset( $_GET['debug_log'] ) ) {
+
+	$type = check_host_type( $_GET['host'] );
+
+	if ( isset( $type['key'] ) ) {
+
+		if ( isset( $type['path'] ) ) {
+			$debug_log_path = VVV_WEB_ROOT . '/' . $type['key'] . '/' . $type['path'] . '/wp-content/debug.log';
+		} else {
+			$debug_log_path = VVV_WEB_ROOT . '/' . $type['key'] . '/wp-content/debug.log';
+		}
+
+	} else {
+		$host           = strstr( $_GET['host'], '.', true );
+		$debug_log_path = VVV_WEB_ROOT . '/' . $host . '/htdocs/wp-content/debug.log';
+	}
+
+	if ( $debug_log_path && file_exists( $debug_log_path ) ) {
+		$debug_log = get_php_errors( 21, 140, $debug_log_path );
+	}
+
+	if ( is_array( $debug_log ) ) {
+		$debug_log_lines = format_php_errors( $debug_log );
+	}
+
+
 }
 
 
@@ -203,19 +234,28 @@ include_once 'views/navbar.php';
 					}
 				}
 
+				if ( $debug_log_path && file_exists( $debug_log_path ) && ! empty( $debug_log_lines ) ) {
+					?>
+					<div class="wp-debug-log">
+						<?php echo $debug_log_lines; ?>
+					</div>
+					<?php
+				}
+
 				?>
 
-				<p><small>Note: To profile, <code>xdebug_on</code> must be set.</small>
-				<?php $xdebug = (extension_loaded('xdebug') ? true : false);
-				if($xdebug) {
-					?>
-					xDebug is currently <span class="label label-success">on</span>
-					<?php
-				} else {
-					?>
-					xDebug is currently <span class="label label-danger">off</span>
-					<?php
-				}?>
+				<p>
+					<small>Note: To profile, <code>xdebug_on</code> must be set.</small>
+					<?php $xdebug = ( extension_loaded( 'xdebug' ) ? true : false );
+					if ( $xdebug ) {
+						?>
+						xDebug is currently <span class="label label-success">on</span>
+						<?php
+					} else {
+						?>
+						xDebug is currently <span class="label label-danger">off</span>
+						<?php
+					} ?>
 				</p>
 				<div id="search_container" class="input-group search-box">
 					<span class="input-group-addon"> <i class="fa fa-search"></i> </span>
@@ -275,11 +315,31 @@ include_once 'views/navbar.php';
 
 									<form class="backup" action="" method="post">
 										<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
-										<input type="hidden" name="backup" value="true" />
-
 										<input type="submit" class="btn btn-danger btn-xs" name="backup" value="Backup DB" />
 
 									</form>
+									<?php
+									$type = check_host_type( $array['host'] );
+									
+									if ( isset( $type['key'] ) ) {
+
+										if ( isset( $type['path'] ) ) {
+											$debug_log_path = VVV_WEB_ROOT . '/' . $type['key'] . '/' . $type['path'] . '/wp-content/debug.log';
+										} else {
+											$debug_log_path = VVV_WEB_ROOT . '/' . $type['key'] . '/wp-content/debug.log';
+										}
+
+									} else {
+										$this_host           = strstr( $array['host'], '.', true );
+										$debug_log_path = VVV_WEB_ROOT . '/' . $this_host . '/htdocs/wp-content/debug.log';
+									}
+
+									if ( file_exists( $debug_log_path ) ) { ?>
+										<form class="backup" action="" method="get">
+											<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
+											<input type="submit" class="btn btn-warning btn-xs" name="debug_log" value="Debug Log" />
+										</form>
+									<?php } ?>
 								</td>
 							</tr>
 							<?php

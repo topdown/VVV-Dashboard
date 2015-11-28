@@ -6157,3 +6157,14 @@ td.update,
   font-weight: bold;
   color: #000;
 }
+
+/* line 195, compass/sass/_layout.scss */
+.wp-debug-log {
+  max-height: 400px;
+  overflow-x: scroll;
+}
+
+/* line 200, compass/sass/_layout.scss */
+.wp-debug-log p {
+  margin-top: 20px;
+}
