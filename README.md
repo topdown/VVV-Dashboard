@@ -71,7 +71,7 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 ** NEW: There are bound keys for the search feature, the enter key and down arrow key search down the list and the up arrow searches up.**
 
 
-![image](https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshots/screenshot.png)
+![image](https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshots/screenshot-v0.1.3.png)
 
 ![image](https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshots/live-search.gif)
 
