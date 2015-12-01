@@ -209,7 +209,7 @@ include_once 'views/navbar.php';
 			echo $backup_status;
 		}
 		?>
-		<h1 class="page-header">VVV Dashboard</h1>
+		<h1 class="page-header"><i class="fa fa-tachometer"></i> VVV Dashboard</h1>
 
 		<div class="row">
 			<div class="col-sm-12 hosts">
@@ -249,7 +249,6 @@ include_once 'views/navbar.php';
 				}
 
 				?>
-
 				<p>
 					<small>Note: To profile, <code>xdebug_on</code> must be set.</small>
 					<?php $xdebug = ( extension_loaded( 'xdebug' ) ? true : false );
