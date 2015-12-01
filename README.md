@@ -93,6 +93,16 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 
 ### Change Log
 
+--- 12/01/15  version: 0.1.3
+
+* Bumping version again to resolve cache issues
+
+
+--- 12/01/15  version: 0.1.2
+
+* Added APP icons (favicon) for the dashboard
+* Added WP Debug Log viewer
+
 ---
 11/22/15  version: 0.1.1
 
