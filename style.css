@@ -6162,9 +6162,10 @@ td.update,
 .wp-debug-log {
   max-height: 400px;
   overflow-x: scroll;
+  margin-bottom: 20px;
 }
 
-/* line 200, compass/sass/_layout.scss */
+/* line 201, compass/sass/_layout.scss */
 .wp-debug-log p {
   margin-top: 20px;
 }
