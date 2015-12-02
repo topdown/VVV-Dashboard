@@ -70,6 +70,26 @@ With Vagrant Up you should be able browse to your vagrant root www usually [vvv]
 
 ** NEW: There are bound keys for the search feature, the enter key and down arrow key search down the list and the up arrow searches up.**
 
+---
+
+### Customizations
+
+There are some customizations that you can do to VVV Dashboard
+
+1. change settings in the `VVV/www/default/dashboard-custom.php`
+2. create a custom.css and add custom CSS. This file is ignored when updating and autoloaded if exists.
+
+Want the host list full view all the time with no scolling/overflow
+
+create a `VVV/www/default/dashboard/custom.css` file and add this
+
+```
+.sites {
+	max-height: 100%;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+```
 
 ![image](https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshots/screenshot-v0.1.3.png)
 
