@@ -8,6 +8,10 @@
 
 define( 'VVV_DASH_DEBUG', false );
 
+// I hate globals, will come back to this
+global $vvv_dash_scan_paths;
+$vvv_dash_scan_paths = array('htdocs', 'public');
+
 // Cache settings
 define( 'VVV_DASH_THEMES_TTL', 86400 );
 define( 'VVV_DASH_PLUGINS_TTL', 86400 );
