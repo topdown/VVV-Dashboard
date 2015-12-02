@@ -322,7 +322,7 @@ function check_host_type( $host ) {
 		case 'build.wordpress-develop.dev' :
 			$host = array(
 				'host' => trim( $host ),
-				'key'  => 'wordpress-develop/build',
+				'key'  => 'wordpress-develop',
 				'path' => '/build'
 			);
 			break;
