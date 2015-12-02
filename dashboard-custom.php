@@ -13,6 +13,10 @@ define( 'VVV_DASH_DEBUG', false );
 global $vvv_dash_scan_paths;
 $vvv_dash_scan_paths = array('htdocs', 'public');
 
+global $vvv_dash_wp_content_paths;
+$vvv_dash_wp_content_paths = array('wp-content', 'content');
+
+
 // Cache settings
 define( 'VVV_DASH_THEMES_TTL', 86400 );
 define( 'VVV_DASH_PLUGINS_TTL', 86400 );

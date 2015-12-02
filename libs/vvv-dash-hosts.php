@@ -62,5 +62,99 @@ class vvv_dash_hosts {
 
 		return $host;
 	}
+
+
+	/**
+	 * Allows setting of alternate wp-content path
+	 *
+	 * @author         Jeff Behnke <code@validwebs.com>
+	 * @copyright  (c) 2009-15 ValidWebs.com
+	 *
+	 * Created:    12/2/15, 11:51 AM
+	 *
+	 * @param $path
+	 *
+	 * @return array|bool|string
+	 */
+	public function set_content_path( $path ) {
+		global $vvv_dash_wp_content_paths;
+
+		$paths      = array();
+		$wp_content = $path . '/wp-content';
+
+		if ( is_dir( $wp_content ) ) {
+			$paths = '/wp-content';
+		} else {
+
+			foreach ( $vvv_dash_wp_content_paths as $key => $new_path ) {
+				if ( is_dir( $path . '/' . $new_path ) ) {
+					$paths = '/' . $new_path;
+				} else {
+					$paths = false;
+				}
+			} // end foreach
+		}
+
+		return $paths;
+	}
+
+
+	/**
+	 *
+	 *
+	 * @author         Jeff Behnke <code@validwebs.com>
+	 * @copyright  (c) 2009-15 ValidWebs.com
+	 *
+	 * Created:    12/2/15, 11:32 AM
+	 *
+	 * @param $host
+	 *
+	 * @return array
+	 */
+	public function get_paths( $host ) {
+
+		$host_info         = array();
+		$host              = strstr( $host, '.', true );
+		$path              = VVV_WEB_ROOT . '/' . $host . '/htdocs';
+		$host_info['host'] = $host;
+
+		if ( is_dir( $path ) ) {
+			$host_info['path']    = '/htdocs';
+			$host_info['content'] = $this->set_content_path( $path );
+
+		} else {
+			global $vvv_dash_scan_paths;
+
+			// Loop through alternate paths
+			foreach ( $vvv_dash_scan_paths as $key => $path ) {
+
+				// Test alternate paths
+				$path_test = VVV_WEB_ROOT . '/' . $host . '/' . $path;
+				if ( is_dir( $path_test ) ) {
+					$host_info['path']    = $path_test;
+					$host_info['content'] = $this->set_content_path( $path_test );
+				} else {
+					// Something is wrong and we have no paths
+					$host_info['path']    = false;
+					$host_info['content'] = false;
+				}
+			}
+		}
+
+		return $host_info;
+	}
+
+	public function is_env_site( $host_info ) {
+
+		$file = VVV_WEB_ROOT . '/' . $host_info['host'] . '/.env';
+
+		if(file_exists($file)) {
+			$is_env = true;
+		} else {
+			$is_env = false;
+		}
+
+		return $is_env;
+	}
 }
 // End vvv-dash-hosts.php

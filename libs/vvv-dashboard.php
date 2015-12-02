@@ -26,6 +26,8 @@ class vvv_dashboard {
 
 		$host_info = array();
 		$hosts     = new vvv_dash_hosts();
+
+		// Are these default hosts
 		$type      = $hosts->check_host_type( $host );
 
 		if ( isset( $type['key'] ) ) {
@@ -33,34 +35,18 @@ class vvv_dashboard {
 			if ( isset( $type['path'] ) ) {
 				$host_info['host'] = $type['key'];
 				$host_info['path'] = $type['path'];
+				$host_info['content'] = '/wp-content';
 			} else {
 				$host_info['host'] = $type['key'];
 				$host_info['path'] = '/';
+				$host_info['content'] = '/wp-content';
 			}
 
 		} else {
-			$host              = strstr( $host, '.', true );
-			$host_info['host'] = $host;
-			$path         = VVV_WEB_ROOT . '/' . $host . '/htdocs';
-
-			if ( is_dir( $path ) ) {
-				$host_info['path'] = '/htdocs';
-			} else {
-				global $vvv_dash_scan_paths;
-
-				foreach ( $vvv_dash_scan_paths as $key => $path ) {
-
-					// Test alternate paths
-					$path_test         = VVV_WEB_ROOT . '/' . $host . '/' . $path;
-					if ( is_dir( $path_test ) ) {
-						$host_info['path'] = $path_test;
-					} else {
-						$host_info['path'] = false;
-					}
-				} // end foreach
-
-			}
+			$host_info = $hosts->get_paths( $host );
 		}
+
+		$host_info['is_env'] = $hosts->is_env_site($host_info);
 
 		return $host_info;
 	}
@@ -69,5 +55,7 @@ class vvv_dashboard {
 	public function __destruct() {
 		// TODO: Implement __destruct() method.
 	}
+
+
 }
 // End vvv-dashboard.php

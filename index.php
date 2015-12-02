@@ -8,6 +8,8 @@ define( 'VVV_DASH_VERSION', '0.1.3' );
 $path = '../../';
 include_once '../dashboard-custom.php';
 include_once 'libs/vvv-dash-cache.php';
+include_once 'libs/vvv-dash-hosts.php';
+include_once 'libs/vvv-dashboard.php';
 include_once 'libs/functions.php';
 
 // Make sure everything is ready
@@ -22,6 +24,7 @@ $debug_log       = '';
 $debug_log_lines = '';
 $debug_log_path  = '';
 $cache           = new vvv_dash_cache();
+$vvv_dash        = new vvv_dashboard();
 
 if ( ( $hosts = $cache->get( 'host-sites', VVV_DASH_HOSTS_TTL ) ) == false ) {
 
@@ -37,39 +40,14 @@ if ( isset( $_GET['host'] ) && isset( $_GET['themes'] ) || isset( $_GET['host'] 
 
 	if ( isset( $_GET['host'] ) && isset( $_GET['themes'] ) ) {
 
-		$type = check_host_type( $_GET['host'] );
-
-		if ( isset( $type['key'] ) ) {
-
-			if ( isset( $type['path'] ) ) {
-				$themes = get_themes( $type['key'], $type['path'] );
-			} else {
-				$themes = get_themes( $type['key'], '/' );
-			}
-
-		} else {
-			$host   = strstr( $_GET['host'], '.', true );
-			$themes = get_themes( $host, '/htdocs' );
-		}
-
+		$host_info = $vvv_dash->set_host_info( $_GET['host'] );
+		$themes    = get_themes( $host_info['host'], $host_info['path'] );
 	}
 
 	if ( isset( $_GET['host'] ) && isset( $_GET['plugins'] ) ) {
 
-		$type = check_host_type( $_GET['host'] );
-
-		if ( isset( $type['key'] ) ) {
-
-			if ( isset( $type['path'] ) ) {
-				$plugins = get_plugins( $type['key'], $type['path'] );
-			} else {
-				$plugins = get_plugins( $type['key'], '/' );
-			}
-
-		} else {
-			$host    = strstr( $_GET['host'], '.', true );
-			$plugins = get_plugins( $host, '/htdocs' );
-		}
+		$host_info = $vvv_dash->set_host_info( $_GET['host'] );
+		$plugins    = get_plugins( $host_info['host'], $host_info['path'] );
 	}
 }
 
@@ -97,8 +75,6 @@ if ( isset( $_GET['host'] ) && isset( $_GET['debug_log'] ) ) {
 	if ( is_array( $debug_log ) ) {
 		$debug_log_lines = format_php_errors( $debug_log );
 	}
-
-
 }
 
 
@@ -225,6 +201,7 @@ include_once 'views/navbar.php';
 					}
 
 				}
+
 				if ( ! empty( $themes ) ) {
 					if ( isset( $_GET['host'] ) ) {
 						?><h4>The theme list for
@@ -281,15 +258,27 @@ include_once 'views/navbar.php';
 					</thead>
 					<?php
 					foreach ( $hosts as $key => $array ) {
-						if ( 'site_count' != $key ) { ?>
+						if ( 'site_count' != $key ) {
+
+							$host_info = $vvv_dash->set_host_info( $array['host'] );
+							$is_env    = ( isset( $host_info['is_env'] ) ) ? $host_info['is_env'] : false;
+
+							?>
 							<tr>
-								<?php if ( 'true' == $array['debug'] ) { ?>
+								<?php if ( ! $is_env && 'true' == $array['debug'] ) { ?>
 									<td><span class="label label-success">Debug On <i class="fa fa-check-circle-o"></i></span>
 									</td>
-								<?php } else { ?>
+								<?php } elseif ( $is_env ) {
+									?>
+									<td><span class="label label-warning">Custom Site
+											<i class="fa fa-times-circle-o"></i> </span>
+									</td><?php
+								} else {
+									?>
 									<td><span class="label label-danger">Debug Off <i class="fa fa-times-circle-o"></i></span>
 									</td>
 								<?php } ?>
+
 								<td><?php echo $array['host']; ?></td>
 
 								<td>
@@ -303,27 +292,27 @@ include_once 'views/navbar.php';
 									<a class="btn btn-success btn-xs" href="http://<?php echo $array['host']; ?>/?XDEBUG_PROFILE" target="_blank">Profiler
 										<i class="fa fa-search-plus"></i></a>
 
-									<form class="get-themes" action="" method="get">
-										<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
-										<input type="hidden" name="get_themes" value="true" />
+									<?php if ( ! $is_env ) { ?>
+										<form class="get-themes" action="" method="get">
+											<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
+											<input type="hidden" name="get_themes" value="true" />
+											<input type="submit" class="btn btn-default btn-xs" name="themes" value="Themes" />
+										</form>
 
-										<input type="submit" class="btn btn-default btn-xs" name="themes" value="Themes" />
+										<form class="get-plugins" action="" method="get">
+											<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
+											<input type="hidden" name="get_plugins" value="true" />
+											<input type="submit" class="btn btn-default btn-xs" name="plugins" value="Plugins" />
+										</form>
 
-									</form>
-									<form class="get-plugins" action="" method="get">
-										<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
-										<input type="hidden" name="get_plugins" value="true" />
 
-										<input type="submit" class="btn btn-default btn-xs" name="plugins" value="Plugins" />
+										<form class="backup" action="" method="post">
+											<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
+											<input type="submit" class="btn btn-danger btn-xs" name="backup" value="Backup DB" />
+										</form>
+										<?php
+									}
 
-									</form>
-
-									<form class="backup" action="" method="post">
-										<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
-										<input type="submit" class="btn btn-danger btn-xs" name="backup" value="Backup DB" />
-
-									</form>
-									<?php
 									$type = check_host_type( $array['host'] );
 
 									if ( isset( $type['key'] ) ) {
