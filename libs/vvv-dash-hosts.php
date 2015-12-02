@@ -108,7 +108,7 @@ class vvv_dash_hosts {
 
 
 	/**
-	 *
+	 * Get the paths for each host and set an array
 	 *
 	 * @author         Jeff Behnke <code@validwebs.com>
 	 * @copyright  (c) 2009-15 ValidWebs.com
@@ -165,7 +165,7 @@ class vvv_dash_hosts {
 	 * @return bool
 	 */
 	public function wp_config_exists( $host_info ) {
-		
+
 		// Custom host
 		if ( isset( $host_info['is_env'] ) && $host_info['is_env'] ) {
 			return false;
@@ -183,6 +183,98 @@ class vvv_dash_hosts {
 
 	}
 
+	public function get_wp_starter_configs( $host_info ) {
+
+		$config_array = array();
+
+
+		$env_file = VVV_WEB_ROOT . '/' . $host_info['host'] . '/.env';
+
+		$env_lines = file( $env_file );
+		$lines     = array_splice( $env_lines, 0, 15 );
+		$env_array = array();
+
+
+		foreach ( $lines as $num => $line ) {
+			if ( strstr( $line, "WORDPRESS_ENV=" )
+			     || strstr( $line, 'DB_NAME=' )
+			     || strstr( $line, 'DB_USER=' )
+			     || strstr( $line, "DB_PASSWORD=" )
+			) {
+				switch ( $line ) {
+					case strstr( $line, "WORDPRESS_ENV=" ) :
+						$env_array['WORDPRESS_ENV'] = trim(explode( '=', $line )[1]);
+						break;
+
+					case strstr( $line, 'DB_NAME=' ) :
+						$env_array['DB_NAME'] = trim(explode( '=', $line )[1]);
+						break;
+
+					case strstr( $line, 'DB_USER=' ) :
+						$env_array['DB_USER'] = trim(explode( '=', $line )[1]);
+						break;
+
+					case strstr( $line, "DB_PASSWORD=" ) :
+						$env_array['DB_PASSWORD'] = trim(explode( '=', $line )[1]);
+						break;
+				}
+			}
+		} // end foreach
+
+		$config_array[ $host_info['host'] ] = $env_array;
+		$vars                               = array();
+		$file                               = VVV_WEB_ROOT . '/' . $host_info['host'] . '/' . $host_info['path'] . '/wp-config.php';
+		$config_lines                       = file( $file );
+		$array1                             = array_chunk( $config_lines, 70 )[1];
+		$array2                             = array_chunk( $array1, 27 )[0];
+		$env_sec                            = implode( PHP_EOL, $array2 );
+		$env_array                          = explode( 'break;', $env_sec );
+		$env                                = trim( $config_array[ $host_info['host'] ]['WORDPRESS_ENV'] );
+
+		foreach ( $env_array as $key => $chunk ) {
+			$chunk = str_replace(
+				array(
+					' */',
+					"\$environment = getenv('WORDPRESS_ENV');",
+					'switch ($environment) {',
+					"\n\n\n",
+					"\t",
+					"  ",
+					"defined('WP_DEBUG')",
+					"defined('WP_DEBUG_DISPLAY')",
+					"defined('WP_DEBUG_LOG')",
+					"defined('SCRIPT_DEBUG')",
+					"defined('SAVEQUERIES')",
+					"or ",
+					"default:",
+				),
+				'', $chunk );
+
+			if ( strstr( $chunk, "case '$env':" ) ) {
+
+				$str = str_replace( array(
+					"case '$env':",
+					' ',
+					"define('",
+					");",
+					"'"
+				), '', $chunk );
+
+				$test = array_filter( explode( "\n", $str ) );
+				foreach ( $test as $cl ) {
+					$k = strstr( $cl, ',', true );
+					$v = strstr( $cl, ',' );
+
+					$vars[ $k ] = str_replace( ',', '', $v );
+				} // end foreach
+
+				$config_array[ $host_info['host'] ][ $env ] = $vars;
+			}
+
+		} // end foreach
+
+		return $config_array;
+	}
 
 	public function is_env_site( $host_info ) {
 

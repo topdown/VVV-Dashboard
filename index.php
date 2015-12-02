@@ -47,7 +47,7 @@ if ( isset( $_GET['host'] ) && isset( $_GET['themes'] ) || isset( $_GET['host'] 
 	if ( isset( $_GET['host'] ) && isset( $_GET['plugins'] ) ) {
 
 		$host_info = $vvv_dash->set_host_info( $_GET['host'] );
-		$plugins    = get_plugins( $host_info['host'], $host_info['path'] );
+		$plugins   = get_plugins( $host_info['host'], $host_info['path'] );
 	}
 }
 
@@ -263,23 +263,30 @@ include_once 'views/navbar.php';
 							$host_info = $vvv_dash->set_host_info( $array['host'] );
 							$is_env    = ( isset( $host_info['is_env'] ) ) ? $host_info['is_env'] : false;
 
-							$dash_hosts = new vvv_dash_hosts();
-							$has_wp_config = $dash_hosts->wp_config_exists($host_info);
+							$dash_hosts    = new vvv_dash_hosts();
+							$has_wp_config = $dash_hosts->wp_config_exists( $host_info );
+
+							if ( $is_env ) {
+								$env_configs = $dash_hosts->get_wp_starter_configs( $host_info );
+								$env         = ( isset( $env_configs[ $host_info['host'] ]["WORDPRESS_ENV"] ) ) ? $env_configs[ $host_info['host'] ]["WORDPRESS_ENV"] : false;
+								
+								if ( $env ) {
+									$configs        = $env_configs[ $host_info['host'] ][ $env ];
+									$array['is_wp'] = true;
+									$array['debug'] = $configs['WP_DEBUG'];
+								}
+							}
 
 							?>
 							<tr>
-								<?php if ( ! $is_env && 'true' == $array['debug'] ) { ?>
+								<?php if ( 'true' == $array['debug'] ) { ?>
 									<td><span class="label label-success">Debug On <i class="fa fa-check-circle-o"></i></span>
 									</td>
-								<?php } elseif ( $is_env ) {
-									?>
-									<td><span class="label label-warning">Custom Site
-											<i class="fa fa-times-circle-o"></i> </span>
-									</td><?php
-								} else {
-									if($has_wp_config) {
+								<?php } else {
+									if ( $has_wp_config || $is_env ) {
 										?>
-										<td><span class="label label-danger">Debug Off <i class="fa fa-times-circle-o"></i></span></td>
+										<td><span class="label label-danger">Debug Off
+												<i class="fa fa-times-circle-o"></i></span></td>
 										<?php
 									} else {
 										?>
@@ -301,7 +308,7 @@ include_once 'views/navbar.php';
 									<a class="btn btn-success btn-xs" href="http://<?php echo $array['host']; ?>/?XDEBUG_PROFILE" target="_blank">Profiler
 										<i class="fa fa-search-plus"></i></a>
 
-									<?php if ( ! $is_env  && $has_wp_config ) { ?>
+									<?php if ( ! $is_env && $has_wp_config ) { ?>
 										<form class="get-themes" action="" method="get">
 											<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
 											<input type="hidden" name="get_themes" value="true" />
@@ -315,11 +322,11 @@ include_once 'views/navbar.php';
 										</form>
 
 
-											<form class="backup" action="" method="post">
-												<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
-												<input type="submit" class="btn btn-danger btn-xs" name="backup" value="Backup DB" />
-											</form>
-											<?php
+										<form class="backup" action="" method="post">
+											<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
+											<input type="submit" class="btn btn-danger btn-xs" name="backup" value="Backup DB" />
+										</form>
+										<?php
 									}
 
 									$type = check_host_type( $array['host'] );
