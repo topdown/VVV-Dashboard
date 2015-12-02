@@ -54,7 +54,7 @@ class vvv_dash_hosts {
 			case 'build.wordpress-develop.dev' :
 				$host = array(
 					'host' => trim( $host ),
-					'key'  => 'wordpress-develop/build',
+					'key'  => 'wordpress-develop',
 					'path' => '/build'
 				);
 				break;
@@ -131,7 +131,7 @@ class vvv_dash_hosts {
 				// Test alternate paths
 				$path_test = VVV_WEB_ROOT . '/' . $host . '/' . $path;
 				if ( is_dir( $path_test ) ) {
-					$host_info['path']    = $path_test;
+					$host_info['path']    = $path;
 					$host_info['content'] = $this->set_content_path( $path_test );
 				} else {
 					// Something is wrong and we have no paths
@@ -144,11 +144,43 @@ class vvv_dash_hosts {
 		return $host_info;
 	}
 
+	/**
+	 * Check if we have a normal wp-config.php
+	 *
+	 * @author         Jeff Behnke <code@validwebs.com>
+	 * @copyright  (c) 2009-15 ValidWebs.com
+	 *
+	 * Created:    12/2/15, 1:48 PM
+	 *
+	 * @param $host_info
+	 *
+	 * @return bool
+	 */
+	public function wp_config_exists( $host_info ) {
+		
+		// Custom host
+		if ( isset( $host_info['is_env'] ) && $host_info['is_env'] ) {
+			return false;
+		} else {
+			// Normal host
+
+			$file = VVV_WEB_ROOT . '/' . $host_info['host'] . $host_info['path'] . '/wp-config.php';
+
+			if ( file_exists( $file ) ) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+	}
+
+
 	public function is_env_site( $host_info ) {
 
 		$file = VVV_WEB_ROOT . '/' . $host_info['host'] . '/.env';
 
-		if(file_exists($file)) {
+		if ( file_exists( $file ) ) {
 			$is_env = true;
 		} else {
 			$is_env = false;

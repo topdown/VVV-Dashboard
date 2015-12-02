@@ -263,6 +263,9 @@ include_once 'views/navbar.php';
 							$host_info = $vvv_dash->set_host_info( $array['host'] );
 							$is_env    = ( isset( $host_info['is_env'] ) ) ? $host_info['is_env'] : false;
 
+							$dash_hosts = new vvv_dash_hosts();
+							$has_wp_config = $dash_hosts->wp_config_exists($host_info);
+
 							?>
 							<tr>
 								<?php if ( ! $is_env && 'true' == $array['debug'] ) { ?>
@@ -274,10 +277,16 @@ include_once 'views/navbar.php';
 											<i class="fa fa-times-circle-o"></i> </span>
 									</td><?php
 								} else {
-									?>
-									<td><span class="label label-danger">Debug Off <i class="fa fa-times-circle-o"></i></span>
-									</td>
-								<?php } ?>
+									if($has_wp_config) {
+										?>
+										<td><span class="label label-danger">Debug Off <i class="fa fa-times-circle-o"></i></span></td>
+										<?php
+									} else {
+										?>
+										<td><span class="label label-danger">NOT INSTALLED</td>
+										<?php
+									}
+								} ?>
 
 								<td><?php echo $array['host']; ?></td>
 
@@ -285,14 +294,14 @@ include_once 'views/navbar.php';
 									<a class="btn btn-primary btn-xs" href="http://<?php echo $array['host']; ?>/" target="_blank">Visit Site
 										<i class="fa fa-external-link"></i></a>
 
-									<?php if ( 'true' == $array['is_wp'] ) { ?>
+									<?php if ( 'true' == $array['is_wp'] && $has_wp_config ) { ?>
 										<a class="btn btn-warning btn-xs" href="http://<?php echo $array['host']; ?>/wp-admin" target="_blank">Admin/Login
 											<i class="fa fa-wordpress"></i></a>
 									<?php } ?>
 									<a class="btn btn-success btn-xs" href="http://<?php echo $array['host']; ?>/?XDEBUG_PROFILE" target="_blank">Profiler
 										<i class="fa fa-search-plus"></i></a>
 
-									<?php if ( ! $is_env ) { ?>
+									<?php if ( ! $is_env  && $has_wp_config ) { ?>
 										<form class="get-themes" action="" method="get">
 											<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
 											<input type="hidden" name="get_themes" value="true" />
@@ -306,11 +315,11 @@ include_once 'views/navbar.php';
 										</form>
 
 
-										<form class="backup" action="" method="post">
-											<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
-											<input type="submit" class="btn btn-danger btn-xs" name="backup" value="Backup DB" />
-										</form>
-										<?php
+											<form class="backup" action="" method="post">
+												<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
+												<input type="submit" class="btn btn-danger btn-xs" name="backup" value="Backup DB" />
+											</form>
+											<?php
 									}
 
 									$type = check_host_type( $array['host'] );
