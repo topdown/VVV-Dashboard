@@ -7,6 +7,7 @@
  */
 
 define( 'VVV_DASH_DEBUG', false );
+define('VVV_DASH_SCAN_PATHS', array('htdocs', 'public'));
 
 // Cache settings
 define( 'VVV_DASH_THEMES_TTL', 86400 );
