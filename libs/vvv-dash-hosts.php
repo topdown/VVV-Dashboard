@@ -15,6 +15,14 @@
  * dashboard
  * vvv-dash-hosts.php
  */
+
+/**
+ * Class vvv_dash_hosts
+ *
+ * @author         Jeff Behnke <code@validwebs.com>
+ * @copyright  (c) 2009-15 ValidWebs.com
+ *
+ */
 class vvv_dash_hosts {
 
 	/**

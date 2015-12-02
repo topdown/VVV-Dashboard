@@ -15,6 +15,14 @@
  * dashboard
  * vvv-dashboard.php
  */
+
+/**
+ * Class vvv_dashboard
+ *
+ * @author         Jeff Behnke <code@validwebs.com>
+ * @copyright  (c) 2009-15 ValidWebs.com
+ *
+ */
 class vvv_dashboard {
 
 
