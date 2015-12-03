@@ -529,7 +529,7 @@ function get_backups_table() {
 
 		// @ToDo create roll back function
 		if ( isset( $_POST['roll_back'] ) && $_POST['roll_back'] == 'Roll Back' ) {
-			
+			$notice = 'DB roll backs are not quite ready yet. Will be coming in a release soon!';
 		}
 	}
 
