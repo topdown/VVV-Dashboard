@@ -561,9 +561,10 @@ function get_backups_table() {
 		$file_info[ $key ]['file_date'] = $file_parts[1];
 		$file_info[ $key ]['file_time'] = str_replace( '.sql', '', $file_parts[2] );
 
+		$host = (strpos($file_parts[0], '.dev') == true) ? $file_parts[0] : $file_parts[0] . '.dev';
 		// Table data
 		$table_data[] .= '<tr>';
-		$table_data[] .= '<td>' . $file_parts[0] . '</td>';
+		$table_data[] .= '<td>' . $host . '</td>';
 		$table_data[] .= '<td>' . $file_parts[1] . '</td>';
 		$table_data[] .= '<td>' . str_replace( '.sql', '', $file_parts[2] ) . '</td>';
 		$table_data[]
