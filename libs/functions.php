@@ -545,8 +545,8 @@ function get_backups_table() {
 	$table      .= '<table class="table table-responsive table-striped table-bordered table-hover">';
 	$table .= '<thead><tr>';
 	$table .= '<th>Host</th>';
-	$table .= '<th>Date</th>';
-	$table .= '<th>Time</th>';
+	$table .= '<th>Date <small>( M-D-Y )</small></th>';
+	$table .= '<th>Time <small>( H : M : S )</small></th>';
 	$table .= '<th>Actions</th>';
 	$table .= '</tr></thead>';
 
@@ -566,7 +566,7 @@ function get_backups_table() {
 		$table_data[] .= '<tr>';
 		$table_data[] .= '<td>' . $host . '</td>';
 		$table_data[] .= '<td>' . $file_parts[1] . '</td>';
-		$table_data[] .= '<td>' . str_replace( '.sql', '', $file_parts[2] ) . '</td>';
+		$table_data[] .= '<td>' . str_replace( array('.sql', '-'), array('', ':'), $file_parts[2] ) . '</td>';
 		$table_data[]
 			.= '<td>
 <a class="btn btn-primary btn-xs" href="dumps/' . $file . '">Save As</a>
