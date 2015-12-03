@@ -38,16 +38,27 @@ if ( is_string( $hosts ) ) {
 
 if ( isset( $_GET['host'] ) && isset( $_GET['themes'] ) || isset( $_GET['host'] ) && isset( $_GET['plugins'] ) ) {
 
+	$host_info = $vvv_dash->set_host_info( $_GET['host'] );
+	$is_env    = ( isset( $host_info['is_env'] ) ) ? $host_info['is_env'] : false;
+
+	// WP Starter
+	if($is_env) {
+		$host_path      = '/public/wp';
+	} else {
+		// Normal WP
+		$host_path = $host_info['path'];
+	}
+
 	if ( isset( $_GET['host'] ) && isset( $_GET['themes'] ) ) {
 
 		$host_info = $vvv_dash->set_host_info( $_GET['host'] );
-		$themes    = get_themes( $host_info['host'], $host_info['path'] );
+		$themes    = get_themes( $host_info['host'], $host_path );
 	}
 
 	if ( isset( $_GET['host'] ) && isset( $_GET['plugins'] ) ) {
 
 		$host_info = $vvv_dash->set_host_info( $_GET['host'] );
-		$plugins   = get_plugins( $host_info['host'], $host_info['path'] );
+		$plugins   = get_plugins( $host_info['host'], $host_path );
 	}
 }
 
@@ -87,13 +98,13 @@ if ( isset( $_POST ) ) {
 
 		// Backups for WP Starter
 		if ( $is_env ) {
-			$dash_hosts             = new vvv_dash_hosts();
-			$env_configs            = $dash_hosts->get_wp_starter_configs( $host_info );
-			$configs                = ( isset( $env_configs[ $host_info['host'] ] ) ) ? $env_configs[ $host_info['host'] ] : false;
+			$dash_hosts        = new vvv_dash_hosts();
+			$env_configs       = $dash_hosts->get_wp_starter_configs( $host_info );
+			$configs           = ( isset( $env_configs[ $host_info['host'] ] ) ) ? $env_configs[ $host_info['host'] ] : false;
 			$db['db_name']     = $configs['DB_NAME'];
 			$db['db_user']     = $configs['DB_USER'];
 			$db['db_password'] = $configs['DB_PASSWORD'];
-			$backup_status          = vvv_dash_wp_starter_backup( $host_info, $db );
+			$backup_status     = vvv_dash_wp_starter_backup( $host_info, $db );
 
 		} else {
 			// All other backups
@@ -324,7 +335,7 @@ include_once 'views/navbar.php';
 									<a class="btn btn-success btn-xs" href="http://<?php echo $array['host']; ?>/?XDEBUG_PROFILE" target="_blank">Profiler
 										<i class="fa fa-search-plus"></i></a>
 
-									<?php if ( ! $is_env && $has_wp_config ) { ?>
+									<?php if ( $is_env || $has_wp_config ) { ?>
 										<form class="get-themes" action="" method="get">
 											<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
 											<input type="hidden" name="get_themes" value="true" />
@@ -338,7 +349,7 @@ include_once 'views/navbar.php';
 										</form>
 
 									<?php }
-									if($is_env || $has_wp_config) {
+									if ( $is_env || $has_wp_config ) {
 										?>
 
 										<form class="backup" action="" method="post">
