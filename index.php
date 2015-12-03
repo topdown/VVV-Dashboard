@@ -243,7 +243,7 @@ include_once 'views/navbar.php';
 				$close = '<a class="close" href="./">Close</a>';
 
 				if(! empty($backups_table)) {
-					?><h4>Backups List <span> </span> <?php echo $close; ?></h4><?php
+					?><h4 class="title">Backups List <span class="small"> Path: {VVV}/default/dashboard/dumps/ </span> <?php echo $close; ?></h4><?php
 					echo $backups_table;
 				}
 

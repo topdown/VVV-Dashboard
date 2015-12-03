@@ -6190,3 +6190,8 @@ td.update,
 .sites .btn {
   margin-top: 5px;
 }
+
+/* line 223, compass/sass/_layout.scss */
+h4.title span.small {
+  padding-left: 40px;
+}
