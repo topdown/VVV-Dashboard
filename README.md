@@ -13,6 +13,11 @@ Clone this repo to your VVV/www/default/ directory (`git clone https://github.co
 Copy the dashboard-custom.php to VVV/www/default/dashboard-custom.php
 
 ---
+### Help Grow This Feature List
+<span class="badge-paypal"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KEUN2SQ2VRW7A" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a></span>
+
+---
+
 ### Feature List
 
 * List hosts in VVV
