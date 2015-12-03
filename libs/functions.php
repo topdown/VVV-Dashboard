@@ -91,9 +91,12 @@ function vvv_dash_wp_backup( $host ) {
  *
  * Created:    11/22/15, 2:45 PM
  *
- * @param $host
+ * @param $host_info
+ * @param $db
  *
  * @return bool|string
+ * @internal       param $host
+ *
  */
 function vvv_dash_wp_starter_backup( $host_info, $db ) {
 
@@ -501,6 +504,89 @@ function format_table( $data, $host, $type = '' ) {
 }
 
 /**
+ * Get all backups and list them in a nice table
+ *
+ * @author         Jeff Behnke <code@validwebs.com>
+ * @copyright  (c) 2009-15 ValidWebs.com
+ *
+ * Created:    12/3/15, 1:10 AM
+ *
+ * @return string
+ */
+function get_backups_table() {
+
+	if ( isset( $_POST['file_path'] ) ) {
+		if ( isset( $_POST['delete_backup'] ) && $_POST['delete_backup'] == 'Delete' ) {
+			$file = urldecode( $_POST['file_path'] );
+			if ( file_exists( $file ) ) {
+
+				// @ToDo verify with the user (Are you sure!)
+				unlink($file);
+
+				$notice = $file . ' was deleted.';
+			}
+		}
+
+		// @ToDo create roll back function
+		if ( isset( $_POST['roll_back'] ) && $_POST['roll_back'] == 'Roll Back' ) {
+			
+		}
+	}
+
+	$backups    = dir_to_array( VVV_WEB_ROOT . '/default/dashboard/dumps' );
+	$file_info  = array();
+	$table_data = array();
+	$table = '';
+
+	if(! empty($notice)) {
+		$table .= vvv_dash_notice( $notice );
+	}
+
+	$table      .= '<table class="table table-responsive table-striped table-bordered table-hover">';
+	$table .= '<thead><tr>';
+	$table .= '<th>Host</th>';
+	$table .= '<th>Date</th>';
+	$table .= '<th>Time</th>';
+	$table .= '<th>Actions</th>';
+	$table .= '</tr></thead>';
+
+	foreach ( $backups as $key => $file_path ) {
+
+		$file = str_replace( 'dumps/', '', strstr( $file_path, 'dumps/' ) );
+
+		$file_info[ $key ]['file']      = $file;
+		$file_info[ $key ]['file_path'] = VVV_WEB_ROOT . '/default/dashboard/dumps/' . $file;
+		$file_parts                     = explode( '_', $file );
+		$file_info[ $key ]['file_host'] = $file_parts[0];
+		$file_info[ $key ]['file_date'] = $file_parts[1];
+		$file_info[ $key ]['file_time'] = str_replace( '.sql', '', $file_parts[2] );
+
+		// Table data
+		$table_data[] .= '<tr>';
+		$table_data[] .= '<td>' . $file_parts[0] . '</td>';
+		$table_data[] .= '<td>' . $file_parts[1] . '</td>';
+		$table_data[] .= '<td>' . str_replace( '.sql', '', $file_parts[2] ) . '</td>';
+		$table_data[]
+			.= '<td>
+<a class="btn btn-primary btn-xs" href="dumps/' . $file . '">Save As</a>
+<form class="" action="" method="post">
+<input type="hidden" name="get_backups" value="Backups" />
+<input type="hidden" name="file_path" value="' . urlencode( $file_info[ $key ]['file_path'] ) . '" />
+<input type="submit" class="btn btn-warning btn-xs" name="roll_back" value="Roll Back" />
+<input type="submit" class="btn btn-danger btn-xs" name="delete_backup" value="Delete" />
+</form>
+
+</td>';
+		$table_data[] .= '</tr>';
+	} // end foreach
+
+	$table .= implode( '', $table_data );
+	$table .= '</table>';
+
+	return $table;
+}
+
+/**
  * Fetch the PHP error log from the machine
  *
  * @author         Jeff Behnke <code@validwebs.com>
@@ -662,5 +748,49 @@ function version_check() {
 	}
 
 	return $version;
+}
+
+/**
+ * Get an array that represents directory tree
+ *
+ * @param string $directory Directory path
+ * @param bool   $recursive Include sub directories
+ * @param bool   $listDirs  Include directories on listing
+ * @param bool   $listFiles Include files on listing
+ * @param string $exclude   Exclude paths that matches this regex
+ *
+ * @return array
+ */
+function dir_to_array( $directory, $recursive = true, $listDirs = false, $listFiles = true, $exclude = '' ) {
+	$arrayItems    = array();
+	$skipByExclude = false;
+	$handle        = opendir( $directory );
+	if ( $handle ) {
+		while ( false !== ( $file = readdir( $handle ) ) ) {
+			preg_match( "/(^(([\.]){1,2})$|(\.(svn|git|md))|(Thumbs\.db|\.DS_STORE))$/iu", $file, $skip );
+			if ( $exclude ) {
+				preg_match( $exclude, $file, $skipByExclude );
+			}
+			if ( ! $skip && ! $skipByExclude ) {
+				if ( is_dir( $directory . DIRECTORY_SEPARATOR . $file ) ) {
+					if ( $recursive ) {
+						$arrayItems = array_merge( $arrayItems, directoryToArray( $directory . DIRECTORY_SEPARATOR . $file, $recursive, $listDirs, $listFiles, $exclude ) );
+					}
+					if ( $listDirs ) {
+						$file         = $directory . DIRECTORY_SEPARATOR . $file;
+						$arrayItems[] = $file;
+					}
+				} else {
+					if ( $listFiles ) {
+						$file         = $directory . DIRECTORY_SEPARATOR . $file;
+						$arrayItems[] = $file;
+					}
+				}
+			}
+		}
+		closedir( $handle );
+	}
+
+	return $arrayItems;
 }
 // End functions.php

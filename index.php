@@ -23,6 +23,7 @@ $purge_status    = '';
 $debug_log       = '';
 $debug_log_lines = '';
 $debug_log_path  = '';
+$backups_table   = '';
 $cache           = new vvv_dash_cache();
 $vvv_dash        = new vvv_dashboard();
 
@@ -34,6 +35,11 @@ if ( ( $hosts = $cache->get( 'host-sites', VVV_DASH_HOSTS_TTL ) ) == false ) {
 
 if ( is_string( $hosts ) ) {
 	$hosts = unserialize( $hosts );
+}
+
+if ( isset( $_GET['get_backups'] ) && 'Backups' == $_GET['get_backups'] ) {
+
+	$backups_table = get_backups_table();
 }
 
 if ( isset( $_GET['host'] ) && isset( $_GET['themes'] ) || isset( $_GET['host'] ) && isset( $_GET['plugins'] ) ) {
@@ -222,13 +228,25 @@ include_once 'views/navbar.php';
 			echo $backup_status;
 		}
 		?>
-		<h1 class="page-header"><i class="fa fa-tachometer"></i> VVV Dashboard</h1>
+		<div class="page-top">
+			<h1 class="page-header"><i class="fa fa-tachometer"></i> VVV Dashboard</h1>
+			<form class="get-backups" action="" method="get">
+				<input type="submit" class="btn btn-danger btn-xs" name="get_backups" value="Backups" />
+			</form>
+		</div>
+
 
 		<div class="row">
 			<div class="col-sm-12 hosts">
 				<?php
 
-				$close = '<a class="btn btn-primary btn-xs" href="./">Close</a>';
+				$close = '<a class="close" href="./">Close</a>';
+
+				if(! empty($backups_table)) {
+					?><h4>Backups List <span> </span> <?php echo $close; ?></h4><?php
+					echo $backups_table;
+				}
+
 				if ( ! empty( $plugins ) ) {
 					if ( isset( $_GET['host'] ) ) {
 						?><h4>The plugin list for

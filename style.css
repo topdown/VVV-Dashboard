@@ -6017,10 +6017,26 @@ body {
 
 /* line 63, compass/sass/_layout.scss */
 .main .page-header {
-  margin-top: 0;
+  padding-bottom: 0;
+  margin: 0;
+  border-bottom: none;
 }
 
-/* line 67, compass/sass/_layout.scss */
+/* line 69, compass/sass/_layout.scss */
+.page-top {
+  padding-bottom: 9px;
+  margin: 5px 0 20px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+/* line 75, compass/sass/_layout.scss */
+.get-backups {
+  display: inline-block;
+  float: right;
+  margin-top: -25px;
+}
+
+/* line 81, compass/sass/_layout.scss */
 .list-unstyled li, .list-inline li {
   padding: 7px 0;
   border-radius: 5px;
@@ -6028,12 +6044,12 @@ body {
   -webkit-border-radius: 5px;
 }
 
-/* line 74, compass/sass/_layout.scss */
+/* line 88, compass/sass/_layout.scss */
 .list-unstyled.sites li:hover, .sites.list-inline li:hover {
   background: #ded;
 }
 
-/* line 78, compass/sass/_layout.scss */
+/* line 92, compass/sass/_layout.scss */
 .sites {
   display: block;
   max-height: 300px;
@@ -6041,28 +6057,28 @@ body {
   overflow-x: hidden;
 }
 
-/* line 85, compass/sass/_layout.scss */
+/* line 99, compass/sass/_layout.scss */
 .search-box {
   margin: 10px 0;
 }
 
-/* line 89, compass/sass/_layout.scss */
+/* line 103, compass/sass/_layout.scss */
 .highlight {
   background: yellow;
   padding: 3px;
 }
 
-/* line 94, compass/sass/_layout.scss */
+/* line 108, compass/sass/_layout.scss */
 tr.highlight {
   background: darkseagreen;
 }
 
-/* line 98, compass/sass/_layout.scss */
+/* line 112, compass/sass/_layout.scss */
 .center {
   text-align: center;
 }
 
-/* line 102, compass/sass/_layout.scss */
+/* line 116, compass/sass/_layout.scss */
 #wrapper {
   padding-left: 0;
   -webkit-transition: all 0.5s ease;
@@ -6071,7 +6087,7 @@ tr.highlight {
   transition: all 0.5s ease;
 }
 
-/* line 114, compass/sass/_layout.scss */
+/* line 128, compass/sass/_layout.scss */
 .sidebar {
   z-index: 1000;
   -webkit-transition: all 0.5s ease;
@@ -6080,36 +6096,36 @@ tr.highlight {
   transition: all 0.5s ease;
 }
 
-/* line 122, compass/sass/_layout.scss */
+/* line 136, compass/sass/_layout.scss */
 #wrapper.toggled .sidebar {
   width: 0;
   left: -40px;
 }
 
-/* line 127, compass/sass/_layout.scss */
+/* line 141, compass/sass/_layout.scss */
 #wrapper.toggled .main {
   margin-left: 10%;
   margin-right: 10%;
 }
 
-/* line 134, compass/sass/_layout.scss */
+/* line 148, compass/sass/_layout.scss */
 #menu-toggle {
   position: absolute;
   top: 14px;
   left: 8px;
 }
 
-/* line 140, compass/sass/_layout.scss */
+/* line 154, compass/sass/_layout.scss */
 .table form, .sidebar form {
   display: inline;
 }
 
-/* line 144, compass/sass/_layout.scss */
+/* line 158, compass/sass/_layout.scss */
 span.red {
   color: red;
 }
 
-/* line 152, compass/sass/_layout.scss */
+/* line 166, compass/sass/_layout.scss */
 td.activated,
 .table-hover td.activated :hover,
 .table-hover tr:hover > td.activated,
@@ -6119,7 +6135,7 @@ td.activated,
   color: #fff;
 }
 
-/* line 162, compass/sass/_layout.scss */
+/* line 176, compass/sass/_layout.scss */
 td.update,
 .table-hover td.update:hover,
 .table-hover tr:hover > td.update,
@@ -6129,48 +6145,48 @@ td.update,
   color: #fff;
 }
 
-/* line 171, compass/sass/_layout.scss */
+/* line 185, compass/sass/_layout.scss */
 .update-items .btn {
   float: right;
   margin-right: 5%;
 }
 
-/* line 176, compass/sass/_layout.scss */
+/* line 190, compass/sass/_layout.scss */
 .line {
   font-weight: bold;
   color: blue;
 }
 
-/* line 181, compass/sass/_layout.scss */
+/* line 195, compass/sass/_layout.scss */
 .time {
   color: green;
   font-weight: bold;
 }
 
-/* line 186, compass/sass/_layout.scss */
+/* line 200, compass/sass/_layout.scss */
 .error-type {
   color: red;
 }
 
-/* line 190, compass/sass/_layout.scss */
+/* line 204, compass/sass/_layout.scss */
 .in-file {
   font-weight: bold;
   color: #000;
 }
 
-/* line 195, compass/sass/_layout.scss */
+/* line 209, compass/sass/_layout.scss */
 .wp-debug-log {
   max-height: 400px;
   overflow-x: scroll;
   margin-bottom: 20px;
 }
 
-/* line 201, compass/sass/_layout.scss */
+/* line 215, compass/sass/_layout.scss */
 .wp-debug-log p {
   margin-top: 20px;
 }
 
-/* line 205, compass/sass/_layout.scss */
+/* line 219, compass/sass/_layout.scss */
 .sites .btn {
   margin-top: 5px;
 }

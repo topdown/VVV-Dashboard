@@ -61,7 +61,21 @@ body {
 }
 
 .main .page-header {
-	margin-top: 0;
+	padding-bottom: 0;
+    margin: 0;
+    border-bottom: none;
+}
+
+.page-top {
+	padding-bottom: 9px;
+    margin: 5px 0 20px;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.get-backups {
+	display: inline-block;
+	float: right;
+	margin-top: -25px;
 }
 
 .list-unstyled li {
