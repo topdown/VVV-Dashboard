@@ -42,8 +42,8 @@ if ( isset( $_GET['host'] ) && isset( $_GET['themes'] ) || isset( $_GET['host'] 
 	$is_env    = ( isset( $host_info['is_env'] ) ) ? $host_info['is_env'] : false;
 
 	// WP Starter
-	if($is_env) {
-		$host_path      = '/public/wp';
+	if ( $is_env ) {
+		$host_path = '/public/wp';
 	} else {
 		// Normal WP
 		$host_path = $host_info['path'];
@@ -163,16 +163,26 @@ if ( isset( $_POST ) ) {
 				}
 
 			} else {
-				$host = strstr( $_POST['host'], '.', true );
+				$host_info = $vvv_dash->set_host_info( $_POST['host'] );
+				$is_env    = ( isset( $host_info['is_env'] ) ) ? $host_info['is_env'] : false;
+				$host = $host_info['host'];
+
+				// WP Starter
+				if ( $is_env ) {
+					$host_path = VVV_WEB_ROOT . '/' . $host . '/public/wp';
+				} else {
+					// Normal WP
+					$host_path = VVV_WEB_ROOT . '/' . $host . '/' . $host_info['path'];
+				}
 
 				if ( ! empty( $_POST['type'] ) && 'plugins' == $_POST['type'] ) {
-					$update_status = shell_exec( 'wp plugin update ' . $_POST['item'] . ' --path=' . VVV_WEB_ROOT . '/' . $host . '/htdocs' );
+					$update_status = shell_exec( 'wp plugin update ' . $_POST['item'] . ' --path=' . $host_path );
 					$purge_status  = $_POST['item'] . ' was updated!<br />';
 					$purge_status .= $cache->purge( '-plugins' );
 				}
 
 				if ( ! empty( $_POST['type'] ) && 'themes' == $_POST['type'] ) {
-					$update_status = shell_exec( 'wp theme update ' . $_POST['item'] . ' --path=' . VVV_WEB_ROOT . '/' . $host . '/htdocs' );
+					$update_status = shell_exec( 'wp theme update ' . $_POST['item'] . ' --path=' . $host_path );
 					$purge_status  = $_POST['item'] . ' was updated!<br />';
 					$purge_status .= $cache->purge( '-themes' );
 				}
