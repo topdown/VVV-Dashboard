@@ -779,7 +779,7 @@ function format_php_errors( $lines = array() ) {
  *
  * @return mixed|string
  */
-function get_version( $url ) {
+function get_external_data( $url ) {
 
 	$ch = curl_init();
 	curl_setopt( $ch, CURLOPT_URL, $url );
@@ -816,7 +816,7 @@ function version_check() {
 	if ( ( $version = $cache->get( 'version-cache', VVV_DASH_THEMES_TTL ) ) == false ) {
 
 		$url     = 'https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/version.txt';
-		$version = get_version( $url );
+		$version = get_external_data( $url );
 		// Don't save unless we have data
 		if ( $version && ! strstr( $version, 'Error' ) ) {
 			$status = $cache->set( 'version-cache', $version );
@@ -825,6 +825,31 @@ function version_check() {
 
 	return $version;
 }
+
+function vvv_dash_get_latest_features() {
+
+	$cache = new vvv_dash_cache();
+
+	if ( ( $new_features = $cache->get( 'newfeatures-cache', VVV_DASH_THEMES_TTL ) ) == false ) {
+
+		$url     = 'https://raw.githubusercontent.com/topdown/VVV-Dashboard/develop/new-features.txt';
+		$new_features = get_external_data( $url );
+		// Don't save unless we have data
+		if ( $new_features && ! strstr( $new_features, 'Error' ) ) {
+			$status = $cache->set( 'newfeatures-cache', $new_features );
+		}
+	}
+
+	return $new_features;
+}
+
+function vvv_dash_new_features() {
+	$features = vvv_dash_get_latest_features();
+
+
+	return $features;
+}
+
 
 /**
  * Get an array that represents directory tree
