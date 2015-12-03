@@ -2,7 +2,7 @@
 
 define( 'VVV_DASH_BASE', true );
 define( 'VVV_WEB_ROOT', '/srv/www' );
-define( 'VVV_DASH_VERSION', '0.1.3' );
+define( 'VVV_DASH_VERSION', '0.1.1' );
 
 // Settings
 $path = '../../';
@@ -214,7 +214,7 @@ include_once 'views/navbar.php';
 
 		if ( VVV_DASH_VERSION < version_check() ) {
 			?>
-			<div class="alert alert-success alert-dismissible" role="alert">
+			<div class="alert alert-danger alert-dismissible" role="alert">
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			</button>
@@ -222,6 +222,8 @@ include_once 'views/navbar.php';
 				<br />Your current version: <?php echo VVV_DASH_VERSION ?><br />
 				<strong> New version: <?php echo version_check(); ?></strong></p>
 			</div><?php
+
+			echo vvv_dash_notice( '<h3>New Features in the new release.</h3>' . vvv_dash_new_features());
 		}
 
 		if ( $backup_status ) {

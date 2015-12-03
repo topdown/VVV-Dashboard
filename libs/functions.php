@@ -826,13 +826,23 @@ function version_check() {
 	return $version;
 }
 
+/**
+ * If we have an update available get the new-features list
+ *
+ * @author         Jeff Behnke <code@validwebs.com>
+ * @copyright  (c) 2009-15 ValidWebs.com
+ *
+ * Created:    12/3/15, 12:38 PM
+ *
+ * @return bool|mixed|string
+ */
 function vvv_dash_get_latest_features() {
 
 	$cache = new vvv_dash_cache();
 
 	if ( ( $new_features = $cache->get( 'newfeatures-cache', VVV_DASH_THEMES_TTL ) ) == false ) {
 
-		$url     = 'https://raw.githubusercontent.com/topdown/VVV-Dashboard/develop/new-features.txt';
+		$url          = 'https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/new-features.txt';
 		$new_features = get_external_data( $url );
 		// Don't save unless we have data
 		if ( $new_features && ! strstr( $new_features, 'Error' ) ) {
@@ -843,9 +853,31 @@ function vvv_dash_get_latest_features() {
 	return $new_features;
 }
 
+/**
+ * Format the new feature list
+ *
+ * @author         Jeff Behnke <code@validwebs.com>
+ * @copyright  (c) 2009-15 ValidWebs.com
+ *
+ * Created:    12/3/15, 12:39 PM
+ *
+ * @return bool|mixed|string
+ */
 function vvv_dash_new_features() {
 	$features = vvv_dash_get_latest_features();
 
+	$features = str_replace(
+		array(
+			'    *',
+			'  *',
+			'*'
+		),
+		array(
+			'<br /> --------- ',
+			'<br />  --- ',
+			'<br /> '
+		),
+		$features);
 
 	return $features;
 }
