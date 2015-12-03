@@ -6195,3 +6195,20 @@ td.update,
 h4.title span.small {
   padding-left: 40px;
 }
+
+/* line 227, compass/sass/_layout.scss */
+.create-child .btn {
+  float: right;
+  margin-right: 5px;
+}
+
+/* line 232, compass/sass/_layout.scss */
+input.child-name, input.child-slug {
+  display: inline-block;
+  float: right;
+}
+
+/* line 237, compass/sass/_layout.scss */
+input.child-name {
+  margin-right: 5px;
+}

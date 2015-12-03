@@ -32,6 +32,7 @@ Copy the dashboard-custom.php to VVV/www/default/dashboard-custom.php
   * Version
 * List Themes
   * Theme Name
+    * Create Child Theme
   * Status (inactive / active / parent) highlighted
   * Update (None / Available - Update Button)
   * Version

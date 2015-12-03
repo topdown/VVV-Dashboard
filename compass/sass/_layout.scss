@@ -223,3 +223,17 @@ td.update,
 h4.title span.small {
 	padding-left: 40px;
 }
+
+.create-child .btn {
+    float: right;
+    margin-right: 5px;
+}
+
+input.child-name, input.child-slug {
+	display: inline-block;
+	float: right;
+}
+
+input.child-name {
+	margin-right: 5px;
+}

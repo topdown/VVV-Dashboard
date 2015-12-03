@@ -439,6 +439,23 @@ function vvv_dash_notice( $message ) {
 	return $notice;
 }
 
+function vvv_dash_error( $message ) {
+
+	$notice = false;
+
+	if ( $message ) {
+		$notice
+			= '<div class="alert alert-danger alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>' .
+			  $message . '
+		</div>';
+	}
+
+	return $notice;
+}
+
 /**
  * Formats csv data strings into bootstrap tables
  *
@@ -447,16 +464,20 @@ function vvv_dash_notice( $message ) {
  *
  * Created:    11/19/15, 12:42 PM
  *
- * @param $data
+ * @param        $data
+ *
+ * @param        $host
+ * @param string $type of data Plugin || Theme
  *
  * @return string
  */
 function format_table( $data, $host, $type = '' ) {
-	$table_data = array();
 
-	$table       = '<table class="table table-responsive table-striped table-bordered table-hover">';
-	$data        = explode( "\n", $data );
-	$update_form = '';
+	$table_data       = array();
+	$table            = '<table class="table table-responsive table-striped table-bordered table-hover">';
+	$data             = explode( "\n", $data );
+	$update_form      = '';
+	$child_theme_form = '';
 
 	foreach ( $data as $key => $line ) {
 
@@ -472,6 +493,7 @@ function format_table( $data, $host, $type = '' ) {
 				$table_data[] .= '<tr>';
 
 				foreach ( $row as $index => $cell ) {
+
 					if ( $index == 0 ) {
 						$update_form
 							= '<form class="update-items" action="" method="post">
@@ -480,13 +502,33 @@ function format_table( $data, $host, $type = '' ) {
 								<input type="hidden" name="type" value="' . $type . '" />
 								<input type="submit" class="btn btn-default btn-xs" name="update_item" value="Update" />
 							</form>';
+
+						if ( $type == 'themes' ) {
+							$child_theme_form
+								= '<form class="create-child" action="" method="post">
+								<input type="hidden" name="host" value="' . $host . '" />
+								<input type="hidden" name="item" value="' . $cell . '" />
+								<input type="hidden" name="type" value="' . $type . '" />
+								<input class="child-slug" placeholder="theme_slug" type="text" name="child" value="" />
+								<input class="child-name" placeholder="Theme Name" type="text" name="theme_name" value="" />
+
+								<input type="submit" class="btn btn-primary btn-xs" name="create_child" value="Create Child" />
+							</form>
+							';
+						}
+
 					}
+
 					if ( 'active' == $cell || 'parent' == $cell ) {
 						$table_data[] .= '<td class="activated">' . $cell . '</td>';
 					} elseif ( 'available' == $cell ) {
 						$table_data[] .= '<td class="update">' . $cell . $update_form . '</td>';
 					} else {
-						$table_data[] .= '<td>' . $cell . '</td>';
+						if ( $index == 0 ) {
+							$table_data[] .= '<td>' . $cell . ' ' . $child_theme_form . '</td>';
+						} else {
+							$table_data[] .= '<td>' . $cell . '</td>';
+						}
 					}
 
 				} // end foreach
@@ -501,6 +543,39 @@ function format_table( $data, $host, $type = '' ) {
 
 
 	return $table;
+}
+
+function get_csv_names( $data, $column = 0 ) {
+
+	$names = array();
+	$data  = explode( "\n", $data );
+
+	foreach ( $data as $key => $line ) {
+
+		if ( '0' == $key ) {
+			$row = explode( ',', $line );
+
+		} else {
+			$row = explode( ',', $line );
+			if ( isset( $row[ $column ] ) && ! empty( $row[0] ) ) {
+
+				foreach ( $row as $index => $cell ) {
+
+					if ( $index == $column ) {
+
+						$names[] = $cell;
+
+					}
+
+
+				} // end foreach
+				unset( $cell );
+
+			}
+		}
+	} // end foreach
+
+	return $names;
 }
 
 /**
@@ -521,7 +596,7 @@ function get_backups_table() {
 			if ( file_exists( $file ) ) {
 
 				// @ToDo verify with the user (Are you sure!)
-				unlink($file);
+				unlink( $file );
 
 				$notice = $file . ' was deleted.';
 			}
@@ -536,13 +611,13 @@ function get_backups_table() {
 	$backups    = dir_to_array( VVV_WEB_ROOT . '/default/dashboard/dumps' );
 	$file_info  = array();
 	$table_data = array();
-	$table = '';
+	$table      = '';
 
-	if(! empty($notice)) {
+	if ( ! empty( $notice ) ) {
 		$table .= vvv_dash_notice( $notice );
 	}
 
-	$table      .= '<table class="table table-responsive table-striped table-bordered table-hover">';
+	$table .= '<table class="table table-responsive table-striped table-bordered table-hover">';
 	$table .= '<thead><tr>';
 	$table .= '<th>Host</th>';
 	$table .= '<th>Date <small>( M-D-Y )</small></th>';
@@ -561,12 +636,12 @@ function get_backups_table() {
 		$file_info[ $key ]['file_date'] = $file_parts[1];
 		$file_info[ $key ]['file_time'] = str_replace( '.sql', '', $file_parts[2] );
 
-		$host = (strpos($file_parts[0], '.dev') == true) ? $file_parts[0] : $file_parts[0] . '.dev';
+		$host = ( strpos( $file_parts[0], '.dev' ) == true ) ? $file_parts[0] : $file_parts[0] . '.dev';
 		// Table data
 		$table_data[] .= '<tr>';
 		$table_data[] .= '<td>' . $host . '</td>';
 		$table_data[] .= '<td>' . $file_parts[1] . '</td>';
-		$table_data[] .= '<td>' . str_replace( array('.sql', '-'), array('', ':'), $file_parts[2] ) . '</td>';
+		$table_data[] .= '<td>' . str_replace( array( '.sql', '-' ), array( '', ':' ), $file_parts[2] ) . '</td>';
 		$table_data[]
 			.= '<td>
 <a class="btn btn-primary btn-xs" href="dumps/' . $file . '">Save As</a>
