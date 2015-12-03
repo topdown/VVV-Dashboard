@@ -165,7 +165,7 @@ if ( isset( $_POST ) ) {
 			} else {
 				$host_info = $vvv_dash->set_host_info( $_POST['host'] );
 				$is_env    = ( isset( $host_info['is_env'] ) ) ? $host_info['is_env'] : false;
-				$host = $host_info['host'];
+				$host      = $host_info['host'];
 
 				// WP Starter
 				if ( $is_env ) {
@@ -290,6 +290,7 @@ include_once 'views/navbar.php';
 					<tr>
 						<th>Debug Mode</th>
 						<th>Sites</th>
+						<th>WP Version</th>
 						<th>Actions</th>
 					</tr>
 					</thead>
@@ -333,6 +334,13 @@ include_once 'views/navbar.php';
 								} ?>
 
 								<td><?php echo $array['host']; ?></td>
+								<td><?php
+									if ( isset( $array['version'] ) ) {
+										echo $array['version'];
+									} else {
+										echo 'N/A';
+									}
+									?></td>
 
 								<td>
 									<a class="btn btn-primary btn-xs" href="http://<?php echo $array['host']; ?>/" target="_blank">Visit Site

@@ -98,7 +98,7 @@ function vvv_dash_wp_backup( $host ) {
 function vvv_dash_wp_starter_backup( $host_info, $db ) {
 
 	$host = $host_info['host'];
-	$path      = VVV_WEB_ROOT . '/' . $host . '/public/wp/';
+	$path = VVV_WEB_ROOT . '/' . $host . '/public/wp/';
 
 	if ( is_array( $db ) && $path ) {
 		$file_name = 'dumps/' . $host . '_' . date( 'm-d-Y_g-i-s', time() ) . '.sql';
@@ -264,6 +264,21 @@ function get_hosts( $path ) {
 				$array[ $key ] = $val + array( 'debug' => 'false', 'is_wp' => 'false' );
 			}
 		}
+
+		$vvv_dash  = new vvv_dashboard();
+		$host_info = $vvv_dash->set_host_info( $val["host"] );
+		$is_env    = ( isset( $host_info['is_env'] ) ) ? $host_info['is_env'] : false;
+
+		// wp core version --path=<path>
+		if ( $is_env ) {
+			$host_path = '/public/wp';
+		} else {
+			// Normal WP
+			$host_path = $host_info['path'];
+		}
+
+		$wp_version               = shell_exec( 'wp core version --path=' . VVV_WEB_ROOT . '/' . $host_info['host'] . $host_path );
+		$array[ $key ]['version'] = $wp_version;
 	}
 
 	$array['site_count'] = count( $hosts );
