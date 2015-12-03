@@ -83,6 +83,39 @@ function vvv_dash_wp_backup( $host ) {
 }
 
 /**
+ * Performs host check and then does a backup of the DB
+ *
+ *
+ * @author         Jeff Behnke <code@validwebs.com>
+ * @copyright  (c) 2009-15 ValidWebs.com
+ *
+ * Created:    11/22/15, 2:45 PM
+ *
+ * @param $host
+ *
+ * @return bool|string
+ */
+function vvv_dash_wp_starter_backup( $host_info, $db ) {
+
+	$host = $host_info['host'];
+	$path      = VVV_WEB_ROOT . '/' . $host . '/public/wp/';
+
+	if ( is_array( $db ) && $path ) {
+		$file_name = 'dumps/' . $host . '_' . date( 'm-d-Y_g-i-s', time() ) . '.sql';
+		$export    = shell_exec( 'wp db export --add-drop-table --path=' . $path . ' ' . $file_name );
+
+		if ( file_exists( $file_name ) ) {
+			return vvv_dash_notice( 'Your backup is ready at www/default/dashboard/' . $file_name );
+		}
+	} else {
+		return false;
+	}
+
+	return false;
+}
+
+
+/**
  * Does not seem that we actually need this but will leave it for now
  *
  * @author         Jeff Behnke <code@validwebs.com>

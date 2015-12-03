@@ -82,7 +82,23 @@ if ( isset( $_POST ) ) {
 
 	if ( isset( $_POST['backup'] ) && isset( $_POST['host'] ) ) {
 
-		$backup_status = vvv_dash_wp_backup( $_POST['host'] );
+		$host_info = $vvv_dash->set_host_info( $_POST['host'] );
+		$is_env    = ( isset( $host_info['is_env'] ) ) ? $host_info['is_env'] : false;
+
+		// Backups for WP Starter
+		if ( $is_env ) {
+			$dash_hosts             = new vvv_dash_hosts();
+			$env_configs            = $dash_hosts->get_wp_starter_configs( $host_info );
+			$configs                = ( isset( $env_configs[ $host_info['host'] ] ) ) ? $env_configs[ $host_info['host'] ] : false;
+			$db['db_name']     = $configs['DB_NAME'];
+			$db['db_user']     = $configs['DB_USER'];
+			$db['db_password'] = $configs['DB_PASSWORD'];
+			$backup_status          = vvv_dash_wp_starter_backup( $host_info, $db );
+
+		} else {
+			// All other backups
+			$backup_status = vvv_dash_wp_backup( $_POST['host'] );
+		}
 
 	}
 
@@ -269,7 +285,7 @@ include_once 'views/navbar.php';
 							if ( $is_env ) {
 								$env_configs = $dash_hosts->get_wp_starter_configs( $host_info );
 								$env         = ( isset( $env_configs[ $host_info['host'] ]["WORDPRESS_ENV"] ) ) ? $env_configs[ $host_info['host'] ]["WORDPRESS_ENV"] : false;
-								
+
 								if ( $env ) {
 									$configs        = $env_configs[ $host_info['host'] ][ $env ];
 									$array['is_wp'] = true;
@@ -321,6 +337,9 @@ include_once 'views/navbar.php';
 											<input type="submit" class="btn btn-default btn-xs" name="plugins" value="Plugins" />
 										</form>
 
+									<?php }
+									if($is_env || $has_wp_config) {
+										?>
 
 										<form class="backup" action="" method="post">
 											<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
