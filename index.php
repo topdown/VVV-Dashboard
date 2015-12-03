@@ -303,7 +303,7 @@ include_once 'views/navbar.php';
 				</div>
 
 
-				<table class="sites table table-responsive table-striped">
+				<table class="sites table table-responsive table-striped table-bordered table-hover">
 					<thead>
 					<tr>
 						<th>Debug Mode</th>
