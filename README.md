@@ -17,10 +17,13 @@ Copy the dashboard-custom.php to VVV/www/default/dashboard-custom.php
 
 * List hosts in VVV
   * Debug On/Off for WP sites
+    * Show not installed if wp-config.php is missing
+  * WP Version for each host
   * Visit Site Link
   * Visit Admin Link
   * Profiler Link
   * Backup Database (SQL Dump) host-timestamped name
+  * Debug Log viewer if debug log is found
 * Live/Fuzzy search host list
 * List Plugins for each installed WordPress Site
   * Plugin Name
@@ -32,6 +35,14 @@ Copy the dashboard-custom.php to VVV/www/default/dashboard-custom.php
   * Status (inactive / active / parent) highlighted
   * Update (None / Available - Update Button)
   * Version
+* Backup List
+  * Host
+  * Date of backup
+  * Time of backup
+  * Actions
+    * Save As (In case you want to save another copy somewhere else)
+    * Roll Back (Coming soon)
+    * Delete (Allows you to selectively delete backups)
 * Last 10 PHP Errors (with highlighting)
 * Show Hide Sidebar
 * Quick server info
@@ -51,6 +62,10 @@ Copy the dashboard-custom.php to VVV/www/default/dashboard-custom.php
 * Bower to manage JS
 * xDebug check and notice to show if its on or off
 * Debug Log viewer, if there is a debug.log show button by host and make the last 20 viewable
+* WPStarter support
+* .env check for .env type installs
+* Custom setting for scan paths
+* Custom setting for wp-content paths
 
 ---
 ### UPDATE Instructions 
@@ -114,6 +129,25 @@ create a `VVV/www/default/dashboard/custom.css` file and add this
 ### Change Log
 
 ---
+12/03/15  version: 0.1.4
+
+* Added WPStarter support by fixing some path issues
+* Added .env check and handling functions
+* Started some refactoring adding new classes that will support the system
+* Added Backup List and Backup List button
+  * Host
+  * Date of backup
+  * Time of backup
+  * Actions
+    * Save As (In case you want to save another copy somewhere else)
+    * Roll Back (Coming soon)
+    * Delete (Allows you to selectively delete backups)
+* Added WordPress version to Host List
+* Show not installed if wp-config.php is missing
+* Custom setting for scan paths
+* Custom setting for wp-content paths
+
+---
 12/01/15  version: 0.1.3
 
 * Bumping version again to resolve cache issues
@@ -123,7 +157,7 @@ create a `VVV/www/default/dashboard/custom.css` file and add this
 12/01/15  version: 0.1.2
 
 * Added APP icons (favicon) for the dashboard
-* Added WP Debug Log viewer
+* Added WP Debug Log viewer last 20 logs
 
 ---
 11/22/15  version: 0.1.1
@@ -215,9 +249,9 @@ create a `VVV/www/default/dashboard/custom.css` file and add this
 ---
 
 * Maybe some wiki docs since this is getting a little bigger
-* Fuzzy search for plugins and themes ? not sure yetRemove
-* Do a count and maybe a list of DB backups for each host
+* Fuzzy search for plugins and themes ? not sure yet
 * Refactor time, clean up some code and remove redundancy
 * Dropdown Menu for tools but not Bootstrap it should be CSS only
+* We need some form security added
 
 
