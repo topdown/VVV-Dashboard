@@ -6169,3 +6169,8 @@ td.update,
 .wp-debug-log p {
   margin-top: 20px;
 }
+
+/* line 205, compass/sass/_layout.scss */
+.sites .btn {
+  margin-top: 5px;
+}

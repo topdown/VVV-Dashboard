@@ -279,6 +279,11 @@ function get_hosts( $path ) {
 
 		$wp_version               = shell_exec( 'wp core version --path=' . VVV_WEB_ROOT . '/' . $host_info['host'] . $host_path );
 		$array[ $key ]['version'] = $wp_version;
+
+		// Causes load issues do to each API call SO this can not be in a loop
+		// @ToDo find a better way
+		//$update_check             = shell_exec( 'wp core check-update --path=' . VVV_WEB_ROOT . '/' . $host_info['host'] . $host_path );
+		//$array[ $key ]['update']  = $update_check;
 	}
 
 	$array['site_count'] = count( $hosts );
