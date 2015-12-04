@@ -167,8 +167,13 @@ class vvv_dash_hosts {
 	public function wp_config_exists( $host_info ) {
 
 		// Custom host
-		if ( isset( $host_info['is_env'] ) && $host_info['is_env'] ) {
-			return false;
+		if ( isset( $host_info['is_env'] ) && $host_info['is_env'] && isset( $host_info['env_path'] ) ) {
+			if(sizeof($this->get_wp_starter_configs( $host_info ))) {
+				return true;
+			} else {
+				return true;
+			}
+
 		} else {
 			// Normal host
 
@@ -188,9 +193,10 @@ class vvv_dash_hosts {
 		$config_array = array();
 
 
-		$env_file = VVV_WEB_ROOT . '/' . $host_info['host'] . '/.env';
+		//$env_file = VVV_WEB_ROOT . '/' . $host_info['host'] . '/.env';
 
-		$env_lines = file( $env_file );
+		$env_file  = $this->get_env_file( $host_info );
+		$env_lines = file( $env_file['env_path'] );
 		$lines     = array_splice( $env_lines, 0, 15 );
 		$env_array = array();
 
@@ -203,19 +209,19 @@ class vvv_dash_hosts {
 			) {
 				switch ( $line ) {
 					case strstr( $line, "WORDPRESS_ENV=" ) :
-						$env_array['WORDPRESS_ENV'] = trim(explode( '=', $line )[1]);
+						$env_array['WORDPRESS_ENV'] = trim( explode( '=', $line )[1] );
 						break;
 
 					case strstr( $line, 'DB_NAME=' ) :
-						$env_array['DB_NAME'] = trim(explode( '=', $line )[1]);
+						$env_array['DB_NAME'] = trim( explode( '=', $line )[1] );
 						break;
 
 					case strstr( $line, 'DB_USER=' ) :
-						$env_array['DB_USER'] = trim(explode( '=', $line )[1]);
+						$env_array['DB_USER'] = trim( explode( '=', $line )[1] );
 						break;
 
 					case strstr( $line, "DB_PASSWORD=" ) :
-						$env_array['DB_PASSWORD'] = trim(explode( '=', $line )[1]);
+						$env_array['DB_PASSWORD'] = trim( explode( '=', $line )[1] );
 						break;
 				}
 			}
@@ -278,15 +284,38 @@ class vvv_dash_hosts {
 
 	public function is_env_site( $host_info ) {
 
-		$file = VVV_WEB_ROOT . '/' . $host_info['host'] . '/.env';
+		$env_path = $this->get_env_file($host_info);
+
+		if ( isset($env_path['env_path']) && ! empty($env_path['env_path']) ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function get_env_file( $host_info ) {
+		global $vvv_dash_scan_paths;
+
+		$env_file = array();
+		$file     = VVV_WEB_ROOT . '/' . $host_info['host'] . '/.env';
 
 		if ( file_exists( $file ) ) {
-			$is_env = true;
+			$env_file['env_path'] = $file;
 		} else {
-			$is_env = false;
+
+			foreach ( $vvv_dash_scan_paths as $dir ) {
+
+				$file = VVV_WEB_ROOT . '/' . $host_info['host'] . '/' . $dir . '/.env';
+
+				if ( file_exists( $file ) ) {
+					$env_file['env_path'] = $file;
+				}
+
+			} // end foreach
+			unset( $dir );
 		}
 
-		return $is_env;
+		return $env_file;
 	}
 }
 // End vvv-dash-hosts.php
