@@ -27,11 +27,7 @@ $backups_table   = '';
 $cache           = new vvv_dash_cache();
 $vvv_dash        = new vvv_dashboard();
 
-if ( ( $hosts = $cache->get( 'host-sites', VVV_DASH_HOSTS_TTL ) ) == false ) {
-
-	$hosts  = get_hosts( $path );
-	$status = $cache->set( 'host-sites', serialize( $hosts ) );
-}
+$hosts = $vvv_dash->get_hosts( $path );
 
 if ( is_string( $hosts ) ) {
 	$hosts = unserialize( $hosts );
@@ -42,81 +38,20 @@ if ( isset( $_GET['get_backups'] ) && 'Backups' == $_GET['get_backups'] ) {
 	$backups_table = get_backups_table();
 }
 
-if ( isset( $_GET['host'] ) && isset( $_GET['themes'] ) || isset( $_GET['host'] ) && isset( $_GET['plugins'] ) ) {
+if ( isset( $_GET ) ) {
+	$themes  = $vvv_dash->get_themes( $_GET );
+	$plugins = $vvv_dash->get_plugins( $_GET );
 
-	$host_info = $vvv_dash->set_host_info( $_GET['host'] );
-	$is_env    = ( isset( $host_info['is_env'] ) ) ? $host_info['is_env'] : false;
-
-	// WP Starter
-	if ( $is_env ) {
-		$host_path = '/public/wp';
-	} else {
-		// Normal WP
-		$host_path = $host_info['path'];
-	}
-
-	if ( isset( $_GET['host'] ) && isset( $_GET['themes'] ) ) {
-
-		$host_info = $vvv_dash->set_host_info( $_GET['host'] );
-		$themes    = get_themes( $host_info['host'], $host_path );
-	}
-
-	if ( isset( $_GET['host'] ) && isset( $_GET['plugins'] ) ) {
-
-		$host_info = $vvv_dash->set_host_info( $_GET['host'] );
-		$plugins   = get_plugins( $host_info['host'], $host_path );
-	}
-}
-
-if ( isset( $_GET['host'] ) && isset( $_GET['debug_log'] ) ) {
-
-	$type = check_host_type( $_GET['host'] );
-
-	if ( isset( $type['key'] ) ) {
-
-		if ( isset( $type['path'] ) ) {
-			$debug_log_path = VVV_WEB_ROOT . '/' . $type['key'] . '/' . $type['path'] . '/wp-content/debug.log';
-		} else {
-			$debug_log_path = VVV_WEB_ROOT . '/' . $type['key'] . '/wp-content/debug.log';
-		}
-
-	} else {
-		$host           = strstr( $_GET['host'], '.', true );
-		$debug_log_path = VVV_WEB_ROOT . '/' . $host . '/htdocs/wp-content/debug.log';
-	}
-
-	if ( $debug_log_path && file_exists( $debug_log_path ) ) {
-		$debug_log = get_php_errors( 21, 140, $debug_log_path );
-	}
-
-	if ( is_array( $debug_log ) ) {
-		$debug_log_lines = format_php_errors( $debug_log );
-	}
+	$wp_debug_log    = $vvv_dash->get_wp_debug_log( $_GET );
+	$debug_log_lines = ( isset( $wp_debug_log['lines'] ) ) ? $wp_debug_log['lines'] : false;
+	$debug_log_path  = ( isset( $wp_debug_log['path'] ) ) ? $wp_debug_log['path'] : false;
 }
 
 
 if ( isset( $_POST ) ) {
 
 	if ( isset( $_POST['backup'] ) && isset( $_POST['host'] ) ) {
-
-		$host_info = $vvv_dash->set_host_info( $_POST['host'] );
-		$is_env    = ( isset( $host_info['is_env'] ) ) ? $host_info['is_env'] : false;
-
-		// Backups for WP Starter
-		if ( $is_env ) {
-			$dash_hosts        = new vvv_dash_hosts();
-			$env_configs       = $dash_hosts->get_wp_starter_configs( $host_info );
-			$configs           = ( isset( $env_configs[ $host_info['host'] ] ) ) ? $env_configs[ $host_info['host'] ] : false;
-			$db['db_name']     = $configs['DB_NAME'];
-			$db['db_user']     = $configs['DB_USER'];
-			$db['db_password'] = $configs['DB_PASSWORD'];
-			$backup_status     = vvv_dash_wp_starter_backup( $host_info, $db );
-
-		} else {
-			// All other backups
-			$backup_status = vvv_dash_wp_backup( $_POST['host'] );
-		}
-
+		$backup_status = $vvv_dash->create_db_backup( $_POST['host'] );
 	}
 
 	if ( isset( $_POST['purge_hosts'] ) ) {
@@ -290,7 +225,7 @@ include_once 'views/navbar.php';
 						}
 
 						$host_info = $vvv_dash->set_host_info( $_GET['host'] );
-						$themes    = get_themes( $host_info['host'], $host_info['path'] );
+						$themes    = $vvv_dash->get_themes_data( $host_info['host'], $host_info['path'] );
 
 						echo format_table( $themes, $_GET['host'], 'themes' );
 					}
