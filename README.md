@@ -152,6 +152,8 @@ create a `VVV/www/default/dashboard/custom.css` file and add this
 * Show not installed if wp-config.php is missing
 * Custom setting for scan paths
 * Custom setting for wp-content paths
+* Create a child theme of any parent from themes list
+* Deeper .env support but must follow the installers path
 
 ---
 12/01/15  version: 0.1.3
