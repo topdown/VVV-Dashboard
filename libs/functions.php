@@ -416,9 +416,9 @@ function get_backups_table() {
 		}
 
 		// @ToDo create roll back function
-		if ( isset( $_POST['roll_back'] ) && $_POST['roll_back'] == 'Roll Back' ) {
-			$notice = 'DB roll backs are not quite ready yet. Will be coming in a release soon!';
-		}
+//		if ( isset( $_POST['roll_back'] ) && $_POST['roll_back'] == 'Roll Back' ) {
+//			$notice = 'DB roll backs are not quite ready yet. Will be coming in a release soon!';
+//		}
 	}
 
 	$backups    = dir_to_array( VVV_WEB_ROOT . '/default/dashboard/dumps' );
@@ -460,6 +460,7 @@ function get_backups_table() {
 <a class="btn btn-primary btn-xs" href="dumps/' . $file . '">Save As</a>
 <form class="" action="" method="post">
 <input type="hidden" name="get_backups" value="Backups" />
+<input type="hidden" name="host" value="' . $host . '" />
 <input type="hidden" name="file_path" value="' . urlencode( $file_info[ $key ]['file_path'] ) . '" />
 <input type="submit" class="btn btn-warning btn-xs" name="roll_back" value="Roll Back" />
 <input type="submit" class="btn btn-danger btn-xs" name="delete_backup" value="Delete" />

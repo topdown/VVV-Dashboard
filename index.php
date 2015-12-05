@@ -15,17 +15,18 @@ include_once 'libs/functions.php';
 // Make sure everything is ready
 vvv_dash_prep();
 
-$backup_status   = false;
-$plugins         = '';
-$themes          = '';
-$host            = '';
-$purge_status    = '';
-$debug_log       = '';
-$debug_log_lines = '';
-$debug_log_path  = '';
-$backups_table   = '';
-$cache           = new vvv_dash_cache();
-$vvv_dash        = new vvv_dashboard();
+$backup_status       = false;
+$db_roll_back_status = false;
+$plugins             = '';
+$themes              = '';
+$host                = '';
+$purge_status        = '';
+$debug_log           = '';
+$debug_log_lines     = '';
+$debug_log_path      = '';
+$backups_table       = '';
+$cache               = new vvv_dash_cache();
+$vvv_dash            = new vvv_dashboard();
 
 $hosts = $vvv_dash->get_hosts( $path );
 
@@ -53,6 +54,16 @@ if ( isset( $_POST ) ) {
 	if ( isset( $_POST['backup'] ) && isset( $_POST['host'] ) ) {
 		$backup_status = $vvv_dash->create_db_backup( $_POST['host'] );
 	}
+
+	// @ToDo create roll back function
+	if ( isset( $_POST['roll_back'] ) && $_POST['roll_back'] == 'Roll Back' ) {
+		$db_roll_back_status = $vvv_dash->db_roll_back( $_POST['host'], $_POST['file_path'] );
+
+		if ( $db_roll_back_status ) {
+			$db_roll_back_status = vvv_dash_notice( $db_roll_back_status );
+		}
+	}
+
 
 	if ( isset( $_POST['purge_hosts'] ) ) {
 		$purge_status = $cache->purge( 'host-sites' );
@@ -158,12 +169,13 @@ include_once 'views/navbar.php';
 				<strong> New version: <?php echo version_check(); ?></strong></p>
 			</div><?php
 
-			echo vvv_dash_notice( '<h3>New Features in the new release.</h3>' . vvv_dash_new_features());
+			echo vvv_dash_notice( '<h3>New Features in the new release.</h3>' . vvv_dash_new_features() );
 		}
 
-		if ( $backup_status ) {
-			echo $backup_status;
-		}
+		if ( $backup_status ) echo $backup_status;
+
+		if($db_roll_back_status ) echo $db_roll_back_status;
+
 		?>
 		<div class="page-top">
 			<h1 class="page-header"><i class="fa fa-tachometer"></i> VVV Dashboard</h1>

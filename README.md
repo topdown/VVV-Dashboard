@@ -47,7 +47,7 @@ Copy the dashboard-custom.php to VVV/www/default/dashboard-custom.php
   * Time of backup
   * Actions
     * Save As (In case you want to save another copy somewhere else)
-    * Roll Back (Coming soon)
+    * Roll Back (Roll back to any existing version for the host)
     * Delete (Allows you to selectively delete backups)
 * Last 10 PHP Errors (with highlighting)
 * Show Hide Sidebar
@@ -146,7 +146,7 @@ create a `VVV/www/default/dashboard/custom.css` file and add this
   * Time of backup
   * Actions
     * Save As (In case you want to save another copy somewhere else)
-    * Roll Back (Coming soon)
+    * Roll Back (Roll back to any existing version for the host)
     * Delete (Allows you to selectively delete backups)
 * Added WordPress version to Host List
 * Show not installed if wp-config.php is missing

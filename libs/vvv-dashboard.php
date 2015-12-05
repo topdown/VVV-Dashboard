@@ -30,6 +30,18 @@ class vvv_dashboard {
 		$this->_cache = new vvv_dash_cache();
 	}
 
+	/**
+	 * Returns the host data
+	 *
+	 * @author         Jeff Behnke <code@validwebs.com>
+	 * @copyright  (c) 2009-15 ValidWebs.com
+	 *
+	 * Created:    12/5/15, 2:46 AM
+	 *
+	 * @param $path
+	 *
+	 * @return array|bool|string
+	 */
 	public function get_hosts( $path ) {
 		if ( ( $hosts = $this->_cache->get( 'host-sites', VVV_DASH_HOSTS_TTL ) ) == false ) {
 
@@ -40,6 +52,20 @@ class vvv_dashboard {
 		return $hosts;
 	}
 
+	/**
+	 * Returns the host path
+	 *
+	 * @ToDO needs to be updated with the path methods
+	 *
+	 * @author         Jeff Behnke <code@validwebs.com>
+	 * @copyright  (c) 2009-15 ValidWebs.com
+	 *
+	 * Created:    12/5/15, 2:46 AM
+	 *
+	 * @param $host
+	 *
+	 * @return string
+	 */
 	public function get_host_path( $host ) {
 
 		$host_info = $this->set_host_info( $host );
@@ -184,6 +210,18 @@ class vvv_dashboard {
 		return $array;
 	}
 
+	/**
+	 * Sets an array containing the needed host info
+	 *
+	 * @author         Jeff Behnke <code@validwebs.com>
+	 * @copyright  (c) 2009-15 ValidWebs.com
+	 *
+	 * Created:    12/5/15, 2:45 AM
+	 *
+	 * @param $host
+	 *
+	 * @return array
+	 */
 	public function set_host_info( $host ) {
 
 		$host_info = array();
@@ -244,6 +282,18 @@ class vvv_dashboard {
 		return $themes;
 	}
 
+	/**
+	 * Returns the theme list for the requested host
+	 *
+	 * @author         Jeff Behnke <code@validwebs.com>
+	 * @copyright  (c) 2009-15 ValidWebs.com
+	 *
+	 * Created:    12/5/15, 2:44 AM
+	 *
+	 * @param $get
+	 *
+	 * @return bool|string
+	 */
 	public function get_themes( $get ) {
 		if ( isset( $get['host'] ) && isset( $get['themes'] ) ) {
 			$host_path = $this->get_host_path( $get['host'] );
@@ -256,6 +306,18 @@ class vvv_dashboard {
 		}
 	}
 
+	/**
+	 * Returns the plugin list for the requested host
+	 *
+	 * @author         Jeff Behnke <code@validwebs.com>
+	 * @copyright  (c) 2009-15 ValidWebs.com
+	 *
+	 * Created:    12/5/15, 2:44 AM
+	 *
+	 * @param $get
+	 *
+	 * @return bool|string
+	 */
 	public function get_plugins( $get ) {
 		if ( isset( $get['host'] ) && isset( $get['plugins'] ) ) {
 			$host_path = $this->get_host_path( $get['host'] );
@@ -296,6 +358,18 @@ class vvv_dashboard {
 		return $plugins;
 	}
 
+	/**
+	 * Creates a database dump
+	 *
+	 * @author         Jeff Behnke <code@validwebs.com>
+	 * @copyright  (c) 2009-15 ValidWebs.com
+	 *
+	 * Created:    12/5/15, 2:43 AM
+	 *
+	 * @param $host
+	 *
+	 * @return bool|string
+	 */
 	public function create_db_backup( $host ) {
 		$backup_status = false;
 		$host_info     = $this->set_host_info( $host );
@@ -320,7 +394,53 @@ class vvv_dashboard {
 		return $backup_status;
 	}
 
+	/**
+	 * Roll back the database with any saved backups in the system
+	 *
+	 * @author         Jeff Behnke <code@validwebs.com>
+	 * @copyright  (c) 2009-15 ValidWebs.com
+	 *
+	 * Created:    12/5/15, 2:43 AM
+	 *
+	 * @param $host
+	 * @param $file
+	 *
+	 * @return string
+	 */
+	public function db_roll_back( $host, $file ) {
 
+		$host_info = $this->set_host_info( $host );
+		$is_env    = ( isset( $host_info['is_env'] ) ) ? $host_info['is_env'] : false;
+
+		// Backups for WP Starter
+		if ( $is_env ) {
+			// @ToDo fix this path issue
+			$path   = VVV_WEB_ROOT . '/' . $host_info['host'] . '/' . $host_info['path'] . '/wp/';
+			$status = shell_exec( 'wp db import --path=' . $path . ' ' . urldecode( $file ) );
+
+		} else {
+
+			$path   = VVV_WEB_ROOT . '/' . $host_info['host'] . '/htdocs';
+			$status = shell_exec( 'wp db import --path=' . $path . ' ' . urldecode( $file ) );
+
+		}
+
+
+		return $status;
+	}
+
+	/**
+	 * Gets the WP debug.log content
+	 *
+	 * @author         Jeff Behnke <code@validwebs.com>
+	 * @copyright  (c) 2009-15 ValidWebs.com
+	 *
+	 * Created:    12/5/15, 2:44 AM
+	 *
+	 * @param $get
+	 *
+	 * @return bool
+	 */
 	public function get_wp_debug_log( $get ) {
 		if ( isset( $get['host'] ) && isset( $get['debug_log'] ) ) {
 			$log  = false;
