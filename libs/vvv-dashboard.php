@@ -55,7 +55,7 @@ class vvv_dashboard {
 	/**
 	 * Returns the host path
 	 *
-	 * @ToDO needs to be updated with the path methods
+	 * @ToDO           needs to be updated with the path methods
 	 *
 	 * @author         Jeff Behnke <code@validwebs.com>
 	 * @copyright  (c) 2009-15 ValidWebs.com
@@ -356,6 +356,27 @@ class vvv_dashboard {
 		}
 
 		return $plugins;
+	}
+
+
+	public function install_dev_plugins( $post ) {
+		$path      = $this->get_host_path( $post['host'] );
+		$host_info = $this->set_host_info( $post['host'] );
+		$path      = VVV_WEB_ROOT . '/' . $host_info['host'] . $path;
+		$install   = array();
+
+		$dev_plugins = array(
+			'debug-bar',
+			'plugin-profiler',
+			'plugin-profiler-mu',
+			'https://github.com/Rarst/laps/releases/download/1.3.2/laps-1.3.2.zip',
+		);
+
+		foreach ( $dev_plugins as $key => $plugin ) {
+			$install[] = shell_exec( 'wp plugin install ' . $plugin . ' --activate --path=' . $path . ' --debug' );
+		} // end foreach
+
+		return implode( '<br /><br />', $install );
 	}
 
 	/**
