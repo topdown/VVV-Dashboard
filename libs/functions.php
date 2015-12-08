@@ -322,9 +322,8 @@ function format_table( $data, $host, $type = '' ) {
 								<input type="hidden" name="host" value="' . $host . '" />
 								<input type="hidden" name="item" value="' . $cell . '" />
 								<input type="hidden" name="type" value="' . $type . '" />
-								<input class="child-slug" placeholder="theme_slug" type="text" name="child" value="" />
 								<input class="child-name" placeholder="Theme Name" type="text" name="theme_name" value="" />
-
+								<input class="child-slug" placeholder="theme_slug" type="text" name="child" value="" />
 								<input type="submit" class="btn btn-primary btn-xs" name="create_child" value="Create Child" />
 							</form>
 							';
@@ -416,9 +415,9 @@ function get_backups_table() {
 		}
 
 		// @ToDo create roll back function
-//		if ( isset( $_POST['roll_back'] ) && $_POST['roll_back'] == 'Roll Back' ) {
-//			$notice = 'DB roll backs are not quite ready yet. Will be coming in a release soon!';
-//		}
+		//		if ( isset( $_POST['roll_back'] ) && $_POST['roll_back'] == 'Roll Back' ) {
+		//			$notice = 'DB roll backs are not quite ready yet. Will be coming in a release soon!';
+		//		}
 	}
 
 	$backups    = dir_to_array( VVV_WEB_ROOT . '/default/dashboard/dumps' );
@@ -691,7 +690,7 @@ function vvv_dash_new_features() {
 			'<br />  --- ',
 			'<br /> '
 		),
-		$features);
+		$features );
 
 	return $features;
 }
@@ -739,5 +738,32 @@ function dir_to_array( $directory, $recursive = true, $listDirs = false, $listFi
 	}
 
 	return $arrayItems;
+}
+
+/**
+ * Just to clean up the index.php file some
+ *
+ * @author         Jeff Behnke <code@validwebs.com>
+ * @copyright  (c) 2009-15 ValidWebs.com
+ *
+ * Created:    12/7/15, 3:59 PM
+ *
+ */
+function vvv_dash_xdebug_status() {
+	?>
+	<p>
+		<small>Note: To profile, <code>xdebug_on</code> must be set.</small>
+		<?php $xdebug = ( extension_loaded( 'xdebug' ) ? true : false );
+		if ( $xdebug ) {
+			?>
+			<span class="pull-right small">xDebug is currently <span class="label label-success">on</span></span>
+			<?php
+		} else {
+			?>
+			<span class="pull-right small">xDebug is currently <span class="label label-danger">off</span></span>
+			<?php
+		} ?>
+	</p>
+	<?php
 }
 // End functions.php

@@ -494,6 +494,118 @@ class vvv_dashboard {
 		return false;
 	}
 
+
+	public function process_post() {
+
+		$status       = false;
+		
+		if ( isset( $_POST ) ) {
+
+			if ( isset( $_POST['install_dev_plugins'] ) && isset( $_POST['host'] ) ) {
+				$status = $this->install_dev_plugins( $_POST );
+
+			}
+
+
+			if ( isset( $_POST['backup'] ) && isset( $_POST['host'] ) ) {
+				$status = $this->create_db_backup( $_POST['host'] );
+			}
+
+			if ( isset( $_POST['roll_back'] ) && $_POST['roll_back'] == 'Roll Back' ) {
+				$status = $this->db_roll_back( $_POST['host'], $_POST['file_path'] );
+
+				if ( $status ) {
+					$status = vvv_dash_notice( $status );
+				}
+			}
+
+			if ( isset( $_POST['purge_hosts'] ) ) {
+				$purge_status = $this->_cache->purge( 'host-sites' );
+				$status = vvv_dash_notice( $purge_status . ' files were purged from cache!' );
+			}
+
+			if ( isset( $_POST['purge_themes'] ) ) {
+				$purge_status = $this->_cache->purge( '-themes' );
+				$status = vvv_dash_notice( $purge_status . ' files were purged from cache!' );
+			}
+
+			if ( isset( $_POST['purge_plugins'] ) ) {
+				$purge_status = $this->_cache->purge( '-plugins' );
+				$status = vvv_dash_notice( $purge_status . ' files were purged from cache!' );
+			}
+
+			if ( isset( $_POST['update_item'] ) && isset( $_POST['host'] ) ) {
+
+				$type = check_host_type( $_POST['host'] );
+
+				if ( isset( $type['key'] ) ) {
+
+					if ( isset( $type['path'] ) ) {
+
+						if ( ! empty( $_POST['type'] ) && 'plugins' == $_POST['type'] ) {
+							$update_status = shell_exec( 'wp plugin update ' . $_POST['item'] . ' --path=' . VVV_WEB_ROOT . '/' . $type['key'] . $type['path'] );
+							$purge_status  = $_POST['item'] . ' was updated!<br />';
+							$purge_status .= $this->_cache->purge( '-plugins' );
+							$status = vvv_dash_notice( $purge_status . ' files were purged from cache!' );
+						}
+
+						if ( ! empty( $_POST['type'] ) && 'themes' == $_POST['type'] ) {
+							$status       = shell_exec( 'wp theme update ' . $_POST['item'] . ' --path=' . VVV_WEB_ROOT . '/' . $type['key'] . $type['path'] );
+							$purge_status = $_POST['item'] . ' was updated!<br />';
+							$purge_status .= $this->_cache->purge( '-themes' );
+							$status = vvv_dash_notice( $purge_status . ' files were purged from cache!' );
+						}
+
+					} else {
+
+						if ( ! empty( $_POST['type'] ) && 'plugins' == $_POST['type'] ) {
+							$update_status = shell_exec( 'wp plugin update ' . $_POST['item'] . ' --path=' . VVV_WEB_ROOT . '/' . $type['key'] . '/' );
+							$purge_status  = $_POST['item'] . ' was updated!<br />';
+							$purge_status .= $this->_cache->purge( '-plugins' );
+							$status = vvv_dash_notice( $purge_status . ' files were purged from cache!' );
+						}
+
+						if ( ! empty( $_POST['type'] ) && 'themes' == $_POST['type'] ) {
+							$update_status = shell_exec( 'wp theme update ' . $_POST['item'] . ' --path=' . VVV_WEB_ROOT . '/' . $type['key'] . '/' );
+							$purge_status  = $_POST['item'] . ' was updated!<br />';
+							$purge_status .= $this->_cache->purge( '-themes' );
+							$status = vvv_dash_notice( $purge_status . ' files were purged from cache!' );
+						}
+					}
+
+				} else {
+					$host_info = $this->set_host_info( $_POST['host'] );
+					$is_env    = ( isset( $host_info['is_env'] ) ) ? $host_info['is_env'] : false;
+					$host      = $host_info['host'];
+
+					// WP Starter
+					if ( $is_env ) {
+						$host_path = VVV_WEB_ROOT . '/' . $host . '/public/wp';
+					} else {
+						// Normal WP
+						$host_path = VVV_WEB_ROOT . '/' . $host . '/' . $host_info['path'];
+					}
+
+					if ( ! empty( $_POST['type'] ) && 'plugins' == $_POST['type'] ) {
+						$update_status = shell_exec( 'wp plugin update ' . $_POST['item'] . ' --path=' . $host_path );
+						$purge_status  = $_POST['item'] . ' was updated!<br />';
+						$purge_status .= $this->_cache->purge( '-plugins' );
+						$status = vvv_dash_notice( $purge_status . ' files were purged from cache!' );
+					}
+
+					if ( ! empty( $_POST['type'] ) && 'themes' == $_POST['type'] ) {
+						$status       = shell_exec( 'wp theme update ' . $_POST['item'] . ' --path=' . $host_path );
+						$purge_status = $_POST['item'] . ' was updated!<br />';
+						$purge_status .= $this->_cache->purge( '-themes' );
+						$status = vvv_dash_notice( $purge_status . ' files were purged from cache!' );
+					}
+				}
+			}
+		}
+
+		return $status;
+	}
+
 	public function __destruct() {
 		// TODO: Implement __destruct() method.
 	}

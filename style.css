@@ -6197,18 +6197,21 @@ h4.title span.small {
 }
 
 /* line 227, compass/sass/_layout.scss */
-.create-child .btn {
+.create-child {
   float: right;
+}
+
+/* line 231, compass/sass/_layout.scss */
+.create-child .btn {
   margin-right: 5px;
 }
 
-/* line 232, compass/sass/_layout.scss */
+/* line 236, compass/sass/_layout.scss */
 input.child-name, input.child-slug {
   display: inline-block;
-  float: right;
 }
 
-/* line 237, compass/sass/_layout.scss */
+/* line 241, compass/sass/_layout.scss */
 input.child-name {
   margin-right: 5px;
 }
