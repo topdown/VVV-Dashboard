@@ -494,11 +494,20 @@ class vvv_dashboard {
 		return false;
 	}
 
-
+	/**
+	 * Process $_POST supper globals used in the dashboard
+	 *
+	 * @author         Jeff Behnke <code@validwebs.com>
+	 * @copyright  (c) 2009-15 ValidWebs.com
+	 *
+	 * Created:    12/8/15, 4:01 PM
+	 *
+	 * @return bool|string
+	 */
 	public function process_post() {
 
-		$status       = false;
-		
+		$status = false;
+
 		if ( isset( $_POST ) ) {
 
 			if ( isset( $_POST['install_dev_plugins'] ) && isset( $_POST['host'] ) ) {
@@ -521,17 +530,17 @@ class vvv_dashboard {
 
 			if ( isset( $_POST['purge_hosts'] ) ) {
 				$purge_status = $this->_cache->purge( 'host-sites' );
-				$status = vvv_dash_notice( $purge_status . ' files were purged from cache!' );
+				$status       = vvv_dash_notice( $purge_status . ' files were purged from cache!' );
 			}
 
 			if ( isset( $_POST['purge_themes'] ) ) {
 				$purge_status = $this->_cache->purge( '-themes' );
-				$status = vvv_dash_notice( $purge_status . ' files were purged from cache!' );
+				$status       = vvv_dash_notice( $purge_status . ' files were purged from cache!' );
 			}
 
 			if ( isset( $_POST['purge_plugins'] ) ) {
 				$purge_status = $this->_cache->purge( '-plugins' );
-				$status = vvv_dash_notice( $purge_status . ' files were purged from cache!' );
+				$status       = vvv_dash_notice( $purge_status . ' files were purged from cache!' );
 			}
 
 			if ( isset( $_POST['update_item'] ) && isset( $_POST['host'] ) ) {
@@ -608,6 +617,20 @@ class vvv_dashboard {
 
 	public function __destruct() {
 		// TODO: Implement __destruct() method.
+	}
+
+	/**
+	 *
+	 *
+	 * @author         Jeff Behnke <code@validwebs.com>
+	 * @copyright  (c) 2009-15 ValidWebs.com
+	 *
+	 * Created:    12/8/15, 4:00 PM
+	 *
+	 * @param $vvv_dash
+	 */
+	public function process_get( $vvv_dash ) {
+
 	}
 
 
