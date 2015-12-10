@@ -15,7 +15,7 @@
  * hosts-table.php
  */
 ?>
-<p class="red italic"><span class="bold">NOTE</span>: After creating a new host/site purge the Host Cache.</p>
+<p class="red italic"><span class="bold">NOTE</span>: After creating or changing a host/site purge the Host Cache.</p>
 	<div id="search_container" class="input-group search-box">
 		<span class="input-group-addon"> <i class="fa fa-search"></i> </span>
 		<input type="text" class="form-control search-input" id="text-search" placeholder="Live Search..." />

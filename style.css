@@ -6215,3 +6215,26 @@ input.child-name, input.child-slug {
 input.child-name {
   margin-right: 5px;
 }
+
+/********************************************************************
+ = custom classes   *********
+*********************************************************************/
+/* line 248, compass/sass/_layout.scss */
+.bold {
+  font-weight: bold;
+}
+
+/* line 252, compass/sass/_layout.scss */
+.italic {
+  font-style: italic;
+}
+
+/* line 256, compass/sass/_layout.scss */
+.underline {
+  text-decoration: underline;
+}
+
+/* line 260, compass/sass/_layout.scss */
+.red {
+  color: darkred;
+}
