@@ -24,6 +24,7 @@ $debug_log_lines = '';
 $debug_log_path  = '';
 $cache           = new vvv_dash_cache();
 $vvv_dash        = new vvv_dashboard();
+$status          = $vvv_dash->process_post();
 $hosts           = $vvv_dash->get_hosts( $path );
 
 if ( is_string( $hosts ) ) {
@@ -42,7 +43,6 @@ if ( isset( $_GET['get_backups'] ) && 'Backups' == $_GET['get_backups'] ) {
 	$backups_table = get_backups_table();
 }
 
-$status = $vvv_dash->process_post();
 
 include_once 'views/header.php';
 include_once 'views/navbar.php';
