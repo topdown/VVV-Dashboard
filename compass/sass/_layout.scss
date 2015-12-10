@@ -241,3 +241,22 @@ input.child-name, input.child-slug {
 input.child-name {
 	margin-right: 5px;
 }
+
+/********************************************************************
+ = custom classes   *********
+*********************************************************************/
+.bold {
+	font-weight:bold;
+}
+
+.italic {
+	font-style: italic;
+}
+
+.underline {
+	text-decoration: underline;
+}
+
+.red {
+	color: darkred;
+}
