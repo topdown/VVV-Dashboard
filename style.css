@@ -6216,25 +6216,32 @@ input.child-name {
   margin-right: 5px;
 }
 
+/* line 245, compass/sass/_layout.scss */
+.create-s-theme {
+  display: block;
+  width: 100%;
+  margin: 8px 0;
+}
+
 /********************************************************************
  = custom classes   *********
 *********************************************************************/
-/* line 248, compass/sass/_layout.scss */
+/* line 254, compass/sass/_layout.scss */
 .bold {
   font-weight: bold;
 }
 
-/* line 252, compass/sass/_layout.scss */
+/* line 258, compass/sass/_layout.scss */
 .italic {
   font-style: italic;
 }
 
-/* line 256, compass/sass/_layout.scss */
+/* line 262, compass/sass/_layout.scss */
 .underline {
   text-decoration: underline;
 }
 
-/* line 260, compass/sass/_layout.scss */
+/* line 266, compass/sass/_layout.scss */
 .red {
   color: darkred;
 }

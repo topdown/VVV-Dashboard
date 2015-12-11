@@ -50,6 +50,42 @@
 					?><h4>The theme list for
 					<span class="red"><?php echo $_GET['host']; ?></span> <?php echo $close; ?></h4><?php
 
+					// Create a new theme base on _s
+					$new_theme_form
+						= '<form class="create-s-theme" action="" method="post">
+								<span class="italic bold">Create a new theme based on <a href="http://underscores.me/" target="_blank">_s</a>  : </span>
+								<input type="hidden" name="host" value="' . $_GET['host'] . '" />
+								<input class="child-name" placeholder="Theme Name" type="text" name="theme_name" value="" />
+								<input class="child-slug" placeholder="theme_slug" type="text" name="theme_slug" value="" />
+								<input type="submit" class="btn btn-success btn-xs" name="create_s_theme" value="Create _s Theme" />
+							</form>
+							';
+					echo $new_theme_form;
+
+					if ( isset( $_POST['create_s_theme'] ) ) {
+						$themes_array = get_csv_names( $themes );
+						$host_info    = $vvv_dash->set_host_info( $_POST['host'] );
+						$host_path    = VVV_WEB_ROOT . '/' . $host_info['host'] . $host_info['path'];
+						$slug         = strtolower( str_replace( ' ', '_', $_POST['theme_slug'] ) );
+
+						// @ToDo allow this --force
+						if ( in_array( $slug, $themes_array ) ) {
+							echo vvv_dash_error( 'Error: That theme already exists!' );
+						} else {
+							$cmd       = 'wp scaffold _s ' . $slug . ' --theme_name="' . $_POST['theme_name'] . '" --path=' . $host_path .
+							' --author="' . VVV_DASH_NEW_THEME_AUTHOR . '" --author_uri="' . VVV_DASH_NEW_THEME_AUTHOR_URI . '" --sassify --activate';
+							$new_theme = shell_exec( $cmd );
+
+							if ( $new_theme ) {
+								$purge_status = $cache->purge( '-themes' );
+								echo vvv_dash_notice( $purge_status . ' files were purged from cache!' );
+								$new_theme = str_replace('. Success:', '. <br />Success:', $new_theme);
+								echo vvv_dash_notice( $new_theme );
+							} else {
+								echo vvv_dash_error( '<strong>Error:</strong> Something went wrong!' );
+							}
+						}
+					}
 
 					if ( isset( $_POST['create_child'] ) && isset( $_POST['child'] ) && ! empty( $_POST['child'] ) ) {
 
