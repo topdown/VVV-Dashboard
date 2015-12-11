@@ -135,7 +135,7 @@ create a `VVV/www/default/dashboard/custom.css` file and add this
 ### Change Log
 
 ---
-12/03/15  version: 0.1.4
+12/10/15  version: 0.1.4
 
 * Added WPStarter support by fixing some path issues
 * Added .env check and handling functions
@@ -154,6 +154,7 @@ create a `VVV/www/default/dashboard/custom.css` file and add this
 * Custom setting for wp-content paths
 * Create a child theme of any parent from themes list
 * Deeper .env support but must follow the installers path
+* Create a new theme under a host based on _s http://underscores.me/  and activate it. It also includes the sass files.
 
 ---
 12/01/15  version: 0.1.3
@@ -261,5 +262,6 @@ create a `VVV/www/default/dashboard/custom.css` file and add this
 * Refactor time, clean up some code and remove redundancy
 * Dropdown Menu for tools but not Bootstrap it should be CSS only
 * We need some form security added
+* More settings for theme creation
 
 

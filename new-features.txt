@@ -15,3 +15,4 @@
 * Custom setting for wp-content paths
 * Create a child theme of any parent from themes list
 * Deeper .env support but must follow the installers path
+* Create a new theme under a host based on _s http://underscores.me/  and activate it. It also includes the sass files.
