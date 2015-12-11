@@ -324,7 +324,9 @@ function format_table( $data, $host, $type = '' ) {
 								<input type="hidden" name="type" value="' . $type . '" />
 								<input class="child-name" placeholder="Theme Name" type="text" name="theme_name" value="" />
 								<input class="child-slug" placeholder="theme_slug" type="text" name="child" value="" />
-								<input type="submit" class="btn btn-primary btn-xs" name="create_child" value="Create Child" />
+								<button type="submit" class="btn btn-primary btn-xs" name="create_child" value="Create Child">
+								<i class="fa fa-paint-brush"></i> Create Child
+								</button>
 							</form>
 							';
 						}

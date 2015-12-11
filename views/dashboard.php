@@ -18,7 +18,9 @@
 	<div class="page-top">
 		<h1 class="page-header"><i class="fa fa-tachometer"></i> VVV Dashboard</h1>
 		<form class="get-backups" action="" method="get">
-			<input type="submit" class="btn btn-danger btn-xs" name="get_backups" value="Backups" />
+			<button type="submit" class="btn btn-danger btn-xs" name="get_backups" value="Backups">
+				<i class="fa fa-database"></i> Backups
+			</button>
 		</form>
 	</div>
 
@@ -57,7 +59,9 @@
 								<input type="hidden" name="host" value="' . $_GET['host'] . '" />
 								<input class="child-name" placeholder="Theme Name" type="text" name="theme_name" value="" />
 								<input class="child-slug" placeholder="theme_slug" type="text" name="theme_slug" value="" />
-								<input type="submit" class="btn btn-success btn-xs" name="create_s_theme" value="Create _s Theme" />
+								<button type="submit" class="btn btn-success btn-xs" name="create_s_theme" value="Create _s Theme">
+								<i class="fa fa-paint-brush"></i> Create _s Theme
+								</button>
 							</form>
 							';
 					echo $new_theme_form;

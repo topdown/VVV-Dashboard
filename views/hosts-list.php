@@ -15,7 +15,8 @@
  * hosts-table.php
  */
 ?>
-<p class="red italic"><span class="bold">NOTE</span>: After creating or changing a host/site purge the Host Cache.</p>
+	<p class="red italic"><span class="bold">NOTE</span>: After creating or changing a host/site purge the Host Cache.
+	</p>
 	<div id="search_container" class="input-group search-box">
 		<span class="input-group-addon"> <i class="fa fa-search"></i> </span>
 		<input type="text" class="form-control search-input" id="text-search" placeholder="Live Search..." />
@@ -81,41 +82,54 @@
 						?></td>
 
 					<td>
-						<a class="btn btn-primary btn-xs" href="http://<?php echo $array['host']; ?>/" target="_blank">Visit Site
-							<i class="fa fa-external-link"></i></a>
+						<a class="btn btn-primary btn-xs" href="http://<?php echo $array['host']; ?>/" target="_blank">
+							<i class="fa fa-external-link"></i> Visit
+						</a>
 
 						<?php if ( 'true' == $array['is_wp'] && $has_wp_config ) { ?>
-							<a class="btn btn-warning btn-xs" href="http://<?php echo $array['host']; ?>/wp-admin" target="_blank">Admin/Login
-								<i class="fa fa-wordpress"></i></a>
+							<a class="btn btn-warning btn-xs" href="http://<?php echo $array['host']; ?>/wp-admin" target="_blank">
+								<i class="fa fa-wordpress"></i> Admin
+							</a>
 						<?php } ?>
-						<a class="btn btn-success btn-xs" href="http://<?php echo $array['host']; ?>/?XDEBUG_PROFILE" target="_blank">Profiler
-							<i class="fa fa-search-plus"></i></a>
+						<a class="btn btn-success btn-xs" href="http://<?php echo $array['host']; ?>/?XDEBUG_PROFILE" target="_blank">
+							<i class="fa fa-search-plus"></i> Profiler
+						</a>
 
 						<?php if ( $is_env || $has_wp_config ) { ?>
 							<form class="get-themes" action="" method="get">
 								<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
 								<input type="hidden" name="get_themes" value="true" />
-								<input type="submit" class="btn btn-default btn-xs" name="themes" value="Themes" />
+								<button type="submit" class="btn btn-default btn-xs" name="themes" value="Themes">
+									<i class="fa fa-paint-brush"></i> Themes
+								</button>
 							</form>
 
 							<form class="get-plugins" action="" method="get">
 								<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
 								<input type="hidden" name="get_plugins" value="true" />
-								<input type="submit" class="btn btn-default btn-xs" name="plugins" value="Plugins" />
+								<button type="submit" class="btn btn-default btn-xs" name="plugins" value="Plugins">
+									<i class="fa fa-puzzle-piece"></i> Plugins
+								</button>
 							</form>
 
-<!--							<form class="get-plugins" action="" method="post">-->
-<!--								<input type="hidden" name="host" value="--><?php //echo $array['host']; ?><!--" />-->
-<!--								<input type="submit" class="btn btn-success btn-xs" name="install_dev_plugins" value="Dev Plugins" />-->
-<!--							</form>-->
+							<!--							<form class="get-plugins" action="" method="post">--><!--								<input type="hidden" name="host" value="--><?php //echo $array['host']; ?><!--" />--><!--								<input type="submit" class="btn btn-success btn-xs" name="install_dev_plugins" value="Dev Plugins" />--><!--							</form>-->
 
 						<?php }
 						if ( $is_env || $has_wp_config ) {
 							?>
 
-							<form class="backup" action="" method="post">
+							<form class="backup form-inline" action="" method="post">
 								<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
-								<input type="submit" class="btn btn-danger btn-xs" name="backup" value="Backup DB" />
+								<button type="submit" class="btn btn-info btn-xs" name="backup" value="Backup DB">
+									<i class="fa fa-database"></i> Backup DB
+								</button>
+							</form>
+
+							<form class="backup form-inline" action="" method="get">
+								<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
+								<button type="submit" class="btn btn-warning btn-xs" name="migrate" value="true">
+									<i class="fa fa-database"></i> Migrate
+								</button>
 							</form>
 							<?php
 						}
@@ -138,7 +152,8 @@
 						if ( file_exists( $debug_log_path ) ) { ?>
 							<form class="backup" action="" method="get">
 								<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
-								<input type="submit" class="btn btn-warning btn-xs" name="debug_log" value="Debug Log" />
+								<button type="submit" class="btn btn-danger btn-xs" name="debug_log" value="Debug Log">
+									<i class="fa fa-exclamation-circle"></i> Errors
 							</form>
 						<?php } ?>
 					</td>
