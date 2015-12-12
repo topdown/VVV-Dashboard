@@ -36,11 +36,13 @@ function vvv_dash_prep() {
  *
  * Created:    11/22/15, 2:45 PM
  *
- * @param $host
+ * @param        $host
+ *
+ * @param string $file_name
  *
  * @return bool|string
  */
-function vvv_dash_wp_backup( $host ) {
+function vvv_dash_wp_backup( $host, $file_name = '' ) {
 
 	if ( isset( $host ) ) {
 
@@ -68,8 +70,12 @@ function vvv_dash_wp_backup( $host ) {
 		}
 
 		if ( is_array( $db_settings ) && $path ) {
-			$file_name = 'dumps/' . $host . '_' . date( 'm-d-Y_g-i-s', time() ) . '.sql';
-			$export    = shell_exec( 'wp db export --add-drop-table --path=' . $path . ' ' . $file_name );
+			if ( ! empty( $file_name ) ) {
+				$export = shell_exec( 'wp db export --add-drop-table --path=' . $path . ' ' . $file_name );
+			} else {
+				$file_name = 'dumps/' . $host . '_' . date( 'm-d-Y_g-i-s', time() ) . '.sql';
+				$export    = shell_exec( 'wp db export --add-drop-table --path=' . $path . ' ' . $file_name );
+			}
 
 			if ( file_exists( $file_name ) ) {
 				return vvv_dash_notice( 'Your backup is ready at www/default/dashboard/' . $file_name );
@@ -91,21 +97,26 @@ function vvv_dash_wp_backup( $host ) {
  *
  * Created:    11/22/15, 2:45 PM
  *
- * @param $host_info
- * @param $db
+ * @param        $host_info
+ * @param        $db
+ *
+ * @param string $file_name
  *
  * @return bool|string
  * @internal       param $host
- *
  */
-function vvv_dash_wp_starter_backup( $host_info, $db ) {
+function vvv_dash_wp_starter_backup( $host_info, $db, $file_name = '' ) {
 
 	$host = $host_info['host'];
 	$path = VVV_WEB_ROOT . '/' . $host . '/public/wp/';
 
 	if ( is_array( $db ) && $path ) {
-		$file_name = 'dumps/' . $host . '_' . date( 'm-d-Y_g-i-s', time() ) . '.sql';
-		$export    = shell_exec( 'wp db export --add-drop-table --path=' . $path . ' ' . $file_name );
+		if ( ! empty( $file_name ) ) {
+			$export = shell_exec( 'wp db export --add-drop-table --path=' . $path . ' ' . $file_name );
+		} else {
+			$file_name = 'dumps/' . $host . '_' . date( 'm-d-Y_g-i-s', time() ) . '.sql';
+			$export    = shell_exec( 'wp db export --add-drop-table --path=' . $path . ' ' . $file_name );
+		}
 
 		if ( file_exists( $file_name ) ) {
 			return vvv_dash_notice( 'Your backup is ready at www/default/dashboard/' . $file_name );
@@ -450,7 +461,9 @@ function get_backups_table() {
 		$file_info[ $key ]['file_date'] = $file_parts[1];
 		$file_info[ $key ]['file_time'] = str_replace( '.sql', '', $file_parts[2] );
 
-		$host = ( strpos( $file_parts[0], '.dev' ) == true ) ? $file_parts[0] : $file_parts[0] . '.dev';
+		$host = ( strpos( $file_parts[0], '.dev' ) == true ) ? $file_parts[0] :
+			( strpos( $file_parts[0], '.com' ) == true ) ? $file_parts[0] : $file_parts[0] . '.dev';
+
 		// Table data
 		$table_data[] .= '<tr>';
 		$table_data[] .= '<td>' . $host . '</td>';
@@ -463,8 +476,12 @@ function get_backups_table() {
 <input type="hidden" name="get_backups" value="Backups" />
 <input type="hidden" name="host" value="' . $host . '" />
 <input type="hidden" name="file_path" value="' . urlencode( $file_info[ $key ]['file_path'] ) . '" />
-<input type="submit" class="btn btn-warning btn-xs" name="roll_back" value="Roll Back" />
-<input type="submit" class="btn btn-danger btn-xs" name="delete_backup" value="Delete" />
+';
+		if ( strpos( $file_parts[0], '.com' ) == false ) {
+			$table_data[] .= '<input type = "submit" class="btn btn-warning btn-xs" name = "roll_back" value = "Roll Back" /> ';
+		}
+		$table_data[]
+			.= '<input type="submit" class="btn btn-danger btn-xs" name="delete_backup" value="Delete" />
 </form>
 
 </td>';

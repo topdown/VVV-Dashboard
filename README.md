@@ -72,6 +72,7 @@ Copy the dashboard-custom.php to VVV/www/default/dashboard-custom.php
 * .env check for .env type installs
 * Custom setting for scan paths
 * Custom setting for wp-content paths
+* Migrations for databases. You can now migrate to a new domain.
 
 ---
 ### UPDATE Instructions 
@@ -155,6 +156,7 @@ create a `VVV/www/default/dashboard/custom.css` file and add this
 * Create a child theme of any parent from themes list
 * Deeper .env support but must follow the installers path
 * Create a new theme under a host based on _s http://underscores.me/  and activate it. It also includes the sass files.
+* Migrations for databases. You can now migrate to a new domain.
 
 ---
 12/01/15  version: 0.1.3

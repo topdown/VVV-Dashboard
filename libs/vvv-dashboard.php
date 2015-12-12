@@ -387,11 +387,13 @@ class vvv_dashboard {
 	 *
 	 * Created:    12/5/15, 2:43 AM
 	 *
-	 * @param $host
+	 * @param        $host
+	 *
+	 * @param string $file_name
 	 *
 	 * @return bool|string
 	 */
-	public function create_db_backup( $host ) {
+	public function create_db_backup( $host, $file_name = '' ) {
 		$backup_status = false;
 		$host_info     = $this->set_host_info( $host );
 		$is_env        = ( isset( $host_info['is_env'] ) ) ? $host_info['is_env'] : false;
@@ -404,11 +406,11 @@ class vvv_dashboard {
 			$db['db_name']     = $configs['DB_NAME'];
 			$db['db_user']     = $configs['DB_USER'];
 			$db['db_password'] = $configs['DB_PASSWORD'];
-			$backup_status     = vvv_dash_wp_starter_backup( $host_info, $db );
+			$backup_status     = vvv_dash_wp_starter_backup( $host_info, $db, $file_name );
 
 		} else {
 			// All other backups
-			$backup_status = vvv_dash_wp_backup( $host );
+			$backup_status = vvv_dash_wp_backup( $host, $file_name );
 		}
 
 

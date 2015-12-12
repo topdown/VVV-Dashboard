@@ -18,7 +18,7 @@
 	<div class="page-top">
 		<h1 class="page-header"><i class="fa fa-tachometer"></i> VVV Dashboard</h1>
 		<form class="get-backups" action="" method="get">
-			<button type="submit" class="btn btn-danger btn-xs" name="get_backups" value="Backups">
+			<button type="submit" class="btn btn-danger btn-sm" name="get_backups" value="Backups">
 				<i class="fa fa-database"></i> Backups
 			</button>
 		</form>
@@ -46,6 +46,109 @@
 				}
 
 			}
+
+			if ( isset( $_GET['migrate'] ) && isset( $_GET['host'] ) ) {
+
+				$host      = $_GET['host'];
+				$domain    = ( isset( $_GET['domain'] ) ) ? $_GET['domain'] : false;
+				$host_info = $vvv_dash->set_host_info( $host );
+				$host_path = VVV_WEB_ROOT . '/' . $host_info['host'] . $host_info['path'];
+
+				if ( $domain ) {
+					$status = $vvv_dash->create_db_backup( $host );
+
+					if ( $status ) {
+						echo $status;
+					}
+
+					$cmd     = 'wp search-replace --url=' . $host . ' ' . $host . ' ' . $domain . ' --path=' . $host_path;
+					$migrate = shell_exec( $cmd );
+
+					if ( $migrate ) {
+
+						$file_name = 'dumps/migrated-' . $domain . '_' . date( 'm-d-Y_g-i-s', time() ) . '.sql';
+						$status    = $vvv_dash->create_db_backup( $host, $file_name );
+
+						if ( $status ) {
+							echo $status;
+						}
+
+						$migrate       = preg_split( "[\r|\n]", trim( $migrate ) );
+						$m_table_array = array();
+						$m_table       = '<h4>The tables modified for <span class="red">' . $host . '</span> ' . $close . '</h4>';
+						$m_table .= '<table class="table table-bordered table-striped">';
+
+						foreach ( $migrate as $key => $row ) {
+
+							$m_table_array[] = '<tr>';
+
+							$data = explode( "\t", $row );
+
+							if ( 0 == $key ) {
+								if ( isset( $data[0] ) ) {
+									$m_table_array[] = '<th>' . $data[0] . '</th>';
+								}
+								if ( isset( $data[1] ) ) {
+									$m_table_array[] = '<th>' . $data[1] . '</th>';
+								}
+								if ( isset( $data[2] ) ) {
+									$m_table_array[] = '<th>' . $data[2] . '</th>';
+								}
+								if ( isset( $data[3] ) ) {
+									$m_table_array[] = '<th>' . $data[3] . '</th>';
+								}
+							} else {
+
+								if ( isset( $data[2] ) && $data[2] > 0 ) {
+									if ( isset( $data[0] ) ) {
+										$m_table_array[] = '<td>' . $data[0] . '</td>';
+									}
+									if ( isset( $data[1] ) ) {
+										$m_table_array[] = '<td>' . $data[1] . '</td>';
+									}
+									if ( isset( $data[2] ) ) {
+										$m_table_array[] = '<td>' . $data[2] . '</td>';
+									}
+									if ( isset( $data[3] ) ) {
+										$m_table_array[] = '<td>' . $data[3] . '</td>';
+									}
+								}
+
+							}
+
+							$m_table_array[] = '</tr>';
+
+						} // end foreach
+
+						$m_table .= implode( '', $m_table_array );
+						$m_table .= '</table>';
+
+						echo $m_table;
+						echo vvv_dash_notice('You can rollback the database to its normal state from the backups.');
+
+					} else {
+						echo vvv_dash_error( 'ERROR: Something went wrong, the migration did not happen.' );
+					}
+				}
+				//$file = '';
+				//$roll_back = $vvv_dash->db_roll_back( $host, $file );
+
+				?>
+				<div class="alert alert-warning" role="alert">
+					<p class="">Migrating: <span class="bold italic"><?php echo $host; ?></span> <span class="bold pull-right">Warning this is a Beta feature!</span></p>
+					<p>1. A backup will be created <br />2. Search and replace will happen on this host.
+						<br />3. A new backup will be created marked as the migration</p>
+
+					<form class="migrate-form form-inline" action="" method="get">
+						<input type="hidden" name="host" value="<?php echo $host; ?>" />
+						<input type="hidden" name="migrate" value="true" />
+						<input class="domain" placeholder="The domain moving to" type="text" name="domain" value="<?php echo $domain; ?>" />
+						<button class="btn btn-warning btn-sm" type="submit" name="migrate_db" value="true">Migrate</button>
+					</form>
+				</div>
+				<?php
+			}
+
 
 			if ( ! empty( $themes ) || isset( $_GET['themes'] ) ) {
 				if ( isset( $_GET['host'] ) ) {
@@ -77,13 +180,13 @@
 							echo vvv_dash_error( 'Error: That theme already exists!' );
 						} else {
 							$cmd       = 'wp scaffold _s ' . $slug . ' --theme_name="' . $_POST['theme_name'] . '" --path=' . $host_path .
-							' --author="' . VVV_DASH_NEW_THEME_AUTHOR . '" --author_uri="' . VVV_DASH_NEW_THEME_AUTHOR_URI . '" --sassify --activate';
+							             ' --author="' . VVV_DASH_NEW_THEME_AUTHOR . '" --author_uri="' . VVV_DASH_NEW_THEME_AUTHOR_URI . '" --sassify --activate';
 							$new_theme = shell_exec( $cmd );
 
 							if ( $new_theme ) {
 								$purge_status = $cache->purge( '-themes' );
 								echo vvv_dash_notice( $purge_status . ' files were purged from cache!' );
-								$new_theme = str_replace('. Success:', '. <br />Success:', $new_theme);
+								$new_theme = str_replace( '. Success:', '. <br />Success:', $new_theme );
 								echo vvv_dash_notice( $new_theme );
 							} else {
 								echo vvv_dash_error( '<strong>Error:</strong> Something went wrong!' );
