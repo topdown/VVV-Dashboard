@@ -120,11 +120,8 @@ create a `VVV/www/default/dashboard/custom.css` file and add this
 ** More Screenshots**
 
 [New Buttons](https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshots/host-list.png)
-
 [Quick Server Info](https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshots/server-info.png)
-
 [Theme List](https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshots/theme-list.png)
-
 [Plugin List](https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshots/plugin-list.png)
 
 
