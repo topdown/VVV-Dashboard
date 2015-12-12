@@ -255,7 +255,7 @@ create a `VVV/www/default/dashboard/custom.css` file and add this
 
 ### These projects are used in VVV Dashboard
 
-* [Twitter](Bootstrap https://github.com/twbs/bootstrap)
+* [Twitter Bootstrap](https://github.com/twbs/bootstrap)
 * [WPCLI](https://github.com/wp-cli/wp-cli)
 * [jQuery](https://github.com/jquery/jquery)
 * [Bower](https://github.com/bower/bower)
