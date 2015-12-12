@@ -133,7 +133,7 @@ create a `VVV/www/default/dashboard/custom.css` file and add this
 ### Change Log
 
 ---
-12/10/15  version: 0.1.4
+12/12/15  version: 0.1.4
 
 * Added WPStarter support by fixing some path issues
 * Added .env check and handling functions
