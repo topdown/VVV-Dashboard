@@ -6248,25 +6248,30 @@ input.child-name {
   top: 5px;
 }
 
+/* line 272, compass/sass/_layout.scss */
+.navbar .github-link:hover .fa-inverse {
+  color: #00b3ee;
+}
+
 /********************************************************************
  = custom classes   *********
 *********************************************************************/
-/* line 275, compass/sass/_layout.scss */
+/* line 279, compass/sass/_layout.scss */
 .bold {
   font-weight: bold;
 }
 
-/* line 279, compass/sass/_layout.scss */
+/* line 283, compass/sass/_layout.scss */
 .italic {
   font-style: italic;
 }
 
-/* line 283, compass/sass/_layout.scss */
+/* line 287, compass/sass/_layout.scss */
 .underline {
   text-decoration: underline;
 }
 
-/* line 287, compass/sass/_layout.scss */
+/* line 291, compass/sass/_layout.scss */
 .red {
   color: darkred;
 }
