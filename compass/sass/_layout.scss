@@ -256,6 +256,19 @@ input.child-name {
 	width: 250px;
 }
 
+.navbar p.pull-right {
+	margin:   0;
+	position: absolute;
+	top:     5px;
+	right:   20px;
+}
+
+.navbar .github-link {
+	margin-left: 8px;
+	position: relative;
+	top: 5px;
+}
+
 /********************************************************************
  = custom classes   *********
 *********************************************************************/

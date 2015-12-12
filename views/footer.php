@@ -24,7 +24,8 @@
 			</p>
 
 			<p>
-				<small>VVV Dashboard Version: <?php echo VVV_DASH_VERSION; ?></small>
+				<span class="pull-left"><small>VVV Dashboard Version: <?php echo VVV_DASH_VERSION; ?></small></span>
+				<span class="pull-right"><small>Help grow the feature list:</small> <span class="badge-paypal"><a target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KEUN2SQ2VRW7A" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a></span></span>
 			</p>
 
 </div>
