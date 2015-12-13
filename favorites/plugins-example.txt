@@ -1,0 +1,3 @@
+debug-bar
+plugin-profiler
+https://github.com/Rarst/laps/releases/download/1.3.2/laps-1.3.2.zip
