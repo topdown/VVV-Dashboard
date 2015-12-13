@@ -34,6 +34,7 @@
 			<p class="pull-right">
 				<a title="Join the party on Gitter Chat" class="gitter" href="https://gitter.im/topdown/VVV-Dashboard" target="_blank"><i class="fa fa-comments-o  fa-2x fa-inverse"></i></a>
 				<a title="VVV Dashboard on GitHub" class="github-link" href="https://github.com/topdown/VVV-Dashboard" target="_blank"><i class="fa fa-github fa-2x fa-inverse"></i></a>
+				<a title="VVV Dashboard Documentation" class="github-link" href="https://github.com/topdown/VVV-Dashboard/wiki" target="_blank"><i class="fa fa-book  fa-2x fa-inverse"></i></a>
 			</p>
 		</div>
 	</div>
