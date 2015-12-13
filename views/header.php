@@ -50,6 +50,7 @@
 		<script type="text/JavaScript" src="bower_components/jquery/dist/jquery.min.js"></script>
 		<script type="text/javascript" src="bower_components/js-cookie/src/js.cookie.js"></script>
 		<script type="text/javascript" src="bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/alert.js"></script>
+		<script type="text/javascript" src="bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/tooltip.js"></script>
 		<script type="text/javascript" src="src/js/scripts.js?ver=<?php echo VVV_DASH_VERSION; ?>"></script>
 	</head>
 	<body>

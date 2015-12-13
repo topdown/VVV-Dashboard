@@ -15,6 +15,7 @@
  * hosts-table.php
  */
 ?>
+
 	<p class="red italic"><span class="bold">NOTE</span>: After creating or changing a host/site purge the Host Cache.
 	</p>
 	<div id="search_container" class="input-group search-box">
@@ -99,16 +100,16 @@
 							<form class="get-themes" action="" method="get">
 								<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
 								<input type="hidden" name="get_themes" value="true" />
-								<button type="submit" class="btn btn-default btn-xs" name="themes" value="Themes">
-									<i class="fa fa-paint-brush"></i> Themes
+								<button title="Theme List" type="submit" class="btn btn-default btn-xs" name="themes" value="Themes" data-toggle="tooltip" data-placement="top">
+									<i class="fa fa-paint-brush"></i><span> Themes</span>
 								</button>
 							</form>
 
 							<form class="get-plugins" action="" method="get">
 								<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
 								<input type="hidden" name="get_plugins" value="true" />
-								<button type="submit" class="btn btn-default btn-xs" name="plugins" value="Plugins">
-									<i class="fa fa-puzzle-piece"></i> Plugins
+								<button title="Plugin List" type="submit" class="btn btn-default btn-xs" name="plugins" value="Plugins" data-toggle="tooltip" data-placement="top">
+									<i class="fa fa-puzzle-piece"></i><span> Plugins</span>
 								</button>
 							</form>
 
@@ -120,15 +121,15 @@
 
 							<form class="backup form-inline" action="" method="post">
 								<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
-								<button type="submit" class="btn btn-info btn-xs" name="backup" value="Backup DB">
-									<i class="fa fa-database"></i> Backup DB
+								<button title="Backup the database" type="submit" class="btn btn-info btn-xs" name="backup" value="Backup DB" data-toggle="tooltip" data-placement="top">
+									<i class="fa fa-database"></i><span> Backup DB</span>
 								</button>
 							</form>
 
 							<form class="backup form-inline" action="" method="get">
 								<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
-								<button type="submit" class="btn btn-warning btn-xs" name="migrate" value="true">
-									<i class="fa fa-database"></i> Migrate
+								<button title="Domain migration form" type="submit" class="btn btn-warning btn-xs" name="migrate" value="true" data-toggle="tooltip" data-placement="top">
+									<i class="fa fa-database"></i><span> Migrate</span>
 								</button>
 							</form>
 							<?php
@@ -152,8 +153,8 @@
 						if ( file_exists( $debug_log_path ) ) { ?>
 							<form class="backup" action="" method="get">
 								<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
-								<button type="submit" class="btn btn-danger btn-xs" name="debug_log" value="Debug Log">
-									<i class="fa fa-exclamation-circle"></i> Errors
+								<button title="Host Errors" type="submit" class="btn btn-danger btn-xs" name="debug_log" value="Debug Log" data-toggle="tooltip" data-placement="top">
+									<i class="fa fa-exclamation-circle"></i><span> Errors</span>
 							</form>
 						<?php } ?>
 					</td>

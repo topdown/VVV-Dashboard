@@ -115,7 +115,7 @@ $(function () {
 
 $(function () {
 
-	if(Cookies.get('vvv_dash_sidebar') == 'hidden') {
+	if (Cookies.get('vvv_dash_sidebar') == 'hidden') {
 		$("#wrapper").addClass('toggled');
 	}
 
@@ -126,10 +126,15 @@ $(function () {
 
 		wrapper.toggleClass('toggled');
 
-		if(wrapper.hasClass('toggled')) {
-			Cookies.set('vvv_dash_sidebar', 'hidden', { expires: 7 });
+		if (wrapper.hasClass('toggled')) {
+			Cookies.set('vvv_dash_sidebar', 'hidden', {expires: 7});
 		} else {
 			Cookies.remove('vvv_dash_sidebar');
 		}
 	});
+
+});
+
+$(function () {
+	$('[data-toggle="tooltip"]').tooltip()
 });
