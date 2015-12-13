@@ -32,7 +32,7 @@
 				<li><a href="//vvv.dev:1080/" target="_blank">Mailcatcher</a></li>
 			</ul>
 			<p class="pull-right">
-				<a title="VVV Dashboard on Gitter Chat" class="gitter" href="https://gitter.im/topdown/VVV-Dashboard" target="_blank"><img src="https://badges.gitter.im/Join%20Chat.svg" height="" width="" alt="" /></a>
+				<a title="Join the party on Gitter Chat" class="gitter" href="https://gitter.im/topdown/VVV-Dashboard" target="_blank"><i class="fa fa-comments-o  fa-2x fa-inverse"></i></a>
 				<a title="VVV Dashboard on GitHub" class="github-link" href="https://github.com/topdown/VVV-Dashboard" target="_blank"><i class="fa fa-github fa-2x fa-inverse"></i></a>
 			</p>
 		</div>

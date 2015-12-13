@@ -5162,14 +5162,24 @@ input.child-name {
   right: 20px;
 }
 
-.navbar .github-link {
+.navbar .gitter {
   margin-left: 8px;
+  position: relative;
+  top: 5px;
+}
+
+.navbar .github-link {
+  margin-left: 10px;
   position: relative;
   top: 5px;
 }
 
 .navbar .github-link:hover .fa-inverse {
   color: #00b3ee;
+}
+
+.navbar .gitter:hover .fa-inverse {
+  color: #d9534f;
 }
 
 /********************************************************************
