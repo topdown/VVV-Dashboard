@@ -31,10 +31,10 @@
 				<li><a href="/phpinfo/" target="_blank">PHP Info</a></li>
 				<li><a href="//vvv.dev:1080/" target="_blank">Mailcatcher</a></li>
 			</ul>
-			<p class="pull-right">Help grow the feature list: <span class="badge-paypal"><a target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KEUN2SQ2VRW7A" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a></span>
-				<a class="github-link" href="https://github.com/topdown/VVV-Dashboard" target="_blank"><i class="fa fa-github fa-2x fa-inverse"></i></a>
+			<p class="pull-right">
+				<a title="VVV Dashboard on Gitter Chat" class="gitter" href="https://gitter.im/topdown/VVV-Dashboard" target="_blank"><img src="https://badges.gitter.im/Join%20Chat.svg" height="" width="" alt="" /></a>
+				<a title="VVV Dashboard on GitHub" class="github-link" href="https://github.com/topdown/VVV-Dashboard" target="_blank"><i class="fa fa-github fa-2x fa-inverse"></i></a>
 			</p>
-
 		</div>
 	</div>
 <?php
