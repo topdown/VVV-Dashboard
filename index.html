@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>VVV Dashboard by topdown</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">VVV Dashboard</h1>
+      <h2 class="project-tagline">Dashboard for Varying Vagrant Vagrants https://github.com/Varying-Vagrant-Vagrants/VVV </h2>
+      <a href="https://github.com/topdown/VVV-Dashboard" class="btn">View on GitHub</a>
+      <a href="https://github.com/topdown/VVV-Dashboard/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/topdown/VVV-Dashboard/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <p>This is a Varying Vagrant Vagrants Dashboard for the excellent <a href="https://github.com/Varying-Vagrant-Vagrants/VVV">Varying Vagrant Vagrants</a></p>
+
+<p>Its purpose is to dynamically load host links to all sites created in the VVV www path.</p>
+
+<p>It also suggests the wonderful add-on bash script <a href="https://github.com/aliso/vvv-site-wizard">VVV Site Wizard</a> for creating new sites.</p>
+
+<p><a href="https://gitter.im/topdown/VVV-Dashboard?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Gitter Chat"></a></p>
+
+<h2>
+<a id="instructions" class="anchor" href="#instructions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Instructions</h2>
+
+<p>Clone this repo to your VVV/www/default/ directory (<code>git clone https://github.com/topdown/VVV-Dashboard.git dashboard</code>)</p>
+
+<p>Copy the dashboard-custom.php to VVV/www/default/dashboard-custom.php</p>
+
+<hr>
+
+<h3>
+<a id="help-grow-this-feature-list" class="anchor" href="#help-grow-this-feature-list" aria-hidden="true"><span class="octicon octicon-link"></span></a>Help Grow This Feature List</h3>
+
+<p><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=KEUN2SQ2VRW7A" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button"></a></p>
+
+<hr>
+
+<h3>
+<a id="feature-list" class="anchor" href="#feature-list" aria-hidden="true"><span class="octicon octicon-link"></span></a>Feature List</h3>
+
+<ul>
+<li>List hosts in VVV
+
+<ul>
+<li>Debug On/Off for WP sites
+
+<ul>
+<li>Show not installed if wp-config.php is missing</li>
+</ul>
+</li>
+<li>WP Version for each host</li>
+<li>Visit Site Link</li>
+<li>Visit Admin Link</li>
+<li>Profiler Link</li>
+<li>Backup Database (SQL Dump) host-timestamped name</li>
+<li>Debug Log viewer if debug log is found</li>
+</ul>
+</li>
+<li>Live/Fuzzy search host list</li>
+<li>List Plugins for each installed WordPress Site
+
+<ul>
+<li>Plugin Name</li>
+<li>Status (inactive / active) highlighted</li>
+<li>Update (None / Available - Update Button)</li>
+<li>Version</li>
+</ul>
+</li>
+<li>List Themes
+
+<ul>
+<li>Theme Name
+
+<ul>
+<li>Create Child Theme</li>
+</ul>
+</li>
+<li>Status (inactive / active / parent) highlighted</li>
+<li>Update (None / Available - Update Button)</li>
+<li>Version</li>
+</ul>
+</li>
+<li>Backup List
+
+<ul>
+<li>Host</li>
+<li>Date of backup</li>
+<li>Time of backup</li>
+<li>Actions
+
+<ul>
+<li>Save As (In case you want to save another copy somewhere else)</li>
+<li>Roll Back (Roll back to any existing version for the host)</li>
+<li>Delete (Allows you to selectively delete backups)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Last 10 PHP Errors (with highlighting)</li>
+<li>Show Hide Sidebar</li>
+<li>Quick server info</li>
+<li>Command list</li>
+<li>Reference links</li>
+<li>Cache
+
+<ul>
+<li>Theme list for each site</li>
+<li>Plugin list for each site</li>
+<li>Host list ( Speeds up loading greatly )</li>
+<li>VVV Dashboard version check</li>
+<li>Delete cache for Hosts, Themes or Plugins</li>
+<li>24 hour cache for each system, separate TTL settings</li>
+</ul>
+</li>
+<li>VVV Dashboard version check with notice</li>
+<li>All buttons are colored for separation</li>
+<li>Twitter Bootstrap theme</li>
+<li>Sass CSS</li>
+<li>Bower to manage JS</li>
+<li>xDebug check and notice to show if its on or off</li>
+<li>Debug Log viewer, if there is a debug.log show button by host and make the last 20 viewable</li>
+<li>WPStarter support</li>
+<li>.env check for .env type installs</li>
+<li>Custom setting for scan paths</li>
+<li>Custom setting for wp-content paths</li>
+<li>Migrations for databases. You can now migrate to a new domain.</li>
+</ul>
+
+<hr>
+
+<h3>
+<a id="update-instructions" class="anchor" href="#update-instructions" aria-hidden="true"><span class="octicon octicon-link"></span></a>UPDATE Instructions</h3>
+
+<p>From your dashboard directory <code>git pull</code></p>
+
+<p>You no longer need to copy the style.css anywhere.</p>
+
+<p>Delete the old VVV/www/default/dashboard-custom.php and copy the new version to VVV/www/default/dashboard-custom.php</p>
+
+<p>Now move your dashboard directory so it is inside VVV/www/default/</p>
+
+<p>As of 11/19/2015 there is a cache system, If don't see cache files on first dashboard load make sure dashboard/cache/ is writable. (It should be)</p>
+
+<hr>
+
+<p>With Vagrant Up you should be able browse to your vagrant root www usually <a href="http://vvv">vvv</a> or <a href="http://vvv.dev">vvv.dev</a> and see the new dashboard.</p>
+
+<p>** NEW: There are bound keys for the search feature, the enter key and down arrow key search down the list and the up arrow searches up.**</p>
+
+<hr>
+
+<h3>
+<a id="customizations" class="anchor" href="#customizations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Customizations</h3>
+
+<p>There are some customizations that you can do to VVV Dashboard</p>
+
+<ol>
+<li>change settings in the <code>VVV/www/default/dashboard-custom.php</code>
+</li>
+<li>create a custom.css and add custom CSS. This file is ignored when updating and autoloaded if exists.</li>
+</ol>
+
+<p>Want the host list full view all the time with no scolling/overflow</p>
+
+<p>create a <code>VVV/www/default/dashboard/custom.css</code> file and add this</p>
+
+<pre><code>.sites {
+    max-height: 100%;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshots/screenshot-v0.1.3.png" alt="image"></p>
+
+<p><img src="https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshots/live-search.gif" alt="image"></p>
+
+<p>** More Screenshots**</p>
+
+<p><a href="https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshots/host-list.png">New Buttons</a>
+<a href="https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshots/server-info.png">Quick Server Info</a>
+<a href="https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshots/theme-list.png">Theme List</a>
+<a href="https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/screenshots/plugin-list.png">Plugin List</a></p>
+
+<hr>
+
+<p>** NOTE: ** This Dashboard project has no affiliation with Varying Vagrant Vagrants or any other components listed here.</p>
+
+<hr>
+
+<h3>
+<a id="change-log" class="anchor" href="#change-log" aria-hidden="true"><span class="octicon octicon-link"></span></a>Change Log</h3>
+
+<hr>
+
+<p>12/12/15  version: 0.1.4</p>
+
+<ul>
+<li>Added WPStarter support by fixing some path issues</li>
+<li>Added .env check and handling functions</li>
+<li>Started some refactoring adding new classes that will support the system</li>
+<li>Added Backup List and Backup List button
+
+<ul>
+<li>Host</li>
+<li>Date of backup</li>
+<li>Time of backup</li>
+<li>Actions
+
+<ul>
+<li>Save As (In case you want to save another copy somewhere else)</li>
+<li>Roll Back (Roll back to any existing version for the host)</li>
+<li>Delete (Allows you to selectively delete backups)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Added WordPress version to Host List</li>
+<li>Show not installed if wp-config.php is missing</li>
+<li>Custom setting for scan paths</li>
+<li>Custom setting for wp-content paths</li>
+<li>Create a child theme of any parent from themes list</li>
+<li>Deeper .env support but must follow the installers path</li>
+<li>Create a new theme under a host based on _s <a href="http://underscores.me/">http://underscores.me/</a>  and activate it. It also includes the sass files.</li>
+<li>Migrations for databases. You can now migrate to a new domain.</li>
+</ul>
+
+<hr>
+
+<p>12/01/15  version: 0.1.3</p>
+
+<ul>
+<li>Bumping version again to resolve cache issues</li>
+</ul>
+
+<hr>
+
+<p>12/01/15  version: 0.1.2</p>
+
+<ul>
+<li>Added APP icons (favicon) for the dashboard</li>
+<li>Added WP Debug Log viewer last 20 logs</li>
+</ul>
+
+<hr>
+
+<p>11/22/15  version: 0.1.1</p>
+
+<ul>
+<li>Bug fixes for path issues</li>
+</ul>
+
+<hr>
+
+<p>11/22/15  version: 0.1.0</p>
+
+<ul>
+<li>Added DB Backups to the dashboard</li>
+</ul>
+
+<hr>
+
+<p>11/20/15  version: 0.0.9</p>
+
+<ul>
+<li>Added version check for VVV Dashboard</li>
+<li>Version check notice if a new version is available</li>
+<li>Display the last 10 PHP errors</li>
+</ul>
+
+<hr>
+
+<p>11/20/15  version: 0.0.8</p>
+
+<ul>
+<li>Added update capabilities for plugins and themes</li>
+<li>Add mailcatcher menu item props: <a href="https://github.com/atimmer" class="user-mention">@atimmer</a> topdown/VVV-Dashboard/pull/9</li>
+</ul>
+
+<hr>
+
+<p>11/20/15  version: 0.0.7</p>
+
+<ul>
+<li>Added a scan depth setting</li>
+<li>Added purge forms for each of the cached systems</li>
+<li>Started cleaning up the index and moving HTML to views</li>
+<li>Added the ability for people to create custom.css to override our styles</li>
+<li>Added version constant to static files</li>
+</ul>
+
+<hr>
+
+<p>11/19/2015 version: 0.0.6</p>
+
+<ul>
+<li>Added a simple Cache System to improve performance when collecting data</li>
+<li>Added get_plugins feature which will collect the plugins info from a selected installed site</li>
+<li>Added get_themes feature which will collect the themes info from a selected installed site</li>
+<li>Added quick server info to the sidebar</li>
+<li>Show/Hide sidebar</li>
+<li>Cookies for sidebar state (7 day cookie)</li>
+<li>Added some defined constants to the dashboard-custom.php (which means updating you need to replace the old)</li>
+<li>Added more screenshots</li>
+<li>Moved screenshots</li>
+<li>Updated Readme</li>
+</ul>
+
+<hr>
+
+<p>5/18/2015  version: 0.0.5</p>
+
+<ul>
+<li>Added VV Command table</li>
+<li>Changed host list to responsive tables</li>
+<li>Changed host search to a live search</li>
+</ul>
+
+<hr>
+
+<p>5/17/2015</p>
+
+<ul>
+<li>created develop branch</li>
+</ul>
+
+<hr>
+
+<p>5/16/2015  version: 0.0.4</p>
+
+<ul>
+<li>Refactored getHosts function to also check if WP_DEBUG is true in each host</li>
+<li>Added it to the host list.</li>
+<li>Added host count</li>
+<li>Updated Screenshot</li>
+<li>Made the main view port wider moving commands to the sidebar</li>
+<li>Support for none WordPress sites</li>
+</ul>
+
+<hr>
+
+<p>5/15/2015</p>
+
+<ul>
+<li>Update bower components</li>
+<li>Added jQuery</li>
+<li>Added Search Hosts feature</li>
+<li>Added max-height with automated scroll</li>
+<li>Updated install instruction and ReadMe</li>
+<li>Updated Screenshot</li>
+</ul>
+
+<hr>
+
+<h3>
+<a id="these-projects-are-used-in-vvv-dashboard" class="anchor" href="#these-projects-are-used-in-vvv-dashboard" aria-hidden="true"><span class="octicon octicon-link"></span></a>These projects are used in VVV Dashboard</h3>
+
+<ul>
+<li><a href="https://github.com/twbs/bootstrap">Twitter Bootstrap</a></li>
+<li><a href="https://github.com/wp-cli/wp-cli">WPCLI</a></li>
+<li><a href="https://github.com/jquery/jquery">jQuery</a></li>
+<li><a href="https://github.com/bower/bower">Bower</a></li>
+<li><a href="https://github.com/FortAwesome/Font-Awesome">Fontawesome</a></li>
+<li><a href="https://github.com/Compass/compass">Compass</a></li>
+</ul>
+
+<hr>
+
+<h3>
+<a id="todos" class="anchor" href="#todos" aria-hidden="true"><span class="octicon octicon-link"></span></a>ToDo's</h3>
+
+<hr>
+
+<ul>
+<li>Maybe some wiki docs since this is getting a little bigger</li>
+<li>Fuzzy search for plugins and themes ? not sure yet</li>
+<li>Refactor time, clean up some code and remove redundancy</li>
+<li>Dropdown Menu for tools but not Bootstrap it should be CSS only</li>
+<li>We need some form security added</li>
+<li>More settings for theme creation</li>
+</ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/topdown/VVV-Dashboard">VVV Dashboard</a> is maintained by <a href="https://github.com/topdown">topdown</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+            <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-71336883-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
