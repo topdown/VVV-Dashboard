@@ -11,9 +11,11 @@ define( 'VVV_DASH_DEBUG', false );
 // I hate globals, will come back to this
 // alternate paths
 global $vvv_dash_scan_paths;
+// Custom public paths
 $vvv_dash_scan_paths = array('htdocs', 'public');
 
 global $vvv_dash_wp_content_paths;
+// Custom content paths
 $vvv_dash_wp_content_paths = array('wp-content', 'content');
 
 // New Theme Settings
