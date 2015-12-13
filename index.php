@@ -6,6 +6,13 @@ define( 'VVV_DASH_VERSION', '0.1.4' );
 
 // Settings
 $path = '../../';
+
+// Make sure the user copied the dashboard-custom.php file over
+if(! file_exists('../dashboard-custom.php')) {
+	$msg = 'Please copy {VVV}/www/default/dashboard/dashboard-custom.php to {VVV}/www/default/dashboard-custom.php';
+	die($msg);
+}
+
 include_once '../dashboard-custom.php';
 include_once 'libs/vvv-dash-cache.php';
 include_once 'libs/vvv-dash-hosts.php';
