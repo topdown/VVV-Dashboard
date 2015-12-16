@@ -73,6 +73,7 @@
 						$plugin_install_status = $vvv_dash->install_fav_items( $_POST, 'plugin' );
 
 						if ( ! empty( $plugin_install_status ) ) {
+							$plugin_install_status = str_replace(PHP_EOL, '<br />', $plugin_install_status);
 							echo vvv_dash_notice( $plugin_install_status );
 							$host_name    = str_replace( '.dev', '', $_POST['host'] );
 							$purge_status = $cache->purge( $host_name . '-plugins' );
