@@ -359,6 +359,52 @@ class vvv_dashboard {
 	}
 
 
+	public function create_plugin( $post ) {
+		$path      = $this->get_host_path( $post['host'] );
+		$host_info = $this->set_host_info( $post['host'] );
+		$path      = VVV_WEB_ROOT . '/' . $host_info['host'] . $path;
+		$install   = array();
+
+		// wp scaffold plugin my_test_plugin --activate
+		if ( isset( $post['plugin_slug'] ) ) {
+			$install[] = shell_exec( 'wp scaffold  plugin ' . $post['plugin_slug'] . ' --activate --path=' . $path . ' --debug' );
+		}
+
+		// wp scaffold post-type my_post_type --theme=another_s --plugin=my_test_plugin
+		if ( isset( $post['post_types'] ) && isset( $post['plugin_slug'] ) ) {
+
+			foreach ( $post['post_types'] as $pt_key => $pt_slug ) {
+				foreach ( $pt_slug as $post_type ) {
+					$install[] = shell_exec( 'wp scaffold  post-type ' . $post_type . ' --plugin=' . $pt_key . ' --path=' . $path . ' --debug' );
+				} // end foreach
+				unset( $pt );
+			} // end foreach
+
+		}
+
+		// wp scaffold taxonomy venue --post_types=my_post_type --theme=another_s
+		if ( isset( $post['taxonomies'] ) ) {
+
+			foreach ( $post['taxonomies'] as $t_key => $tax_slug ) {
+				foreach ( $tax_slug as $taxonomy ) {
+					$install[] = shell_exec( 'wp scaffold  taxonomy ' . $taxonomy . ' --post_types=' . $t_key . ' --plugin=' . $post['plugin_slug'] . ' --path=' . $path . ' --debug' );
+				} // end foreach
+				unset( $taxonomy );
+			} // end foreach
+
+		}
+
+		if ( sizeof( $install ) ) {
+
+			$install[] = shell_exec('wp rewrite flush  --path=' . $path);
+			$install[] = '<br />NOTE: You will still need to add includes to your plugin for the post types and taxonomies.';
+
+			return implode( '<br />', $install );
+		} else {
+			return false;
+		}
+	}
+
 	/**
 	 * Install selected favorite plugins or themes from list
 	 *

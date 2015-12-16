@@ -44,11 +44,11 @@
 					$host      = $_GET['host'];
 					$host_info = $vvv_dash->set_host_info( $host );
 					$host_path = VVV_WEB_ROOT . '/' . $host_info['host'] . $host_info['path'];
-					$fav_file =  VVV_WEB_ROOT . '/default/dashboard/favorites/plugins.txt';
+					$fav_file  = VVV_WEB_ROOT . '/default/dashboard/favorites/plugins.txt';
 					// Install fav plugins
 					$checkboxes = $vvv_dash->get_fav_list( $fav_file );
 
-					if($checkboxes) {
+					if ( $checkboxes ) {
 						$install_fav_form
 							= '<form class="" action="" method="post">
 								<p><span class="bold">Install a favorite plugin on this host.</span><br />
@@ -63,25 +63,50 @@
 							';
 						echo $install_fav_form;
 					} else {
-						echo vvv_dash_error('<strong>You have no fav plugins to install.</strong><br />
+						echo vvv_dash_error( '<strong>You have no favorite plugins to install.</strong><br />
 								Create a file ' . $fav_file . ' with your plugins 1 per line.<br />
-								SEE: ' . VVV_WEB_ROOT . '/default/dashboard/favorites/plugins-example.txt', 'no_plugin_fav_list');
+								SEE: ' . VVV_WEB_ROOT . '/default/dashboard/favorites/plugins-example.txt', 'no_plugin_fav_list' );
 					}
 
 					if ( isset( $_POST['install_fav_plugin'] ) ) {
 
-						$plugin_install_status = $vvv_dash->install_fav_items($_POST, 'plugin');
+						$plugin_install_status = $vvv_dash->install_fav_items( $_POST, 'plugin' );
 
-						if(! empty($plugin_install_status)) {
-							echo vvv_dash_notice($plugin_install_status);
-							$host_name = str_replace('.dev', '', $_POST['host']);
-							$purge_status = $cache->purge($host_name . '-plugins');
+						if ( ! empty( $plugin_install_status ) ) {
+							echo vvv_dash_notice( $plugin_install_status );
+							$host_name    = str_replace( '.dev', '', $_POST['host'] );
+							$purge_status = $cache->purge( $host_name . '-plugins' );
 							echo vvv_dash_notice( $purge_status . ' files were purged from cache!' );
 						}
-						
+
 					}
 
 					// Create New Plugin
+					$create_plugin_form
+						= '<form class="create-plugin" action="" method="post">
+								<input type="hidden" name="host" value="' . $host . '" />
+
+								<p class="plugin-input">
+								<label>Plugin Slug</label> <input class="plugin-slug" type="text" placeholder="plugin_slug" name="plugin_slug" value="" />
+								 <button class="add-post-type btn btn-default btn-xs">Add Post Type</button>
+								</p>
+
+								<p><button type="submit" class="btn btn-success btn-xs" name="create_plugin" value="Create Plugin">
+								<i class="fa fa-puzzle-piece"></i> Create Plugin
+								</button></p>
+							</form><br />
+							';
+					echo $create_plugin_form;
+
+					if ( isset( $_POST['create_plugin'] ) ) {
+						$create_plugin = $vvv_dash->create_plugin( $_POST );
+						if ( ! empty( $create_plugin ) ) {
+							echo vvv_dash_notice( $create_plugin );
+							$host_name    = str_replace( '.dev', '', $_POST['host'] );
+							$purge_status = $cache->purge( $host_name . '-plugins' );
+							echo vvv_dash_notice( $purge_status . ' files were purged from cache!' );
+						}
+					}
 
 					?><h4>The plugin list for
 					<span class="red"><?php echo $_GET['host']; ?></span> <?php echo $close; ?></h4><?php

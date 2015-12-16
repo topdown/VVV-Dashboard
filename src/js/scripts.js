@@ -111,6 +111,28 @@ $(function () {
 		}
 
 	});
+
+	$('.create-plugin .add-post-type').on('click', function(){
+		var slug = $(this).parent().find('input.plugin-slug').val();
+		//console.log(slug);
+		
+		$(this).after('<p>' +
+			'<label>Post Type Slug</label> <input class="post-type" type="text" placeholder="post_type" name="post_types[' + slug + '][]" value="" />' +
+			'<span class="add-taxonomy btn btn-default btn-xs">Add Taxonomy</span>' +
+			'</p>');
+		return false;
+	});
+
+	$('.create-plugin').on('click', '.add-taxonomy', function(e){
+
+		var slug = $(this).parent().find('input.post-type').val();
+		console.log('Clicked');
+
+		$(this).after('<p class="taxonomy"><label>Taxonomy Slug</label> <input type="text" placeholder="taxonomy" name="taxonomies[' + slug + '][]" value="" /></p>');
+		return false;
+	});
+	// <p><label>Taxonomy Slug</label> <input type="text" placeholder="taxonomy" name="taxonomies[]" value="" /></p>
+
 });
 
 $(function () {
