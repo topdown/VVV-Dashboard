@@ -243,23 +243,20 @@ function purge_status( $purge_status ) {
  * Created:    11/22/15, 2:40 PM
  *
  * @param        $message
- * @param bool   $add_cookie
  * @param string $cookie_name
  * @param int    $cookie_time default is 30 days
  *
  * @return bool|string
  */
-function vvv_dash_notice( $message, $add_cookie = false, $cookie_name = '', $cookie_time = 30 ) {
+function vvv_dash_notice( $message, $cookie_name = '', $cookie_time = 30 ) {
 
 	$notice = false;
 	$cookie = ( isset( $_COOKIE[ $cookie_name ] ) ) ? $_COOKIE[ $cookie_name ] : false;
 
 	if ( $message ) {
 
-		if ( $add_cookie && ! empty( $cookie_name ) ) {
-			if ( $add_cookie && ! empty( $cookie_name ) ) {
-				setcookie( $cookie_name, 'true', strtotime( '+' . $cookie_time . ' days' ) );
-			}
+		if ( ! $cookie && ! empty( $cookie_name ) ) {
+			//setcookie( $cookie_name, 'true', strtotime( '+' . $cookie_time . ' days' ) );
 		}
 
 		$notice
@@ -288,21 +285,20 @@ function vvv_dash_notice( $message, $add_cookie = false, $cookie_name = '', $coo
  * Created:    12/16/15, 12:13 PM
  *
  * @param        $message
- * @param bool   $add_cookie
  * @param string $cookie_name
  * @param int    $cookie_time default is 30 days
  *
  * @return bool|string
  */
-function vvv_dash_error( $message, $add_cookie = false, $cookie_name = '', $cookie_time = 30 ) {
+function vvv_dash_error( $message, $cookie_name = '', $cookie_time = 30 ) {
 
 	$notice = false;
 	$cookie = ( isset( $_COOKIE[ $cookie_name ] ) ) ? $_COOKIE[ $cookie_name ] : false;
 
 	if ( $message ) {
 
-		if ( $add_cookie && ! empty( $cookie_name ) ) {
-			setcookie( $cookie_name, 'true', strtotime( '+' . $cookie_time . ' days' ) );
+		if ( ! $cookie && ! empty( $cookie_name ) ) {
+			//setcookie( $cookie_name, 'true', strtotime( '+' . $cookie_time . ' days' ) );
 		}
 
 		$notice
