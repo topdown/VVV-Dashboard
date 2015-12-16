@@ -242,17 +242,29 @@ function purge_status( $purge_status ) {
  *
  * Created:    11/22/15, 2:40 PM
  *
- * @param $message
+ * @param        $message
+ * @param bool   $add_cookie
+ * @param string $cookie_name
+ * @param int    $cookie_time default is 30 days
  *
  * @return bool|string
  */
-function vvv_dash_notice( $message ) {
+function vvv_dash_notice( $message, $add_cookie = false, $cookie_name = '', $cookie_time = 30 ) {
 
 	$notice = false;
+	$cookie = ( isset( $_COOKIE[ $cookie_name ] ) ) ? $_COOKIE[ $cookie_name ] : false;
 
 	if ( $message ) {
+
+		if ( $add_cookie && ! empty( $cookie_name ) ) {
+			if ( $add_cookie && ! empty( $cookie_name ) ) {
+				setcookie( $cookie_name, 'true', strtotime( '+' . $cookie_time . ' days' ) );
+			}
+		}
+
 		$notice
-			= '<div class="alert alert-success alert-dismissible" role="alert">
+			= '<div class="alert alert-success alert-dismissible" role="alert">' .
+			  $cookie . '
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		</button>' .
@@ -260,16 +272,42 @@ function vvv_dash_notice( $message ) {
 		</div>';
 	}
 
-	return $notice;
+	if ( ! $cookie ) {
+		return $notice;
+	} else {
+		return false;
+	}
 }
 
-function vvv_dash_error( $message ) {
+/**
+ * Error notice for dashboard
+ *
+ * @author         Jeff Behnke <code@validwebs.com>
+ * @copyright  (c) 2009-15 ValidWebs.com
+ *
+ * Created:    12/16/15, 12:13 PM
+ *
+ * @param        $message
+ * @param bool   $add_cookie
+ * @param string $cookie_name
+ * @param int    $cookie_time default is 30 days
+ *
+ * @return bool|string
+ */
+function vvv_dash_error( $message, $add_cookie = false, $cookie_name = '', $cookie_time = 30 ) {
 
 	$notice = false;
+	$cookie = ( isset( $_COOKIE[ $cookie_name ] ) ) ? $_COOKIE[ $cookie_name ] : false;
 
 	if ( $message ) {
+
+		if ( $add_cookie && ! empty( $cookie_name ) ) {
+			setcookie( $cookie_name, 'true', strtotime( '+' . $cookie_time . ' days' ) );
+		}
+
 		$notice
-			= '<div class="alert alert-danger alert-dismissible" role="alert">
+			= '<div class="alert alert-danger alert-dismissible" role="alert">' .
+			  $cookie . '
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		</button>' .
@@ -277,7 +315,11 @@ function vvv_dash_error( $message ) {
 		</div>';
 	}
 
-	return $notice;
+	if ( ! $cookie ) {
+		return $notice;
+	} else {
+		return false;
+	}
 }
 
 /**
