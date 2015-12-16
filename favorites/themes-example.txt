@@ -1,0 +1,5 @@
+bootframe-core
+mercury
+full-frame
+https://github.com/mattbanks/WordPress-Starter-Theme/archive/v4.2.2.zip
+https://github.com/royboy789/Angular-Wordpress-Theme/archive/master.zip
