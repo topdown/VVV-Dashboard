@@ -389,7 +389,7 @@ class vvv_dashboard {
 		} else {
 			return false;
 		}
-	}Method
+	}
 
 	/**
 	 * Creates a database dump
