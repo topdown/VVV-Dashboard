@@ -359,25 +359,37 @@ class vvv_dashboard {
 	}
 
 
-	public function install_dev_plugins( $post ) {
+	/**
+	 * Install selected favorite plugins or themes from list
+	 *
+	 * @author         Jeff Behnke <code@validwebs.com>
+	 * @copyright  (c) 2009-15 ValidWebs.com
+	 *
+	 * Created:    12/16/15, 11:16 AM
+	 *
+	 * @param $post
+	 *
+	 * @param $type
+	 *
+	 * @return bool|string
+	 */
+	public function install_fav_items( $post, $type ) {
 		$path      = $this->get_host_path( $post['host'] );
 		$host_info = $this->set_host_info( $post['host'] );
 		$path      = VVV_WEB_ROOT . '/' . $host_info['host'] . $path;
+		$items = (isset($post['items'])) ? $post['items'] : false;
 		$install   = array();
 
-		$dev_plugins = array(
-			'debug-bar',
-			'plugin-profiler',
-			'plugin-profiler-mu',
-			'https://github.com/Rarst/laps/releases/download/1.3.2/laps-1.3.2.zip',
-		);
+		if($items && is_array($items)) {
+			foreach ( $items as $key => $item ) {
+				$install[] = shell_exec( 'wp ' . $type . ' install ' . $item . ' --activate --path=' . $path . ' --debug' );
+			} // end foreach
 
-		foreach ( $dev_plugins as $key => $plugin ) {
-			$install[] = shell_exec( 'wp plugin install ' . $plugin . ' --activate --path=' . $path . ' --debug' );
-		} // end foreach
-
-		return implode( '<br /><br />', $install );
-	}
+			return implode( '<br /><br />', $install );
+		} else {
+			return false;
+		}
+	}Method
 
 	/**
 	 * Creates a database dump
