@@ -37,8 +37,52 @@
 				echo $backups_table;
 			}
 
+			// Plugins table
 			if ( ! empty( $plugins ) ) {
 				if ( isset( $_GET['host'] ) ) {
+
+					$host      = $_GET['host'];
+					$host_info = $vvv_dash->set_host_info( $host );
+					$host_path = VVV_WEB_ROOT . '/' . $host_info['host'] . $host_info['path'];
+					$fav_file =  VVV_WEB_ROOT . '/default/dashboard/favorites/plugins.txt';
+					// Install fav plugins
+					$checkboxes = $vvv_dash->get_fav_list( $fav_file );
+
+					if($checkboxes) {
+						$install_fav_form
+							= '<form class="" action="" method="post">
+								<p><span class="bold">Install a favorite plugin on this host.</span><br />
+								<span class="italic bold red">NOTE: the more plugins you check at one time the longer it takes.</span>
+								</p>
+								<input type="hidden" name="host" value="' . $host . '" />
+								' . $checkboxes . '
+								<button type="submit" class="btn btn-success btn-xs" name="install_fav_plugin" value="Install Plugin">
+								<i class="fa fa-gears"></i> Install Plugin
+								</button>
+							</form><br />
+							';
+						echo $install_fav_form;
+					} else {
+						echo vvv_dash_error('<strong>You have no fav plugins to install.</strong><br />
+								Create a file ' . $fav_file . ' with your plugins 1 per line.<br />
+								SEE: ' . VVV_WEB_ROOT . '/default/dashboard/favorites/plugins-example.txt');
+					}
+
+					if ( isset( $_POST['install_fav_plugin'] ) ) {
+
+						$plugin_install_status = $vvv_dash->install_fav_items($_POST, 'plugin');
+
+						if(! empty($plugin_install_status)) {
+							echo vvv_dash_notice($plugin_install_status);
+							$host_name = str_replace('.dev', '', $_POST['host']);
+							$purge_status = $cache->purge($host_name . '-plugins');
+							echo vvv_dash_notice( $purge_status . ' files were purged from cache!' );
+						}
+						
+					}
+
+					// Create New Plugin
+
 					?><h4>The plugin list for
 					<span class="red"><?php echo $_GET['host']; ?></span> <?php echo $close; ?></h4><?php
 
@@ -124,7 +168,7 @@
 						$m_table .= '</table>';
 
 						echo $m_table;
-						echo vvv_dash_notice('You can rollback the database to its normal state from the backups.');
+						echo vvv_dash_notice( 'You can rollback the database to its normal state from the backups.' );
 
 					} else {
 						echo vvv_dash_error( 'ERROR: Something went wrong, the migration did not happen.' );
@@ -133,9 +177,11 @@
 				//$file = '';
 				//$roll_back = $vvv_dash->db_roll_back( $host, $file );
 
+				// Migration Form
 				?>
 				<div class="alert alert-warning" role="alert">
-					<p class="">Migrating: <span class="bold italic"><?php echo $host; ?></span> <span class="bold pull-right">Warning this is a Beta feature!</span></p>
+					<p class="">Migrating: <span class="bold italic"><?php echo $host; ?></span>
+						<span class="bold pull-right">Warning this is a Beta feature!</span></p>
 					<p>1. A backup will be created <br />2. Search and replace will happen on this host.
 						<br />3. A new backup will be created marked as the migration</p>
 
@@ -149,13 +195,13 @@
 				<?php
 			}
 
-
+			// Themes table
 			if ( ! empty( $themes ) || isset( $_GET['themes'] ) ) {
 				if ( isset( $_GET['host'] ) ) {
 					?><h4>The theme list for
 					<span class="red"><?php echo $_GET['host']; ?></span> <?php echo $close; ?></h4><?php
 
-					// Create a new theme base on _s
+					// Create a New Theme Form base on _s
 					$new_theme_form
 						= '<form class="create-s-theme" action="" method="post">
 								<span class="italic bold">Create a new theme based on <a href="http://underscores.me/" target="_blank">_s</a>  : </span>

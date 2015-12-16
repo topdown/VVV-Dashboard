@@ -377,10 +377,10 @@ class vvv_dashboard {
 		$path      = $this->get_host_path( $post['host'] );
 		$host_info = $this->set_host_info( $post['host'] );
 		$path      = VVV_WEB_ROOT . '/' . $host_info['host'] . $path;
-		$items = (isset($post['items'])) ? $post['items'] : false;
+		$items     = ( isset( $post['checkboxes'] ) ) ? $post['checkboxes'] : false;
 		$install   = array();
 
-		if($items && is_array($items)) {
+		if ( $items && is_array( $items ) ) {
 			foreach ( $items as $key => $item ) {
 				$install[] = shell_exec( 'wp ' . $type . ' install ' . $item . ' --activate --path=' . $path . ' --debug' );
 			} // end foreach
@@ -389,6 +389,20 @@ class vvv_dashboard {
 		} else {
 			return false;
 		}
+	}
+
+	public function get_fav_list( $file_path ) {
+		$content    = file_get_contents( $file_path );
+		$content    = explode( "\n", $content );
+		$content    = array_filter( $content );
+		$checkboxes = array();
+
+		foreach ( $content as $item ) {
+			$checkboxes[] = '<p><input type="checkbox" name="checkboxes[]" value="' . $item . '"/> &nbsp; <label> ' . $item . '</label></p>';
+		} // end foreach
+		unset( $item );
+
+		return implode( '', $checkboxes );
 	}
 
 	/**
