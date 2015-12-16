@@ -65,7 +65,7 @@
 					} else {
 						echo vvv_dash_error('<strong>You have no fav plugins to install.</strong><br />
 								Create a file ' . $fav_file . ' with your plugins 1 per line.<br />
-								SEE: ' . VVV_WEB_ROOT . '/default/dashboard/favorites/plugins-example.txt');
+								SEE: ' . VVV_WEB_ROOT . '/default/dashboard/favorites/plugins-example.txt', 'no_plugin_fav_list');
 					}
 
 					if ( isset( $_POST['install_fav_plugin'] ) ) {
