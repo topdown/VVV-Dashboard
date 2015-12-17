@@ -185,10 +185,15 @@
 					}
 				}
 				//$file = '';
+				// @TODO implement auto roll_back
 				//$roll_back = $vvv_dash->db_roll_back( $host, $file );
 
 				// Migration Form
 				?>
+				<div class="row">
+					<div class="col-sm-12"><p><a class="close" href="./">Close</a></p></div>
+				</div>
+
 				<div class="alert alert-warning" role="alert">
 					<p class="">Migrating: <span class="bold italic"><?php echo $host; ?></span>
 						<span class="bold pull-right">Warning this is a Beta feature!</span></p>
