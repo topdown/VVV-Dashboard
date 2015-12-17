@@ -3,14 +3,15 @@
 define( 'VVV_DASH_BASE', true );
 define( 'VVV_WEB_ROOT', '/srv/www' );
 define( 'VVV_DASH_VERSION', '0.1.4' );
+define( 'VVV_DASH_VIEWS', VVV_WEB_ROOT . '/default/dashboard/views/' );
 
 // Settings
 $path = '../../';
 
 // Make sure the user copied the dashboard-custom.php file over
-if(! file_exists('../dashboard-custom.php')) {
+if ( ! file_exists( '../dashboard-custom.php' ) ) {
 	$msg = 'Please copy {VVV}/www/default/dashboard/dashboard-custom.php to {VVV}/www/default/dashboard-custom.php';
-	die($msg);
+	die( $msg );
 }
 
 include_once '../dashboard-custom.php';
@@ -38,6 +39,8 @@ if ( is_string( $hosts ) ) {
 	$hosts = unserialize( $hosts );
 }
 
+$page = $vvv_dash->get_page();
+
 if ( isset( $_GET ) ) {
 	$themes          = $vvv_dash->get_themes( $_GET );
 	$plugins         = $vvv_dash->get_plugins( $_GET );
@@ -64,9 +67,16 @@ include_once 'views/navbar.php';
 
 		include_once 'views/notices.php';
 
-		include_once 'views/dashboard.php';
-
-		include_once 'views/commands-table.php';
+		if ( isset($_REQUEST['page']) && file_exists( VVV_DASH_VIEWS . $_REQUEST['page'] ) ) {
+			include_once 'views/' . $page . '.php';
+		} else {
+			if(isset($_REQUEST['page'])) {
+				include_once 'views/404.php';
+			} else {
+				// default page
+				include_once 'views/dashboard.php';
+			}
+		}
 		?>
 
 	</div>

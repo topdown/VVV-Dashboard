@@ -26,8 +26,58 @@ class vvv_dashboard {
 
 	private $_cache;
 
+	private $_pages = array();
+
 	public function __construct() {
 		$this->_cache = new vvv_dash_cache();
+
+		$this->_set_pages();
+	}
+
+	/**
+	 * Setup the dynamic pages from URI query
+	 *
+	 * @author         Jeff Behnke <code@validwebs.com>
+	 * @copyright  (c) 2009-15 ValidWebs.com
+	 *
+	 * Created:    12/16/15, 5:44 PM
+	 *
+	 */
+	private function _set_pages() {
+		$this->_pages = array(
+			'dashboard',
+			'plugins',
+			'themes',
+			'backups',
+			'about',
+			'commands',
+		);
+	}
+
+	/**
+	 * Check the request and return if available.
+	 *
+	 * @author         Jeff Behnke <code@validwebs.com>
+	 * @copyright  (c) 2009-15 ValidWebs.com
+	 *
+	 * Created:    12/16/15, 5:45 PM
+	 *
+	 * @return bool|string
+	 */
+	public function get_page() {
+
+		if ( isset( $_REQUEST['page'] ) && ! empty( $_REQUEST['page'] ) ) {
+
+			if ( in_array( $_REQUEST['page'], $this->_pages ) ) {
+				return $_REQUEST['page'];
+			} else {
+				return 'dashboard';
+			}
+
+		} else {
+			return false;
+		}
+
 	}
 
 	/**
@@ -379,7 +429,7 @@ class vvv_dashboard {
 		$install   = array();
 
 		// wp scaffold plugin my_test_plugin --activate
-		if ( isset( $post['plugin_slug'] ) && ! empty($post['plugin_slug']) ) {
+		if ( isset( $post['plugin_slug'] ) && ! empty( $post['plugin_slug'] ) ) {
 			$install[] = shell_exec( 'wp scaffold  plugin ' . $post['plugin_slug'] . ' --activate --path=' . $path . ' --debug' );
 		} else {
 			// We can do anything with this without plugin info
