@@ -15,27 +15,11 @@
  * dashboard.php
  */
 ?>
-	<div class="page-top">
-		<h1 class="page-header"><i class="fa fa-tachometer"></i> VVV Dashboard</h1>
-		<form class="get-backups" action="" method="get">
-			<button type="submit" class="btn btn-danger btn-sm" name="get_backups" value="Backups">
-				<i class="fa fa-database"></i> Backups
-			</button>
-		</form>
-	</div>
-
-
 	<div class="row">
 		<div class="col-sm-12 hosts">
 			<?php
 
 			$close = '<a class="close" href="./">Close</a>';
-
-			if ( ! empty( $backups_table ) ) {
-				?><h4 class="title">Backups List
-				<span class="small"> Path: {VVV}/default/dashboard/dumps/ </span> <?php echo $close; ?></h4><?php
-				echo $backups_table;
-			}
 
 			// Plugins table
 			if ( ! empty( $plugins ) ) {
