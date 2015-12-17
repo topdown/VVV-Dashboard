@@ -49,24 +49,20 @@ if ( isset( $_GET ) ) {
 	$debug_log_path  = ( isset( $wp_debug_log['path'] ) ) ? $wp_debug_log['path'] : false;
 }
 
-include_once 'views/header.php';
-include_once 'views/navbar.php';
+include_once 'views/partials/header.php';
+include_once 'views/partials/navbar.php';
 ?>
 	<div class="container-fluid">
 
-<?php include_once 'views/sidebar.php' ?>
+<?php include_once 'views/partials/sidebar.php' ?>
 
 	<div class="col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3 main">
-		<div class="page-top">
-			<h1 class="page-header"><i class="fa fa-tachometer"></i> VVV Dashboard</h1>
 
-			<a class="btn btn-danger btn-sm get-backups" href="?page=backups"> <i class="fa fa-database"></i> Backups
-			</a>
-
-		</div>
 		<?php
 
-		include_once 'views/notices.php';
+		include_once 'views/partials/page-top.php';
+
+		include_once 'views/partials/notices.php';
 
 		if ( isset( $_REQUEST['page'] ) && file_exists( VVV_DASH_VIEWS . $_REQUEST['page'] . '.php' ) ) {
 			include_once 'views/' . $page . '.php';
@@ -83,4 +79,4 @@ include_once 'views/navbar.php';
 	</div>
 <?php
 
-include_once 'views/footer.php';
+include_once 'views/partials/footer.php';
