@@ -82,7 +82,7 @@ $(function () {
 	$('#text-search').bind('keyup change', function (ev) {
 		// pull in the new value
 		var searchTerm = $(this).val(),
-			site_list = $('.sites');
+			site_list = $('.sites .host');
 
 		// remove any old highlighted terms
 		$(site_list).removeHighlight();

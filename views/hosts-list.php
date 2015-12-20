@@ -73,7 +73,7 @@
 						}
 					} ?>
 
-					<td><?php echo $array['host']; ?></td>
+					<td class="host"><?php echo $array['host']; ?></td>
 					<td><?php
 						if ( isset( $array['version'] ) ) {
 							echo $array['version'];
