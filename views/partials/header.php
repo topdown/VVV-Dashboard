@@ -23,10 +23,9 @@
 		<title>Varying Vagrant Vagrants Dashboard</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" type="text/css" href="style.css?ver=<?php echo VVV_DASH_VERSION; ?>" />
-		<?php if ( file_exists( 'custom.css' ) ) {
-			?>
-			<link rel="stylesheet" type="text/css" href="custom.css" /><?php
-		} ?>
+		<?php if ( file_exists( 'custom.css' ) ) { ?>
+			<link rel="stylesheet" type="text/css" href="custom.css" />
+		<?php } ?>
 		<link rel="stylesheet" type="text/css" href="bower_components/fontawesome/css/font-awesome.min.css?ver=<?php echo VVV_DASH_VERSION; ?>">
 
 		<link rel="apple-touch-icon" sizes="57x57" href="src/icons/apple-icon-57x57.png?ver=<?php echo VVV_DASH_VERSION; ?>">
@@ -52,6 +51,10 @@
 		<script type="text/javascript" src="bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/alert.js"></script>
 		<script type="text/javascript" src="bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/tooltip.js"></script>
 		<script type="text/javascript" src="src/js/scripts.js?ver=<?php echo VVV_DASH_VERSION; ?>"></script>
+
+		<?php if ( file_exists( 'src/js/custom.js' ) ) { ?>
+			<script type="text/javascript" src="src/js/custom.js"></script>
+		<?php } ?>
 	</head>
 	<body>
 	<div id="wrapper">
