@@ -430,7 +430,9 @@ class vvv_dashboard {
 
 		// wp scaffold plugin my_test_plugin --activate
 		if ( isset( $post['plugin_slug'] ) && ! empty( $post['plugin_slug'] ) ) {
-			$install[] = shell_exec( 'wp scaffold  plugin ' . $post['plugin_slug'] . ' --activate --path=' . $path . ' --debug' );
+			$status    = shell_exec( 'wp scaffold  plugin ' . $post['plugin_slug'] . ' --activate --path=' . $path . ' --debug' );
+			$install[] = str_replace( "\n", '<br />', $status );
+
 		} else {
 			// We can do anything with this without plugin info
 			return false;
