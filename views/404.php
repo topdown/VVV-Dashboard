@@ -6,8 +6,8 @@
  *
  * Created: 12/16/15, 5:45 PM
  *
- * LICENSE: This is PRIVATE source code developed for clients.
- * It is in no way transferable and copy rights belong to Jeff Behnke @ ValidWebs.com
+ * LICENSE: MIT
+ *
  *
  * @author         Jeff Behnke <code@validwebs.com>
  * @copyright  (c) 2015 ValidWebs.com
