@@ -15,5 +15,9 @@
  * host.php
  */
 
+namespace vvv_dash;
 
+class host {
+
+}
 // End host.php

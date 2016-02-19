@@ -15,5 +15,9 @@
  * plugin.php
  */
 
+namespace vvv_dash;
 
+class plugin {
+
+}
 // End plugin.php

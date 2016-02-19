@@ -12,8 +12,13 @@
  * @copyright  (c) 2016 ValidWebs.com
  *
  * dashboard
- * vvv-dash-commands.php
+ * commands.php
  */
 
+namespace vvv_dash;
 
-// End vvv-dash-commands.php
+class commands {
+
+
+}
+// End commands.php

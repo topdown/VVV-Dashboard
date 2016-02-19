@@ -15,5 +15,9 @@
  * database.php
  */
 
+namespace vvv_dash;
 
+class database {
+
+}
 // End database.php

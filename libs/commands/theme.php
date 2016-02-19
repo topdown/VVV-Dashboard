@@ -15,5 +15,9 @@
  * theme.php
  */
 
+namespace vvv_dash;
 
+class theme {
+
+}
 // End theme.php

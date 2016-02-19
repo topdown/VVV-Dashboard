@@ -18,7 +18,7 @@ include_once '../dashboard-custom.php';
 include_once 'libs/vvv-dash-cache.php';
 
 // The new files for commands and actions
-include_once 'libs/vvv-dash-commands.php';
+include_once 'libs/commands.php';
 include_once 'libs/commands/dashboard.php';
 include_once 'libs/commands/host.php';
 include_once 'libs/commands/database.php';

@@ -15,5 +15,9 @@
  * dashboard.php
  */
 
+namespace vvv_dash;
 
+class dashboard {
+
+}
 // End dashboard.php
