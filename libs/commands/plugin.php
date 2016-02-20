@@ -19,5 +19,25 @@ namespace vvv_dash\commands;
 
 class plugin {
 
+	public function __construct() {
+
+	}
+
+	public function version() {
+
+	}
+
+	public function create() {
+
+	}
+
+
+	public function install() {
+
+	}
+
+	public function update() {
+
+	}
 }
 // End plugin.php

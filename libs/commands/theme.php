@@ -19,5 +19,24 @@ namespace vvv_dash\commands;
 
 class theme {
 
+	public function __construct() {
+
+	}
+
+	public function version() {
+
+	}
+
+	public function create() {
+
+	}
+
+	public function install() {
+
+	}
+
+	public function update() {
+
+	}
 }
 // End theme.php
