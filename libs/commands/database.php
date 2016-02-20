@@ -98,64 +98,13 @@ class database {
 			$status    = $this->backup( $host, $file_name );
 
 			if ( $status ) {
-				echo $status;
+				return $status;
+			} else {
+				return vvv_dash_error( 'ERROR: Migration data dump failed.' );
 			}
 
-			$migrate       = preg_split( "[\r|\n]", trim( $migrate ) );
-			$m_table_array = array();
-			$m_table       = '<h4>The tables modified for <span class="red">' . $host . '</span> ' . $close . '</h4>';
-			$m_table .= '<table class="table table-bordered table-striped">';
-
-			foreach ( $migrate as $key => $row ) {
-
-				$m_table_array[] = '<tr>';
-
-				$data = explode( "\t", $row );
-
-				if ( 0 == $key ) {
-					if ( isset( $data[0] ) ) {
-						$m_table_array[] = '<th>' . $data[0] . '</th>';
-					}
-					if ( isset( $data[1] ) ) {
-						$m_table_array[] = '<th>' . $data[1] . '</th>';
-					}
-					if ( isset( $data[2] ) ) {
-						$m_table_array[] = '<th>' . $data[2] . '</th>';
-					}
-					if ( isset( $data[3] ) ) {
-						$m_table_array[] = '<th>' . $data[3] . '</th>';
-					}
-				} else {
-
-					if ( isset( $data[2] ) && $data[2] > 0 ) {
-						if ( isset( $data[0] ) ) {
-							$m_table_array[] = '<td>' . $data[0] . '</td>';
-						}
-						if ( isset( $data[1] ) ) {
-							$m_table_array[] = '<td>' . $data[1] . '</td>';
-						}
-						if ( isset( $data[2] ) ) {
-							$m_table_array[] = '<td>' . $data[2] . '</td>';
-						}
-						if ( isset( $data[3] ) ) {
-							$m_table_array[] = '<td>' . $data[3] . '</td>';
-						}
-					}
-
-				}
-
-				$m_table_array[] = '</tr>';
-
-			} // end foreach
-
-			$m_table .= implode( '', $m_table_array );
-			$m_table .= '</table>';
-
-			echo $m_table;
-			echo vvv_dash_notice( 'You can rollback the database to its normal state from the backups.' );
-
 		} else {
-			echo vvv_dash_error( 'ERROR: Something went wrong, the migration did not happen.' );
+			return vvv_dash_error( 'ERROR: Something went wrong, the migration did not happen.' );
 		}
 	}
 
@@ -167,8 +116,7 @@ class database {
 
 			return $file . ' was deleted.';
 		}
-
-		return 'ERROR: file does not exist';
+		return vvv_dash_error( 'ERROR: file does not exist' );
 	}
 
 }
