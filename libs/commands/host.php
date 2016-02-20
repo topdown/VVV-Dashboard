@@ -15,7 +15,7 @@
  * host.php
  */
 
-namespace vvv_dash;
+namespace vvv_dash\commands;
 
 class host {
 

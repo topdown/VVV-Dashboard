@@ -15,7 +15,7 @@
  * dashboard.php
  */
 
-namespace vvv_dash;
+namespace vvv_dash\commands;
 
 /**
  * Contains the actions for the dashboard
@@ -26,7 +26,7 @@ namespace vvv_dash;
  * @copyright  (c) 2009-15 ValidWebs.com
  *
  * Class dashboard
- * @package        vvv_dash
+ * @package        vvv_dash\commands
  */
 class dashboard {
 

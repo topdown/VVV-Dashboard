@@ -15,7 +15,7 @@
  * version.php
  */
 
-namespace vvv_dash;
+namespace vvv_dash\commands;
 
 /**
  * VVV Dashboard version handling
@@ -24,7 +24,7 @@ namespace vvv_dash;
  * @copyright  (c) 2009-15 ValidWebs.com
  *
  * Class version
- * @package        vvv_dash
+ * @package        vvv_dash\commands
  */
 class version {
 	/**
