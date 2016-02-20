@@ -17,6 +17,15 @@
 
 namespace vvv_dash;
 
+/**
+ * VVV Dashboard version handling
+ *
+ * @author         Jeff Behnke <code@validwebs.com>
+ * @copyright  (c) 2009-15 ValidWebs.com
+ *
+ * Class version
+ * @package        vvv_dash
+ */
 class version {
 	/**
 	 * The version er are using
