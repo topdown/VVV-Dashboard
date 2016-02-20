@@ -20,8 +20,6 @@ namespace vvv_dash\commands;
 /**
  * Contains the actions for the dashboard
  *
- * @ToDo figure out what to do with get_external_data() used here from functions.php
- *
  * @author         Jeff Behnke <code@validwebs.com>
  * @copyright  (c) 2009-15 ValidWebs.com
  *

@@ -20,6 +20,8 @@ namespace vvv_dash\commands;
 /**
  * VVV Dashboard version handling
  *
+ * @ToDo figure out what to do with get_external_data() used here from functions.php
+ *
  * @author         Jeff Behnke <code@validwebs.com>
  * @copyright  (c) 2009-15 ValidWebs.com
  *
