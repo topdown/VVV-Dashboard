@@ -37,7 +37,7 @@ class plugin {
 	 *
 	 * @return bool|string
 	 */
-	private function _get_plugins( $get ) {
+	public function get_plugins( $get ) {
 
 		if ( isset( $get['host'] ) && isset( $get['get_plugins'] ) ) {
 			$host_path = $this->vvv_dash->get_host_path( $get['host'] );
@@ -80,7 +80,7 @@ class plugin {
 
 	private function _plugin_list() {
 		// Need to re-get the plugin list for this host.
-		$plugins = $this->_get_plugins( $_GET );
+		$plugins = $this->get_plugins( $_GET );
 
 		echo format_table( $plugins, $_GET['host'], 'plugins' );
 	}
