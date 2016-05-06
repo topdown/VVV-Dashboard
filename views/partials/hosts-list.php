@@ -97,27 +97,18 @@
 						</a>
 
 						<?php if ( $is_env || $has_wp_config ) { ?>
-							<form class="get-themes" action="" method="get">
-								<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
-								<input type="hidden" name="get_themes" value="true" />
-								<button title="Theme List" type="submit" class="btn btn-default btn-xs" name="themes" value="Themes" data-toggle="tooltip" data-placement="top">
-									<i class="fa fa-paint-brush"></i><span> Themes</span>
-								</button>
-							</form>
+							<a href="./?host=<?php echo $array['host']; ?>&get_themes=true" class="btn btn-default btn-xs">
+								<i class="fa fa-paint-brush"></i><span> Themes</span>
+							</a>
 
-							<form class="get-plugins" action="" method="get">
-								<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
-								<input type="hidden" name="get_plugins" value="true" />
-								<button title="Plugin List" type="submit" class="btn btn-default btn-xs" name="plugins" value="Plugins" data-toggle="tooltip" data-placement="top">
-									<i class="fa fa-puzzle-piece"></i><span> Plugins</span>
-								</button>
-							</form>
-
-							<!--							<form class="get-plugins" action="" method="post">--><!--								<input type="hidden" name="host" value="--><?php //echo $array['host']; ?><!--" />--><!--								<input type="submit" class="btn btn-success btn-xs" name="install_dev_plugins" value="Dev Plugins" />--><!--							</form>-->
-
+							<a href="./?host=<?php echo $array['host']; ?>&get_plugins=true" class="btn btn-default btn-xs">
+								<i class="fa fa-puzzle-piece"></i><span> Plugins</span>
+							</a>
+							
 						<?php }
 						if ( $is_env || $has_wp_config ) {
 							?>
+
 
 							<form class="backup form-inline" action="" method="post">
 								<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
@@ -126,12 +117,9 @@
 								</button>
 							</form>
 
-							<form class="backup form-inline" action="" method="get">
-								<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
-								<button title="Domain migration form" type="submit" class="btn btn-warning btn-xs" name="migrate" value="true" data-toggle="tooltip" data-placement="top">
-									<i class="fa fa-database"></i><span> Migrate</span>
-								</button>
-							</form>
+							<a href="./?host=<?php echo $array['host']; ?>&migrate=true" class="btn btn-warning btn-xs">
+								<i class="fa fa-database"></i><span> Migrate</span></a>
+							
 							<?php
 						}
 
@@ -151,11 +139,8 @@
 						}
 
 						if ( file_exists( $debug_log_path ) ) { ?>
-							<form class="backup" action="" method="get">
-								<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
-								<button title="Host Errors" type="submit" class="btn btn-danger btn-xs" name="debug_log" value="Debug Log" data-toggle="tooltip" data-placement="top">
-									<i class="fa fa-exclamation-circle"></i><span> Errors</span>
-							</form>
+							<a href="./?host=<?php echo $array['host']; ?>&debug_log=true" class="btn btn-danger btn-xs">
+								<i class="fa fa-exclamation-circle"></i><span> Errors</span></a>
 						<?php } ?>
 					</td>
 				</tr>
