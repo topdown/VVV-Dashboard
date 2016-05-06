@@ -345,7 +345,7 @@ class vvv_dashboard {
 	 * @return bool|string
 	 */
 	public function get_themes( $get ) {
-		if ( isset( $get['host'] ) && isset( $get['themes'] ) ) {
+		if ( isset( $get['host'] ) && isset( $get['get_themes'] ) ) {
 			$host_path = $this->get_host_path( $get['host'] );
 			$host_info = $this->set_host_info( $get['host'] );
 			$themes    = $this->get_themes_data( $host_info['host'], $host_path );
@@ -369,7 +369,7 @@ class vvv_dashboard {
 	 * @return bool|string
 	 */
 	public function get_plugins( $get ) {
-		if ( isset( $get['host'] ) && isset( $get['plugins'] ) ) {
+		if ( isset( $get['host'] ) && isset( $get['get_plugins'] ) ) {
 			$host_path = $this->get_host_path( $get['host'] );
 			$host_info = $this->set_host_info( $get['host'] );
 			$plugins   = $this->get_plugins_data( $host_info['host'], $host_path );

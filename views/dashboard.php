@@ -303,10 +303,10 @@
 			vvv_dash_xdebug_status();
 
 
-			include_once 'views/hosts-list.php'; ?>
+			include_once 'views/partials/hosts-list.php'; ?>
 		</div>
 	</div>
 
-<?php include_once 'views/php-error-logs.php';
+<?php include_once 'views/partials/php-error-logs.php';
 
 // End dashboard.php
