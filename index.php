@@ -42,6 +42,7 @@ $host            = '';
 $debug_log       = '';
 $debug_log_lines = '';
 $debug_log_path  = '';
+$debug_log_path  = false;
 $cache           = new vvv_dash_cache();
 $vvv_dash        = new vvv_dashboard();
 $status          = $vvv_dash->process_post();
@@ -55,15 +56,14 @@ $page = $vvv_dash->get_page();
 
 if ( isset( $_GET ) ) {
 
+	$host_commands    = new \vvv_dash\commands\host();
 	$theme_commands    = new \vvv_dash\commands\theme();
 	$plugin_commands   = new \vvv_dash\commands\plugin();
 	$database_commands = new \vvv_dash\commands\database();
 	$themes            = $theme_commands->get_themes( $_GET );
 	$plugins           = $plugin_commands->get_plugins( $_GET );
+	
 
-	$wp_debug_log    = $vvv_dash->get_wp_debug_log( $_GET );
-	$debug_log_lines = ( isset( $wp_debug_log['lines'] ) ) ? $wp_debug_log['lines'] : false;
-	$debug_log_path  = ( isset( $wp_debug_log['path'] ) ) ? $wp_debug_log['path'] : false;
 }
 
 include_once 'views/partials/header.php';

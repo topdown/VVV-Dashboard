@@ -32,19 +32,8 @@
 			// Themes table
 			$theme_commands->display();
 
-			if ( $debug_log_path && file_exists( $debug_log_path ) && ! empty( $debug_log_lines ) ) {
-
-				if ( isset( $_GET['host'] ) ) {
-					?><h4>Debug Log for
-					<span class="red"><?php echo $_GET['host']; ?></span> <?php echo $close; ?></h4><?php
-
-					?>
-					<div class="wp-debug-log">
-						<?php echo $debug_log_lines; ?>
-					</div>
-					<?php
-				}
-			}
+			// Debug logs
+			$host_commands->display_debug_logs();
 
 			vvv_dash_xdebug_status();
 
