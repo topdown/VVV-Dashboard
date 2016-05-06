@@ -21,6 +21,13 @@ $vvv_dash_wp_content_paths = array('wp-content', 'content');
 // New Theme Settings
 define('VVV_DASH_NEW_THEME_AUTHOR', 'Jeff Behnke');
 define('VVV_DASH_NEW_THEME_AUTHOR_URI', 'http://validwebs.com');
+// --theme_uri
+
+// New Plugin Settings
+define('VVV_DASH_NEW_PLUGIN_AUTHOR', 'Jeff Behnke');
+define('VVV_DASH_NEW_PLUGIN_AUTHOR_URI', 'http://validwebs.com');
+// --plugin_uri
+// --plugin_description
 
 // Cache settings
 define( 'VVV_DASH_THEMES_TTL', 86400 );
