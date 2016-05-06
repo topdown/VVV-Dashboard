@@ -55,10 +55,11 @@ $page = $vvv_dash->get_page();
 
 if ( isset( $_GET ) ) {
 
-	$theme_commands = new \vvv_dash\commands\theme();
-	$plugin_commands = new \vvv_dash\commands\plugin();
-	$themes          = $theme_commands->get_themes( $_GET );
-	$plugins         = $plugin_commands->get_plugins( $_GET );
+	$theme_commands    = new \vvv_dash\commands\theme();
+	$plugin_commands   = new \vvv_dash\commands\plugin();
+	$database_commands = new \vvv_dash\commands\database();
+	$themes            = $theme_commands->get_themes( $_GET );
+	$plugins           = $plugin_commands->get_plugins( $_GET );
 
 	$wp_debug_log    = $vvv_dash->get_wp_debug_log( $_GET );
 	$debug_log_lines = ( isset( $wp_debug_log['lines'] ) ) ? $wp_debug_log['lines'] : false;

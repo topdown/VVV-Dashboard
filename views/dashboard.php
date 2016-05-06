@@ -14,173 +14,23 @@
  * dashboard
  * dashboard.php
  */
+
+/**
+ * This is the base view for the dashboard
+ */
 ?>
 	<div class="row">
 		<div class="col-sm-12 hosts">
 			<?php
-			
+
 			// Plugins table
-			$plugin_commands->display($plugins);
+			$plugin_commands->display( $plugins );
 
-			
-			if ( isset( $_GET['migrate'] ) && isset( $_GET['host'] ) ) {
-
-				$host      = $_GET['host'];
-				$domain    = ( isset( $_GET['domain'] ) ) ? $_GET['domain'] : false;
-				$host_info = $vvv_dash->set_host_info( $host );
-				$host_path = VVV_WEB_ROOT . '/' . $host_info['host'] . $host_info['path'];
-
-				if ( $domain ) {
-					$status = $vvv_dash->create_db_backup( $host );
-
-					if ( $status ) {
-						echo $status;
-					}
-
-					$cmd     = 'wp search-replace --url=' . $host . ' ' . $host . ' ' . $domain . ' --path=' . $host_path;
-					$migrate = shell_exec( $cmd );
-
-					if ( $migrate ) {
-
-						$file_name = 'dumps/migrated-' . $domain . '_' . date( 'm-d-Y_g-i-s', time() ) . '.sql';
-						$status    = $vvv_dash->create_db_backup( $host, $file_name );
-
-						if ( $status ) {
-							echo $status;
-						}
-
-						$migrate       = preg_split( "[\r|\n]", trim( $migrate ) );
-						$m_table_array = array();
-						$m_table       = '<h4>The tables modified for <span class="red">' . $host . '</span> ' . $close . '</h4>';
-						$m_table .= '<table class="table table-bordered table-striped">';
-
-						foreach ( $migrate as $key => $row ) {
-
-							$m_table_array[] = '<tr>';
-
-							$data = explode( "\t", $row );
-
-							if ( 0 == $key ) {
-								if ( isset( $data[0] ) ) {
-									$m_table_array[] = '<th>' . $data[0] . '</th>';
-								}
-								if ( isset( $data[1] ) ) {
-									$m_table_array[] = '<th>' . $data[1] . '</th>';
-								}
-								if ( isset( $data[2] ) ) {
-									$m_table_array[] = '<th>' . $data[2] . '</th>';
-								}
-								if ( isset( $data[3] ) ) {
-									$m_table_array[] = '<th>' . $data[3] . '</th>';
-								}
-							} else {
-
-								if ( isset( $data[2] ) && $data[2] > 0 ) {
-									if ( isset( $data[0] ) ) {
-										$m_table_array[] = '<td>' . $data[0] . '</td>';
-									}
-									if ( isset( $data[1] ) ) {
-										$m_table_array[] = '<td>' . $data[1] . '</td>';
-									}
-									if ( isset( $data[2] ) ) {
-										$m_table_array[] = '<td>' . $data[2] . '</td>';
-									}
-									if ( isset( $data[3] ) ) {
-										$m_table_array[] = '<td>' . $data[3] . '</td>';
-									}
-								}
-
-							}
-
-							$m_table_array[] = '</tr>';
-
-						} // end foreach
-
-						$m_table .= implode( '', $m_table_array );
-						$m_table .= '</table>';
-
-						echo $m_table;
-						echo vvv_dash_notice( 'You can rollback the database to its normal state from the backups.' );
-
-					} else {
-						echo vvv_dash_error( 'ERROR: Something went wrong, the migration did not happen.' );
-					}
-				}
-				//$file = '';
-				// @TODO implement auto roll_back
-				//$roll_back = $vvv_dash->db_roll_back( $host, $file );
-
-				// Migration Form
-				// @var $host
-				// @var $domain
-				include_once 'forms/migrate.php';
-			}
+			// Mostly Migrate stuff, come back to this
+			$database_commands->display();
 
 			// Themes table
-			if ( ! empty( $themes ) || isset( $_GET['themes'] ) ) {
-				if ( isset( $_GET['host'] ) ) {
-					?><h4>The theme list for
-					<span class="red"><?php echo $_GET['host']; ?></span> <?php echo $close; ?></h4><?php
-
-					// Create a New Theme Form base on _s
-					// @var $_GET['host']
-					include_once 'forms/new_s_theme.php';
-
-					if ( isset( $_POST['create_s_theme'] ) ) {
-						$themes_array = get_csv_names( $themes );
-						$host_info    = $vvv_dash->set_host_info( $_POST['host'] );
-						$host_path    = VVV_WEB_ROOT . '/' . $host_info['host'] . $host_info['path'];
-						$slug         = strtolower( str_replace( ' ', '_', $_POST['theme_slug'] ) );
-
-						// @ToDo allow this --force
-						if ( in_array( $slug, $themes_array ) ) {
-							echo vvv_dash_error( 'Error: That theme already exists!' );
-						} else {
-							$cmd       = 'wp scaffold _s ' . $slug . ' --theme_name="' . $_POST['theme_name'] . '" --path=' . $host_path .
-							             ' --author="' . VVV_DASH_NEW_THEME_AUTHOR . '" --author_uri="' . VVV_DASH_NEW_THEME_AUTHOR_URI . '" --sassify --activate';
-							$new_theme = shell_exec( $cmd );
-
-							if ( $new_theme ) {
-								$purge_status = $cache->purge( '-themes' );
-								echo vvv_dash_notice( $purge_status . ' files were purged from cache!' );
-								$new_theme = str_replace( '. Success:', '. <br />Success:', $new_theme );
-								echo vvv_dash_notice( $new_theme );
-							} else {
-								echo vvv_dash_error( '<strong>Error:</strong> Something went wrong!' );
-							}
-						}
-					}
-
-					if ( isset( $_POST['create_child'] ) && isset( $_POST['child'] ) && ! empty( $_POST['child'] ) ) {
-
-						$themes_array = get_csv_names( $themes );
-
-						$host_info = $vvv_dash->set_host_info( $_POST['host'] );
-						$host_path = VVV_WEB_ROOT . '/' . $host_info['host'] . $host_info['path'];
-						$child     = strtolower( str_replace( ' ', '_', $_POST['child'] ) );
-
-						if ( in_array( $child, $themes_array ) ) {
-							echo vvv_dash_error( 'Error: That theme already exists!' );
-						} else {
-							$cmd       = 'wp scaffold child-theme ' . $child . ' --theme_name="' . $_POST['theme_name'] . '" --parent_theme=' . $_POST['item'] . ' --path=' . $host_path . ' --debug';
-							$new_theme = shell_exec( $cmd );
-
-							if ( $new_theme ) {
-								$purge_status = $cache->purge( '-themes' );
-								echo vvv_dash_notice( $purge_status . ' files were purged from cache!' );
-								echo vvv_dash_notice( $new_theme );
-							} else {
-								echo vvv_dash_error( '<strong>Error:</strong> Something went wrong!' );
-							}
-						}
-					}
-
-					$host_info = $vvv_dash->set_host_info( $_GET['host'] );
-					$themes    = $theme_commands->get_themes_data( $host_info['host'], $host_info['path'] );
-
-					echo format_table( $themes, $_GET['host'], 'themes' );
-				}
-			}
+			$theme_commands->display();
 
 			if ( $debug_log_path && file_exists( $debug_log_path ) && ! empty( $debug_log_lines ) ) {
 
