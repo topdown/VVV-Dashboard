@@ -35,12 +35,12 @@ class dashboard {
 
 		$this->_cache = new cache();
 
-		//$this->_set_pages();
-
 		//$this->_theme_commands    = new \vvv_dash\commands\theme();
 		//$this->_plugin_commands   = new \vvv_dash\commands\plugin();
 		//$this->_database_commands = new \vvv_dash\commands\database();
 		//$this->_hosts             = new commands\host();
+
+		$this->_set_pages();
 
 	}
 
