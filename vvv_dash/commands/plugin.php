@@ -16,13 +16,16 @@
  */
 
 namespace vvv_dash\commands;
+use \vvv_dash;
 
 class plugin {
 
 	public function __construct() {
-		$this->_cache   = new \vvv_dash_cache();
-		$this->_vvv_dash = new \vvv_dashboard();
-		$this->favs     = new favs();
+		$this->_cache    = new vvv_dash\cache();
+		//$this->_vvv_dash = new vvv_dash\dashboard();
+		$this->_hosts = new host();
+		//$this->_vvv_dash = new \vvv_dashboard();
+		$this->favs = new favs();
 	}
 
 	/**
@@ -40,8 +43,8 @@ class plugin {
 	public function get_plugins( $get ) {
 
 		if ( isset( $get['host'] ) && isset( $get['get_plugins'] ) ) {
-			$host_path = $this->_vvv_dash->get_host_path( $get['host'] );
-			$host_info = $this->_vvv_dash->set_host_info( $get['host'] );
+			$host_path = $this->_hosts->get_host_path( $get['host'] );
+			$host_info = $this->_hosts->set_host_info( $get['host'] );
 			$plugins   = $this->_get_plugins_data( $host_info['host'], $host_path );
 
 			return $plugins;
@@ -100,7 +103,7 @@ class plugin {
 			if ( isset( $_GET['host'] ) ) {
 
 				$host      = $_GET['host'];
-				$host_info = $this->_vvv_dash->set_host_info( $host );
+				$host_info = $this->_hosts->set_host_info( $host );
 				$host_path = VVV_WEB_ROOT . '/' . $host_info['host'] . $host_info['path'];
 				$close     = '<a class="close" href="./">Close</a>';
 
@@ -139,8 +142,8 @@ class plugin {
 	 */
 	private function _create( $post ) {
 
-		$path      = $this->_vvv_dash->get_host_path( $post['host'] );
-		$host_info = $this->_vvv_dash->set_host_info( $post['host'] );
+		$path      = $this->_hosts->get_host_path( $post['host'] );
+		$host_info = $this->_hosts->set_host_info( $post['host'] );
 		$path      = VVV_WEB_ROOT . '/' . $host_info['host'] . $path;
 		//		echo '<pre style="text-align: left;">' . "FILE: ". __FILE__ . "\nLINE: " . __LINE__ . "\n";
 		//		var_dump($host_info, $path, $post);

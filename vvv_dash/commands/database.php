@@ -16,6 +16,7 @@
  */
 
 namespace vvv_dash\commands;
+use \vvv_dash;
 
 /**
  * Actions that happen on the WP databases
@@ -30,8 +31,9 @@ class database {
 
 
 	public function __construct() {
-		$this->_cache   = new \vvv_dash_cache();
-		$this->vvv_dash = new \vvv_dashboard();
+		$this->_cache    = new vvv_dash\cache();
+		$this->_hosts   = new host();
+		//$this->vvv_dash = new \vvv_dashboard();
 	}
 
 	/**
@@ -82,17 +84,91 @@ class database {
 		}
 	}
 
+	/**
+	 * Creates a database dump
+	 *
+	 * @author         Jeff Behnke <code@validwebs.com>
+	 * @copyright  (c) 2009-15 ValidWebs.com
+	 *
+	 * Created:    12/5/15, 2:43 AM
+	 *
+	 * @param        $host
+	 *
+	 * @param string $file_name
+	 *
+	 * @return bool|string
+	 */
+	public function create_db_backup( $host, $file_name = '' ) {
+		$backup_status = false;
+		$host_info     = $this->_hosts->set_host_info( $host );
+		$is_env        = ( isset( $host_info['is_env'] ) ) ? $host_info['is_env'] : false;
+
+		// Backups for WP Starter
+		if ( $is_env ) {
+			//$dash_hosts        = new vvv_dash_hosts();
+			$env_configs       = $this->_hosts->get_wp_starter_configs( $host_info );
+			$configs           = ( isset( $env_configs[ $host_info['host'] ] ) ) ? $env_configs[ $host_info['host'] ] : false;
+			$db['db_name']     = $configs['DB_NAME'];
+			$db['db_user']     = $configs['DB_USER'];
+			$db['db_password'] = $configs['DB_PASSWORD'];
+			$backup_status     = vvv_dash_wp_starter_backup( $host_info, $db, $file_name );
+
+		} else {
+			// All other backups
+			$backup_status = vvv_dash_wp_backup( $host, $file_name );
+		}
+
+
+		return $backup_status;
+	}
+
+	/**
+	 * Roll back the database with any saved backups in the system
+	 *
+	 * @author         Jeff Behnke <code@validwebs.com>
+	 * @copyright  (c) 2009-15 ValidWebs.com
+	 *
+	 * Created:    12/5/15, 2:43 AM
+	 *
+	 * @param $host
+	 * @param $file
+	 *
+	 * @return string
+	 */
+	public function db_roll_back( $host, $file ) {
+
+		$host_info = $this->_hosts->set_host_info( $host );
+		$is_env    = ( isset( $host_info['is_env'] ) ) ? $host_info['is_env'] : false;
+
+		// Backups for WP Starter
+		if ( $is_env ) {
+			// @ToDo fix this path issue
+			$path   = VVV_WEB_ROOT . '/' . $host_info['host'] . '/' . $host_info['path'] . '/wp/';
+			$status = shell_exec( 'wp db import --path=' . $path . ' ' . urldecode( $file ) );
+
+		} else {
+
+			$path   = VVV_WEB_ROOT . '/' . $host_info['host'] . '/htdocs';
+			$status = shell_exec( 'wp db import --path=' . $path . ' ' . urldecode( $file ) );
+
+		}
+
+
+		return $status;
+	}
+
+
 	public function display() {
 
 		if ( isset( $_GET['migrate'] ) && isset( $_GET['host'] ) ) {
 
 			$host      = $_GET['host'];
 			$domain    = ( isset( $_GET['domain'] ) ) ? $_GET['domain'] : false;
-			$host_info = $this->vvv_dash->set_host_info( $host );
+			$host_info = $this->_hosts->set_host_info( $host );
 			$host_path = VVV_WEB_ROOT . '/' . $host_info['host'] . $host_info['path'];
 
 			if ( $domain ) {
-				$status = $this->vvv_dash->create_db_backup( $host );
+				$status = $this->create_db_backup( $host );
 
 				if ( $status ) {
 					echo $status;
@@ -104,7 +180,7 @@ class database {
 				if ( $migrate ) {
 
 					$file_name = 'dumps/migrated-' . $domain . '_' . date( 'm-d-Y_g-i-s', time() ) . '.sql';
-					$status    = $this->vvv_dash->create_db_backup( $host, $file_name );
+					$status    = $this->create_db_backup( $host, $file_name );
 
 					if ( $status ) {
 						echo $status;
@@ -182,10 +258,10 @@ class database {
 	// @ToDo needs lots of work here, to much happening
 	public function migrate() {
 
-		$host      = $_GET['host'];
-		$domain    = ( isset( $_GET['domain'] ) ) ? $_GET['domain'] : false;
-		$vvv_dash  = new \vvv_dashboard();
-		$host_info = $vvv_dash->set_host_info( $host );
+		$host   = $_GET['host'];
+		$domain = ( isset( $_GET['domain'] ) ) ? $_GET['domain'] : false;
+		//$vvv_dash  = new \vvv_dashboard();
+		$host_info = $this->_hosts->set_host_info( $host );
 		$host_path = VVV_WEB_ROOT . '/' . $host_info['host'] . $host_info['path'];
 
 		$cmd     = 'wp search-replace --url=' . $host . ' ' . $host . ' ' . $domain . ' --path=' . $host_path;

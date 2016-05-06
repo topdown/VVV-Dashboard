@@ -681,7 +681,7 @@ function get_external_data( $url ) {
  */
 function version_check() {
 
-	$cache = new vvv_dash_cache();
+	$cache = new \vvv_dash\cache();
 
 	if ( ( $version = $cache->get( 'version-cache', VVV_DASH_THEMES_TTL ) ) == false ) {
 
@@ -708,7 +708,7 @@ function version_check() {
  */
 function vvv_dash_get_latest_features() {
 
-	$cache = new vvv_dash_cache();
+	$cache           = new \vvv_dash\cache();
 
 	if ( ( $new_features = $cache->get( 'newfeatures-cache', VVV_DASH_THEMES_TTL ) ) == false ) {
 

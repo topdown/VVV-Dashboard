@@ -15,6 +15,8 @@
  * vvv-dash-hosts.php
  */
 
+namespace vvv_dash;
+
 /**
  * Class vvv_dash_hosts
  *
@@ -23,6 +25,9 @@
  *
  */
 class vvv_dash_hosts {
+
+	public function __construct() {
+	}
 
 	/**
 	 * Checks to see if its a default host

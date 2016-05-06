@@ -16,13 +16,15 @@
  */
 
 namespace vvv_dash\commands;
+use \vvv_dash;
 
 class theme {
 
 	public function __construct() {
 
-		$this->_cache    = new \vvv_dash_cache();
-		$this->_vvv_dash = new \vvv_dashboard();
+		$this->_cache    = new vvv_dash\cache();
+		$this->_vvv_dash = new vvv_dash\dashboard();
+		$this->_hosts = new host();
 	}
 
 	/**
@@ -67,8 +69,8 @@ class theme {
 	 */
 	public function get_themes( $get ) {
 		if ( isset( $get['host'] ) && isset( $get['get_themes'] ) ) {
-			$host_path = $this->_vvv_dash->get_host_path( $get['host'] );
-			$host_info = $this->_vvv_dash->set_host_info( $get['host'] );
+			$host_path = $this->_hosts->get_host_path( $get['host'] );
+			$host_info = $this->_hosts->set_host_info( $get['host'] );
 			$themes    = $this->get_themes_data( $host_info['host'], $host_path );
 
 			return $themes;
@@ -78,7 +80,7 @@ class theme {
 	}
 
 	public function display() {
-		
+
 		$themes = $this->get_themes( $_GET );
 
 		if ( ! empty( $themes ) || isset( $_GET['themes'] ) ) {
@@ -95,7 +97,7 @@ class theme {
 
 				if ( isset( $_POST['create_s_theme'] ) ) {
 					$themes_array = get_csv_names( $themes );
-					$host_info    = $this->_vvv_dash->set_host_info( $_POST['host'] );
+					$host_info    = $this->_hosts->set_host_info( $_POST['host'] );
 					$host_path    = VVV_WEB_ROOT . '/' . $host_info['host'] . $host_info['path'];
 					$slug         = strtolower( str_replace( ' ', '_', $_POST['theme_slug'] ) );
 
@@ -122,7 +124,7 @@ class theme {
 
 					$themes_array = get_csv_names( $themes );
 
-					$host_info = $this->_vvv_dash->set_host_info( $_POST['host'] );
+					$host_info = $this->_hosts->set_host_info( $_POST['host'] );
 					$host_path = VVV_WEB_ROOT . '/' . $host_info['host'] . $host_info['path'];
 					$child     = strtolower( str_replace( ' ', '_', $_POST['child'] ) );
 
@@ -142,7 +144,7 @@ class theme {
 					}
 				}
 
-				$host_info = $this->_vvv_dash->set_host_info( $_GET['host'] );
+				$host_info = $this->_hosts->set_host_info( $_GET['host'] );
 				$themes    = $this->get_themes_data( $host_info['host'], $host_info['path'] );
 
 				echo format_table( $themes, $_GET['host'], 'themes' );

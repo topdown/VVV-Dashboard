@@ -38,10 +38,10 @@
 		foreach ( $hosts as $key => $array ) {
 			if ( 'site_count' != $key ) {
 
-				$host_info = $vvv_dash->set_host_info( $array['host'] );
+				$host_info = $host_commands->set_host_info( $array['host'] );
 				$is_env    = ( isset( $host_info['is_env'] ) ) ? $host_info['is_env'] : false;
 
-				$dash_hosts    = new vvv_dash_hosts();
+				$dash_hosts    = new \vvv_dash\vvv_dash_hosts();
 				$has_wp_config = $dash_hosts->wp_config_exists( $host_info );
 
 				if ( $is_env ) {
@@ -106,10 +106,9 @@
 							</a>
 							
 						<?php }
+
 						if ( $is_env || $has_wp_config ) {
 							?>
-
-
 							<form class="backup form-inline" action="" method="post">
 								<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
 								<button title="Backup the database" type="submit" class="btn btn-info btn-xs" name="backup" value="Backup DB" data-toggle="tooltip" data-placement="top">

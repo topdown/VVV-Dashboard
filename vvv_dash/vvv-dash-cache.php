@@ -16,6 +16,8 @@
  * vvv-dash-cache.php
  */
 
+namespace vvv_dash;
+
 /**
  * Cache class for making load intensive items a little better on performance
  *
@@ -24,7 +26,7 @@
  *
  * Class vvv_dash_cache
  */
-class vvv_dash_cache {
+class cache {
 
 	private $_cache_path = 'cache/';
 	private $_skip_files = array( '.', '..', 'index.php', '.DS_Store' );
@@ -33,6 +35,7 @@ class vvv_dash_cache {
 	 * vvv_dash_cache constructor.
 	 */
 	function __construct() {
+		
 	}
 
 

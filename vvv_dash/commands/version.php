@@ -16,6 +16,7 @@
  */
 
 namespace vvv_dash\commands;
+use \vvv_dash;
 
 /**
  * VVV Dashboard version handling
@@ -76,7 +77,7 @@ class version {
 	 */
 	private function get_remote_version() {
 
-		$cache = new \vvv_dash_cache();
+		$cache = new vvv_dash\cache();
 
 		if ( ( $remote_version = $cache->get( 'version-cache', VVV_DASH_THEMES_TTL ) ) == false ) {
 
@@ -123,7 +124,7 @@ class version {
 	 * @return bool|mixed|string
 	 */
 	private function latest_features() {
-		$cache = new \vvv_dash_cache();
+		$cache = new vvv_dash\cache();
 
 		if ( ( $new_features = $cache->get( 'newfeatures-cache', VVV_DASH_THEMES_TTL ) ) == false ) {
 

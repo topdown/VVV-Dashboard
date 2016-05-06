@@ -16,22 +16,21 @@ if ( ! file_exists( '../dashboard-custom.php' ) ) {
 }
 
 include_once '../dashboard-custom.php';
-include_once 'libs/vvv-dash-cache.php';
+include_once 'vvv_dash/vvv-dash-cache.php';
+include_once 'vvv_dash/vvv-dash-hosts.php';
 
 // The new files for commands and actions
-include_once 'libs/commands.php';
-include_once 'libs/commands/dashboard.php';
-include_once 'libs/commands/host.php';
-include_once 'libs/commands/database.php';
-include_once 'libs/commands/plugin.php';
-include_once 'libs/commands/theme.php';
-include_once 'libs/commands/favs.php';
+include_once 'vvv_dash/commands.php';
+include_once 'vvv_dash/commands/host.php';
+include_once 'vvv_dash/commands/database.php';
+include_once 'vvv_dash/commands/plugin.php';
+include_once 'vvv_dash/commands/theme.php';
+include_once 'vvv_dash/commands/favs.php';
 
 
 // These will get cleanup a lot most moved to the commands
-include_once 'libs/vvv-dash-hosts.php';
-include_once 'libs/vvv-dashboard.php';
-include_once 'libs/functions.php';
+include_once 'vvv_dash/vvv-dashboard.php';
+include_once 'vvv_dash/functions.php';
 
 // Make sure everything is ready
 vvv_dash_prep();
@@ -44,10 +43,10 @@ $debug_log       = '';
 $debug_log_lines = '';
 $debug_log_path  = '';
 $debug_log_path  = false;
-$cache           = new vvv_dash_cache();
-$vvv_dash        = new vvv_dashboard();
+$vvv_dash        = new \vvv_dash\dashboard();
+$host_commands   = new \vvv_dash\commands\host();
 $status          = $vvv_dash->process_post();
-$hosts           = $vvv_dash->get_hosts( $path );
+$hosts           = $host_commands->get_hosts( $path );
 
 if ( is_string( $hosts ) ) {
 	$hosts = unserialize( $hosts );
@@ -56,15 +55,11 @@ if ( is_string( $hosts ) ) {
 $page = $vvv_dash->get_page();
 
 if ( isset( $_GET ) ) {
-
-	$host_commands    = new \vvv_dash\commands\host();
 	$theme_commands    = new \vvv_dash\commands\theme();
 	$plugin_commands   = new \vvv_dash\commands\plugin();
 	$database_commands = new \vvv_dash\commands\database();
 	$themes            = $theme_commands->get_themes( $_GET );
 	$plugins           = $plugin_commands->get_plugins( $_GET );
-	
-
 }
 
 include_once 'views/partials/header.php';

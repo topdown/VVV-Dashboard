@@ -16,12 +16,14 @@
  */
 
 namespace vvv_dash\commands;
+use \vvv_dash;
 
 class favs {
 
 	public function __construct() {
 	
-		$this->vvv_dash = new \vvv_dashboard();
+		//$this->_cache    = new vvv_dash\cache();
+		$this->_vvv_dash = new vvv_dash\dashboard();
 		
 	}
 
@@ -40,8 +42,8 @@ class favs {
 	 * @return bool|string
 	 */
 	public function install_fav_items( $post, $type ) {
-		$path      = $this->vvv_dash->get_host_path( $post['host'] );
-		$host_info = $this->vvv_dash->set_host_info( $post['host'] );
+		$path      = $this->_vvv_dash->get_host_path( $post['host'] );
+		$host_info = $this->_vvv_dash->set_host_info( $post['host'] );
 		$path      = VVV_WEB_ROOT . '/' . $host_info['host'] . $path;
 		$items     = ( isset( $post['checkboxes'] ) ) ? $post['checkboxes'] : false;
 		$install   = array();
