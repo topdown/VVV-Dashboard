@@ -24,6 +24,7 @@ include_once 'libs/commands/host.php';
 include_once 'libs/commands/database.php';
 include_once 'libs/commands/plugin.php';
 include_once 'libs/commands/theme.php';
+include_once 'libs/commands/favs.php';
 
 
 // These will get cleanup a lot most moved to the commands

@@ -22,6 +22,7 @@ class plugin {
 	public function __construct() {
 		$this->_cache   = new \vvv_dash_cache();
 		$this->vvv_dash = new \vvv_dashboard();
+		$this->favs     = new favs();
 	}
 
 	/**
@@ -36,12 +37,12 @@ class plugin {
 	 *
 	 * @return bool|string
 	 */
-	public function get_plugins( $get ) {
+	private function _get_plugins( $get ) {
 
 		if ( isset( $get['host'] ) && isset( $get['get_plugins'] ) ) {
 			$host_path = $this->vvv_dash->get_host_path( $get['host'] );
 			$host_info = $this->vvv_dash->set_host_info( $get['host'] );
-			$plugins   = $this->get_plugins_data( $host_info['host'], $host_path );
+			$plugins   = $this->_get_plugins_data( $host_info['host'], $host_path );
 
 			return $plugins;
 		} else {
@@ -62,7 +63,7 @@ class plugin {
 	 *
 	 * @return bool|string
 	 */
-	public function get_plugins_data( $host, $path = '' ) {
+	private function _get_plugins_data( $host, $path = '' ) {
 
 		if ( ( $plugins = $this->_cache->get( $host . '-plugins', VVV_DASH_PLUGINS_TTL ) ) == false ) {
 
@@ -75,6 +76,47 @@ class plugin {
 		}
 
 		return $plugins;
+	}
+
+	private function _plugin_list() {
+		// Need to re-get the plugin list for this host.
+		$plugins = $this->_get_plugins( $_GET );
+
+		echo format_table( $plugins, $_GET['host'], 'plugins' );
+	}
+
+	/**
+	 * Display plugin data/info and forms
+	 *
+	 * @author         Jeff Behnke <code@validwebs.com>
+	 * @copyright  (c) 2009-15 ValidWebs.com
+	 *
+	 * Created:    5/6/16, 2:29 PM
+	 *
+	 * @param $plugins @todo remove this when we can
+	 */
+	public function display( $plugins ) {
+		if ( ! empty( $plugins ) ) {
+			if ( isset( $_GET['host'] ) ) {
+
+				$host      = $_GET['host'];
+				$host_info = $this->vvv_dash->set_host_info( $host );
+				$host_path = VVV_WEB_ROOT . '/' . $host_info['host'] . $host_info['path'];
+				$close     = '<a class="close" href="./">Close</a>';
+
+				// Install fav plugins -------------------------------------------------------------
+				$this->_favorite_plugins( $host );
+
+				// Create New Plugin -------------------------------------------------------------
+				$this->_new_plugin( $host );
+
+				// Plugins List -------------------------------------------------------------
+				?><h4>The plugin list for
+				<span class="red"><?php echo $_GET['host']; ?></span> <?php echo $close; ?></h4><?php
+
+				$this->_plugin_list();
+			}
+		}
 	}
 
 	public function version() {
@@ -95,7 +137,7 @@ class plugin {
 	 *
 	 * @return bool|string
 	 */
-	public function create( $post ) {
+	private function _create( $post ) {
 
 		$path      = $this->vvv_dash->get_host_path( $post['host'] );
 		$host_info = $this->vvv_dash->set_host_info( $post['host'] );
@@ -160,9 +202,101 @@ class plugin {
 		}
 	}
 
+	private function _new_plugin( $host ) {
 
-	public function install() {
+		// @var $host
+		include_once VVV_DASH_VIEWS . '/forms/create_plugin.php';
 
+		if ( isset( $_POST['create_plugin'] ) ) {
+
+			$create_plugin = $this->_create( $_POST );
+
+			if ( ! empty( $create_plugin ) ) {
+
+				echo vvv_dash_notice( $create_plugin );
+				$host_name    = str_replace( '.dev', '', $_POST['host'] );
+				$purge_status = $this->_cache->purge( $host_name . '-plugins' );
+				echo vvv_dash_notice( $purge_status . ' files were purged from cache!' );
+			}
+		}
+	}
+
+	/**
+	 * Install a favorite plugin from the list
+	 *
+	 * @author         Jeff Behnke <code@validwebs.com>
+	 * @copyright  (c) 2009-15 ValidWebs.com
+	 *
+	 * Created:    5/6/16, 1:43 PM
+	 *
+	 * @param $post
+	 *
+	 * @return bool|string
+	 */
+	private function _install( $post ) {
+
+		if ( isset( $post['install_fav_plugin'] ) ) {
+
+			$plugin_install_status = $this->favs->install_fav_items( $post, 'plugin' );
+
+			if ( ! empty( $plugin_install_status ) ) {
+				$plugin_install_status = str_replace( PHP_EOL, '<br />', $plugin_install_status );
+				$return                = vvv_dash_notice( $plugin_install_status );
+				$host_name             = str_replace( '.dev', '', $post['host'] );
+				$purge_status          = $this->_cache->purge( $host_name . '-plugins' );
+				$return .= vvv_dash_notice( $purge_status . ' files were purged from cache!' );
+
+				return $return;
+			} else {
+				return false;
+			}
+
+		} else {
+			return false;
+		}
+	}
+
+	private function _install_favorite( $post ) {
+
+		// Install plugin
+		$install_plugin = $this->_install( $post );
+
+		if ( ! empty( $install_plugin ) ) {
+			echo $install_plugin;
+		}
+	}
+
+	private function _favs_checkboxes( $fav_file ) {
+		return $this->favs->get_fav_list( $fav_file );
+	}
+
+	/**
+	 *
+	 *
+	 * @author         Jeff Behnke <code@validwebs.com>
+	 * @copyright  (c) 2009-15 ValidWebs.com
+	 *
+	 * Created:    5/6/16, 2:23 PM
+	 *
+	 * @param  $host
+	 */
+	private function _favorite_plugins( $host ) {
+
+		$fav_file   = VVV_WEB_ROOT . '/default/dashboard/favorites/plugins.txt';
+		$checkboxes = $this->_favs_checkboxes( $fav_file );
+
+		if ( $checkboxes ) {
+			// @var $checkboxes
+			// @var $host
+			include_once VVV_DASH_VIEWS . '/forms/favorite_plugins.php';
+		} else {
+
+			echo vvv_dash_error( '<strong>You have no favorite plugins to install.</strong><br />
+								Create a file ' . $fav_file . ' with your plugins 1 per line.<br />
+								SEE: ' . VVV_WEB_ROOT . '/default/dashboard/favorites/plugins-example.txt', 'no_plugin_fav_list' );
+		}
+
+		$this->_install_favorite( $_POST );
 	}
 
 	public function update() {

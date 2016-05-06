@@ -18,74 +18,11 @@
 	<div class="row">
 		<div class="col-sm-12 hosts">
 			<?php
-
-			$close = '<a class="close" href="./">Close</a>';
-
+			
 			// Plugins table
-			if ( ! empty( $plugins ) ) {
-				if ( isset( $_GET['host'] ) ) {
+			$plugin_commands->display($plugins);
 
-					$host      = $_GET['host'];
-					$host_info = $vvv_dash->set_host_info( $host );
-					$host_path = VVV_WEB_ROOT . '/' . $host_info['host'] . $host_info['path'];
-					$fav_file  = VVV_WEB_ROOT . '/default/dashboard/favorites/plugins.txt';
-
-					// Install fav plugins
-					$checkboxes = $vvv_dash->get_fav_list( $fav_file );
-
-					if ( $checkboxes ) {
-						// @var $checkboxes
-						// @var $host
-						include_once 'forms/favorite_plugins.php';
-					} else {
-						
-						echo vvv_dash_error( '<strong>You have no favorite plugins to install.</strong><br />
-								Create a file ' . $fav_file . ' with your plugins 1 per line.<br />
-								SEE: ' . VVV_WEB_ROOT . '/default/dashboard/favorites/plugins-example.txt', 'no_plugin_fav_list' );
-					}
-
-					if ( isset( $_POST['install_fav_plugin'] ) ) {
-
-						$plugin_install_status = $vvv_dash->install_fav_items( $_POST, 'plugin' );
-
-						if ( ! empty( $plugin_install_status ) ) {
-							$plugin_install_status = str_replace(PHP_EOL, '<br />', $plugin_install_status);
-							echo vvv_dash_notice( $plugin_install_status );
-							$host_name    = str_replace( '.dev', '', $_POST['host'] );
-							$purge_status = $cache->purge( $host_name . '-plugins' );
-							echo vvv_dash_notice( $purge_status . ' files were purged from cache!' );
-						}
-
-					}
-
-					// Create New Plugin
-					// @var $host
-					include_once 'forms/create_plugin.php';
-
-					if ( isset( $_POST['create_plugin'] ) ) {
-						
-						$create_plugin = $plugin_commands->create( $_POST );
-						
-						if ( ! empty( $create_plugin ) ) {
-							
-							echo vvv_dash_notice( $create_plugin );
-							$host_name    = str_replace( '.dev', '', $_POST['host'] );
-							$purge_status = $cache->purge( $host_name . '-plugins' );
-							echo vvv_dash_notice( $purge_status . ' files were purged from cache!' );
-						}
-					}
-
-					?><h4>The plugin list for
-					<span class="red"><?php echo $_GET['host']; ?></span> <?php echo $close; ?></h4><?php
-
-					// Need to re-get the plugin list for this host.
-					$plugins         = $plugin_commands->get_plugins( $_GET );
-
-					echo format_table( $plugins, $_GET['host'], 'plugins' );
-				}
-
-			}
-
+			
 			if ( isset( $_GET['migrate'] ) && isset( $_GET['host'] ) ) {
 
 				$host      = $_GET['host'];
