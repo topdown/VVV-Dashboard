@@ -29,24 +29,16 @@
 					$host_info = $vvv_dash->set_host_info( $host );
 					$host_path = VVV_WEB_ROOT . '/' . $host_info['host'] . $host_info['path'];
 					$fav_file  = VVV_WEB_ROOT . '/default/dashboard/favorites/plugins.txt';
+
 					// Install fav plugins
 					$checkboxes = $vvv_dash->get_fav_list( $fav_file );
 
 					if ( $checkboxes ) {
-						$install_fav_form
-							= '<form class="" action="" method="post">
-								<p><span class="bold">Install a favorite plugin on this host.</span><br />
-								<span class="italic bold red">NOTE: the more plugins you check at one time the longer it takes.</span>
-								</p>
-								<input type="hidden" name="host" value="' . $host . '" />
-								' . $checkboxes . '
-								<button type="submit" class="btn btn-success btn-xs" name="install_fav_plugin" value="Install Plugin">
-								<i class="fa fa-gears"></i> Install Plugin
-								</button>
-							</form><br />
-							';
-						echo $install_fav_form;
+						// @var $checkboxes
+						// @var $host
+						include_once 'forms/favorite_plugins.php';
 					} else {
+						
 						echo vvv_dash_error( '<strong>You have no favorite plugins to install.</strong><br />
 								Create a file ' . $fav_file . ' with your plugins 1 per line.<br />
 								SEE: ' . VVV_WEB_ROOT . '/default/dashboard/favorites/plugins-example.txt', 'no_plugin_fav_list' );
@@ -67,24 +59,8 @@
 					}
 
 					// Create New Plugin
-					$create_plugin_form
-						= '<form class="create-plugin" action="" method="post">
-								<input type="hidden" name="host" value="' . $host . '" />
-
-								<p class="plugin-input">
-								<label>Plugin Slug</label> <input class="plugin-slug" type="text" placeholder="plugin_slug" name="plugin_slug" value="" />
-								 <button class="add-post-type btn btn-default btn-xs">Add Post Type</button> 
-								</p>
-
-								<p><button type="submit" class="btn btn-success btn-xs" name="create_plugin" value="Create Plugin">
-								<i class="fa fa-puzzle-piece"></i> Create Plugin
-								</button>
-								&nbsp; &nbsp; &nbsp;<label>Skip Tests</label> &nbsp; <input type="checkbox" name="skip_tests" />
-								
-								</p>
-							</form><br />
-							';
-					echo $create_plugin_form;
+					// @var $host
+					include_once 'forms/create_plugin.php';
 
 					if ( isset( $_POST['create_plugin'] ) ) {
 						
@@ -198,26 +174,9 @@
 				//$roll_back = $vvv_dash->db_roll_back( $host, $file );
 
 				// Migration Form
-				?>
-				<div class="row">
-					<div class="col-sm-12"><p><a class="close" href="./">Close</a></p></div>
-				</div>
-
-				<div class="alert alert-warning" role="alert">
-					<p class="">Migrating: <span class="bold italic"><?php echo $host; ?></span>
-						<span class="bold pull-right">Warning this is a Beta feature!</span></p>
-					<p>1. A backup will be created <br />2. Search and replace will happen on this host.
-						<br />3. A new backup will be created marked as the migration</p>
-
-					<!-- @Todo remove this get form if possible -->
-					<form class="migrate-form form-inline" action="" method="get">
-						<input type="hidden" name="host" value="<?php echo $host; ?>" />
-						<input type="hidden" name="migrate" value="true" />
-						<input class="domain" placeholder="The domain moving to" type="text" name="domain" value="<?php echo $domain; ?>" />
-						<button class="btn btn-warning btn-sm" type="submit" name="migrate_db" value="true">Migrate</button>
-					</form>
-				</div>
-				<?php
+				// @var $host
+				// @var $domain
+				include_once 'forms/migrate.php';
 			}
 
 			// Themes table
@@ -227,18 +186,8 @@
 					<span class="red"><?php echo $_GET['host']; ?></span> <?php echo $close; ?></h4><?php
 
 					// Create a New Theme Form base on _s
-					$new_theme_form
-						= '<form class="create-s-theme" action="" method="post">
-								<span class="italic bold">Create a new theme based on <a href="http://underscores.me/" target="_blank">_s</a>  : </span>
-								<input type="hidden" name="host" value="' . $_GET['host'] . '" />
-								<input class="child-name" placeholder="Theme Name" type="text" name="theme_name" value="" />
-								<input class="child-slug" placeholder="theme_slug" type="text" name="theme_slug" value="" />
-								<button type="submit" class="btn btn-success btn-xs" name="create_s_theme" value="Create _s Theme">
-								<i class="fa fa-paint-brush"></i> Create _s Theme
-								</button>
-							</form>
-							';
-					echo $new_theme_form;
+					// @var $_GET['host']
+					include_once 'forms/new_s_theme.php';
 
 					if ( isset( $_POST['create_s_theme'] ) ) {
 						$themes_array = get_csv_names( $themes );
