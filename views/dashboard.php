@@ -73,19 +73,25 @@
 
 								<p class="plugin-input">
 								<label>Plugin Slug</label> <input class="plugin-slug" type="text" placeholder="plugin_slug" name="plugin_slug" value="" />
-								 <button class="add-post-type btn btn-default btn-xs">Add Post Type</button>
+								 <button class="add-post-type btn btn-default btn-xs">Add Post Type</button> 
 								</p>
 
 								<p><button type="submit" class="btn btn-success btn-xs" name="create_plugin" value="Create Plugin">
 								<i class="fa fa-puzzle-piece"></i> Create Plugin
-								</button></p>
+								</button>
+								&nbsp; &nbsp; &nbsp;<label>Skip Tests</label> &nbsp; <input type="checkbox" name="skip_tests" />
+								
+								</p>
 							</form><br />
 							';
 					echo $create_plugin_form;
 
 					if ( isset( $_POST['create_plugin'] ) ) {
-						$create_plugin = $vvv_dash->create_plugin( $_POST );
+						
+						$create_plugin = $plugin_commands->create( $_POST );
+						
 						if ( ! empty( $create_plugin ) ) {
+							
 							echo vvv_dash_notice( $create_plugin );
 							$host_name    = str_replace( '.dev', '', $_POST['host'] );
 							$purge_status = $cache->purge( $host_name . '-plugins' );
@@ -95,6 +101,9 @@
 
 					?><h4>The plugin list for
 					<span class="red"><?php echo $_GET['host']; ?></span> <?php echo $close; ?></h4><?php
+
+					// Need to re-get the plugin list for this host.
+					$plugins         = $plugin_commands->get_plugins( $_GET );
 
 					echo format_table( $plugins, $_GET['host'], 'plugins' );
 				}
