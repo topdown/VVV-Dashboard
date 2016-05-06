@@ -3,7 +3,8 @@
 define( 'VVV_DASH_BASE', true );
 define( 'VVV_WEB_ROOT', '/srv/www' );
 define( 'VVV_DASH_VERSION', '0.1.4' );
-define( 'VVV_DASH_VIEWS', VVV_WEB_ROOT . '/default/dashboard/views/' );
+
+define( 'VVV_DASH_VIEWS', __DIR__ . '/views' );
 
 // Settings
 $path = '../../';
