@@ -200,6 +200,7 @@
 					<p>1. A backup will be created <br />2. Search and replace will happen on this host.
 						<br />3. A new backup will be created marked as the migration</p>
 
+					<!-- @Todo remove this get form if possible -->
 					<form class="migrate-form form-inline" action="" method="get">
 						<input type="hidden" name="host" value="<?php echo $host; ?>" />
 						<input type="hidden" name="migrate" value="true" />
@@ -280,7 +281,7 @@
 					}
 
 					$host_info = $vvv_dash->set_host_info( $_GET['host'] );
-					$themes    = $vvv_dash->get_themes_data( $host_info['host'], $host_info['path'] );
+					$themes    = $theme_commands->get_themes_data( $host_info['host'], $host_info['path'] );
 
 					echo format_table( $themes, $_GET['host'], 'themes' );
 				}
