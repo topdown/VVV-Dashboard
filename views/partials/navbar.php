@@ -20,7 +20,7 @@
 		<div class="container">
 			<div class="navbar-header">
 				<a href="#menu-toggle" class="btn btn-success btn-xs" id="menu-toggle">Sidebar</a>
-				<a class="navbar-brand" href="../">Dashboard</a>
+				<a class="navbar-brand" href="./">Dashboard</a>
 			</div>
 
 			<ul class="nav navbar-nav">
