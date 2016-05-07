@@ -77,7 +77,7 @@ include_once 'views/partials/navbar.php';
 
 		include_once 'views/partials/notices.php';
 
-		if ( isset( $_REQUEST['page'] ) && file_exists( VVV_DASH_VIEWS . $_REQUEST['page'] . '.php' ) ) {
+		if ( isset( $_REQUEST['page'] ) && file_exists( VVV_DASH_VIEWS . '/' . $_REQUEST['page'] . '.php' ) ) {
 			include_once 'views/' . $page . '.php';
 		} else {
 			if ( isset( $_REQUEST['page'] ) ) {
