@@ -58,6 +58,7 @@ class dashboard {
 			'backups',
 			'about',
 			'commands',
+			'tests' // for testing purposes without breaking the dashboard
 		);
 	}
 

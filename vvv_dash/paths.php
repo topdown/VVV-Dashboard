@@ -69,7 +69,7 @@ class paths {
 	 *
 	 * @return array
 	 */
-	public function get_scan_paths() {
+	public static function get_scan_paths() {
 		return self::$_scan_paths;
 	}
 
@@ -104,7 +104,7 @@ class paths {
 	 *
 	 * @return array
 	 */
-	public function get_wp_content_paths() {
+	public static function get_wp_content_paths() {
 		return self::$_wp_content_paths;
 	}
 }
