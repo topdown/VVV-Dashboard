@@ -26,6 +26,7 @@
 		<a href="https://gitter.im/topdown/VVV-Dashboard" title="Gitter Chat"><img src="https://badges.gitter.im/Join%20Chat.svg" /></a>
 	</p>
 
+<p>Help grow the feature list:  <span class="badge-paypal"><a target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KEUN2SQ2VRW7A" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a></span></p>
 <p>
 	VVV Dashboard goal was to be a simple interface but has now grown into a full development tool for WordPress development.
 </p>

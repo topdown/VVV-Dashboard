@@ -15,34 +15,47 @@
  * tests.php
  */
 
-include_once VVV_WEB_ROOT . '/default/dashboard/vvv_dash/paths.php';
-include_once VVV_WEB_ROOT . '/default/dashboard/vvv_dash/hosts.php';
-include_once VVV_WEB_ROOT . '/default/dashboard/vvv_dash/hosts/standard_wp.php';
+//include_once VVV_WEB_ROOT . '/default/dashboard/vvv_dash/hosts/standard_wp.php';
+
+//$cache = new \vvv_dash\cache();
 
 
-//get all files in specified directory
-$files     = glob( VVV_WEB_ROOT . "/*" );
-$host_info = array();
-//print each file name
-foreach ( $files as $file ) {
-	//check to see if the file is a folder/directory
-	if ( is_dir( $file ) ) {
-		$hosts    = new \vvv_dash\hosts\standard_wp();
-		$hostname = str_replace( '/srv/www/', '', $file );
-		$hosts->set_host( $hostname );
-		$host_data = $hosts->get_host_info();
-		
-		if($host_data['is_wp_site'] == 'true') {
-			$host_info[] = $host_data;
+//if ( ( $files = $cache->get( 'host-directories', VVV_DASH_HOSTS_TTL ) ) == false ) {
+//	//get all host directories
+//	$files  = serialize( glob( VVV_WEB_ROOT . "/*" ) );
+//	$status = $cache->set( 'host-directories', $files );
+//}
+
+$files  = glob( VVV_WEB_ROOT . "/*" );
+
+//if ( ( $host_info = $cache->get( 'host-sites-dev', VVV_DASH_HOSTS_TTL ) ) == false ) {
+
+	//$files     = unserialize( $files );
+	$host_info = array();
+	//print each file name
+	foreach ( $files as $key => $file ) {
+		//check to see if the file is a folder/directory
+		if ( is_dir( $file ) ) {
+			$hosts    = new \vvv_dash\hosts();
+			$hostname = str_replace( '/srv/www/', '', $file );
+			$hosts->set_host( $hostname );
+			$host_data = $hosts->get_host_info();
+
+
+			if ( $host_data['is_wp_site'] == 'true' ) {
+				$host_info[] = $host_data;
+
+			}
+
 		}
-		
 	}
-}
+
+	//$status = $cache->set( 'host-sites-dev', serialize( $host_info ) );
+//}
 
 echo '<pre style="text-align: left;">' . "FILE: " . __FILE__ . "\nLINE: " . __LINE__ . "\n";
 print_r( $host_info );
 echo '</pre>------------ Debug End ------------';
-
 
 
 // End tests.php

@@ -19,17 +19,17 @@ namespace vvv_dash;
 
 interface host_interface {
 
-	public function set_host($host);
+	//protected function set_host($host);
 
-	//public function get_domain();
+	//protected function get_domain();
 
-	public function get_path();
+	//protected function get_path();
 
-	public function get_wp();
+	//protected function get_wp();
 
-	public function get_config();
+	//protected function get_config();
 
-	public function get_database();
+	//protected function get_database();
 
 
 }

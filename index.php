@@ -1,5 +1,11 @@
 <?php
 
+// Need to do some load testing
+global $timestart;
+$time      = microtime();
+$time      = explode( ' ', $time );
+$timestart = $time[1] + $time[0];
+
 define( 'VVV_DASH_BASE', true );
 define( 'VVV_WEB_ROOT', '/srv/www' );
 define( 'VVV_DASH_VERSION', '0.1.4' );
@@ -19,8 +25,11 @@ include_once '../dashboard-custom.php';
 include_once 'vvv_dash/vvv-dash-cache.php';
 include_once 'vvv_dash/vvv-dash-hosts.php';
 
+include_once 'vvv_dash/paths.php';
+include_once 'vvv_dash/hosts.php';
+
 // The new files for commands and actions
-include_once 'vvv_dash/commands.php';
+//include_once 'vvv_dash/commands.php';
 include_once 'vvv_dash/commands/host.php';
 include_once 'vvv_dash/commands/database.php';
 include_once 'vvv_dash/commands/plugin.php';
