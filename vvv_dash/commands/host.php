@@ -16,6 +16,7 @@
  */
 
 namespace vvv_dash\commands;
+
 //use \vvv_dash;
 
 use vvv_dash\cache;
@@ -26,10 +27,11 @@ class host extends vvv_dash_hosts {
 
 	private $_cache;
 	private $_vvv_dash;
-	
+
 	public function __construct() {
-		$this->_cache    = new cache();
-		$this->_vvv_dash = new dashboard();
+
+		$this->_cache = new cache();
+		//$this->_vvv_dash = new dashboard();
 	}
 
 	/**
@@ -254,7 +256,7 @@ class host extends vvv_dash_hosts {
 
 		return $host_info;
 	}
-	
+
 
 	/**
 	 * Display debug logs at a host level if available
@@ -268,7 +270,7 @@ class host extends vvv_dash_hosts {
 	public function display_debug_logs() {
 
 		if ( isset( $_GET['host'] ) ) {
-			$wp_debug_log    = $this->_vvv_dash->get_wp_debug_log( $_GET );
+			$wp_debug_log    = $this->get_wp_debug_log( $_GET );
 			$debug_log_lines = ( isset( $wp_debug_log['lines'] ) ) ? $wp_debug_log['lines'] : false;
 			$debug_log_path  = ( isset( $wp_debug_log['path'] ) ) ? $wp_debug_log['path'] : false;
 
@@ -286,6 +288,50 @@ class host extends vvv_dash_hosts {
 				<?php
 			}
 		}
+	}
+
+	/**
+	 * Gets the WP debug.log content
+	 *
+	 * @author         Jeff Behnke <code@validwebs.com>
+	 * @copyright  (c) 2009-15 ValidWebs.com
+	 *
+	 * Created:    12/5/15, 2:44 AM
+	 *
+	 * @param $get
+	 *
+	 * @return bool
+	 */
+	public function get_wp_debug_log( $get ) {
+		if ( isset( $get['host'] ) && isset( $get['debug_log'] ) ) {
+			$log  = false;
+			$type = check_host_type( $get['host'] );
+
+			if ( isset( $type['key'] ) ) {
+
+				if ( isset( $type['path'] ) ) {
+					$debug_log['path'] = VVV_WEB_ROOT . '/' . $type['key'] . '/' . $type['path'] . '/wp-content/debug.log';
+				} else {
+					$debug_log['path'] = VVV_WEB_ROOT . '/' . $type['key'] . '/wp-content/debug.log';
+				}
+
+			} else {
+				$host              = strstr( $get['host'], '.', true );
+				$debug_log['path'] = VVV_WEB_ROOT . '/' . $host . '/htdocs/wp-content/debug.log';
+			}
+
+			if ( isset( $debug_log['path'] ) && file_exists( $debug_log['path'] ) ) {
+				$log = get_php_errors( 21, 140, $debug_log['path'] );
+			}
+
+			if ( is_array( $log ) ) {
+				$debug_log['lines'] = format_php_errors( $log );
+			}
+
+			return $debug_log;
+		}
+
+		return false;
 	}
 }
 // End host.php

@@ -16,6 +16,7 @@
  */
 
 namespace vvv_dash;
+use vvv_dash\commands\host;
 
 /**
  * Class vvv_dashboard
@@ -34,11 +35,7 @@ class dashboard {
 	public function __construct() {
 
 		$this->_cache = new cache();
-
-		//$this->_theme_commands    = new \vvv_dash\commands\theme();
-		//$this->_plugin_commands   = new \vvv_dash\commands\plugin();
-		//$this->_database_commands = new \vvv_dash\commands\database();
-		//$this->_hosts             = new commands\host();
+		$this->_hosts = new host();
 
 		$this->_set_pages();
 
@@ -90,51 +87,6 @@ class dashboard {
 
 	}
 
-
-	/**
-	 * Gets the WP debug.log content
-	 *
-	 * @author         Jeff Behnke <code@validwebs.com>
-	 * @copyright  (c) 2009-15 ValidWebs.com
-	 *
-	 * Created:    12/5/15, 2:44 AM
-	 *
-	 * @param $get
-	 *
-	 * @return bool
-	 */
-	public function get_wp_debug_log( $get ) {
-		if ( isset( $get['host'] ) && isset( $get['debug_log'] ) ) {
-			$log  = false;
-			$type = check_host_type( $get['host'] );
-
-			if ( isset( $type['key'] ) ) {
-
-				if ( isset( $type['path'] ) ) {
-					$debug_log['path'] = VVV_WEB_ROOT . '/' . $type['key'] . '/' . $type['path'] . '/wp-content/debug.log';
-				} else {
-					$debug_log['path'] = VVV_WEB_ROOT . '/' . $type['key'] . '/wp-content/debug.log';
-				}
-
-			} else {
-				$host              = strstr( $get['host'], '.', true );
-				$debug_log['path'] = VVV_WEB_ROOT . '/' . $host . '/htdocs/wp-content/debug.log';
-			}
-
-			if ( isset( $debug_log['path'] ) && file_exists( $debug_log['path'] ) ) {
-				$log = get_php_errors( 21, 140, $debug_log['path'] );
-			}
-
-			if ( is_array( $log ) ) {
-				$debug_log['lines'] = format_php_errors( $log );
-			}
-
-			return $debug_log;
-		}
-
-		return false;
-	}
-
 	/**
 	 * Process $_POST supper globals used in the dashboard
 	 *
@@ -159,12 +111,12 @@ class dashboard {
 
 			if ( isset( $_POST['backup'] ) && isset( $_POST['host'] ) ) {
 				$this->_database_commands = new commands\database();
-				$status = $this->_database_commands->create_db_backup( $_POST['host'] );
+				$status                   = $this->_database_commands->create_db_backup( $_POST['host'] );
 			}
 
 			if ( isset( $_POST['roll_back'] ) && $_POST['roll_back'] == 'Roll Back' ) {
 				$this->_database_commands = new commands\database();
-				$status = $this->_database_commands->db_roll_back( $_POST['host'], $_POST['file_path'] );
+				$status                   = $this->_database_commands->db_roll_back( $_POST['host'], $_POST['file_path'] );
 
 				if ( $status ) {
 					$status = vvv_dash_notice( $status );
