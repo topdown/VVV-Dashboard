@@ -23,8 +23,8 @@ class favs {
 	public function __construct() {
 	
 		//$this->_cache    = new vvv_dash\cache();
-		$this->_vvv_dash = new vvv_dash\dashboard();
-		
+		//$this->_vvv_dash = new vvv_dash\dashboard();
+		$this->_hosts = new host();
 	}
 
 	/**
@@ -42,8 +42,8 @@ class favs {
 	 * @return bool|string
 	 */
 	public function install_fav_items( $post, $type ) {
-		$path      = $this->_vvv_dash->get_host_path( $post['host'] );
-		$host_info = $this->_vvv_dash->set_host_info( $post['host'] );
+		$path      = $this->_hosts->get_host_path( $post['host'] );
+		$host_info = $this->_hosts->set_host_info( $post['host'] );
 		$path      = VVV_WEB_ROOT . '/' . $host_info['host'] . $path;
 		$items     = ( isset( $post['checkboxes'] ) ) ? $post['checkboxes'] : false;
 		$install   = array();
