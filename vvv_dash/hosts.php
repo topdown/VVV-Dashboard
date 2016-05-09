@@ -113,6 +113,9 @@ class hosts implements host_interface {
 		if ( file_exists( $config_file ) ) {
 			$this->wp_config_path = $config_file;
 			$this->wp_is_installed = 'true';
+		} else {
+			$this->wp_config_path = '';
+			$this->wp_is_installed = 'false';
 		}
 
 	}

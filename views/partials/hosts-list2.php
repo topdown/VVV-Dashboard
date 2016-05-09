@@ -78,7 +78,8 @@ $host_info = \vvv_dash\hosts_container::get_host_list();
 		foreach ( $host_info as $key => $host ) {
 			?>
 			<tr>
-				<?php if ( isset( $host['config_settings']['WP_DEBUG'] ) && $host['config_settings']['WP_DEBUG'] == 'true' ) { ?>
+				<?php if ( isset( $host['config_settings']['WP_DEBUG'] ) && $host['config_settings']['WP_DEBUG'] == 'true'
+				&& $host['wp_is_installed'] == 'true' ) { ?>
 					<td><span class="label label-success">Debug On <i class="fa fa-check-circle-o"></i></span>
 					</td>
 				<?php } else {

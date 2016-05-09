@@ -27,6 +27,7 @@ include_once 'vvv_dash/vvv-dash-hosts.php';
 
 //include_once 'vvv_dash/paths.php';
 
+// Host farm :P Setup to manage different kinds of vvv host setups with hopefully less work
 include_once 'vvv_dash/hosts_container.php';
 include_once 'vvv_dash/hosts.php';
 include_once 'vvv_dash/hosts/defaults.php';
