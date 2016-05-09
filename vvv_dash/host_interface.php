@@ -19,19 +19,33 @@ namespace vvv_dash;
 
 interface host_interface {
 
-	//protected function set_host($host);
+	public function load_hosts();
 
-	//protected function get_domain();
+	public function set_hostname( $hostname );
 
-	//protected function get_path();
+	public function set_domain($domain);
 
-	//protected function get_wp();
+	public function set_host_path( $hostname );
 
-	//protected function get_config();
+	public function set_public_dir();
 
-	//protected function get_database();
+	public function set_wp_path( $wp_path );
 
+	public function set_version();
 
+	public function set_debug_log_path( $log_file );
+
+	public function set_wp_config_path( $wp_config_file );
+
+	public function set_config_settings();
+
+	public function set_composer_path(  );
+
+	public function set_env_path(  );
+
+	public function host_list();
+
+	public function is_standard_host();
 }
 
 // End host_interface.php

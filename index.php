@@ -25,8 +25,14 @@ include_once '../dashboard-custom.php';
 include_once 'vvv_dash/vvv-dash-cache.php';
 include_once 'vvv_dash/vvv-dash-hosts.php';
 
-include_once 'vvv_dash/paths.php';
+//include_once 'vvv_dash/paths.php';
+
+include_once 'vvv_dash/hosts_container.php';
 include_once 'vvv_dash/hosts.php';
+include_once 'vvv_dash/hosts/defaults.php';
+include_once 'vvv_dash/hosts/standard_wp.php';
+include_once 'vvv_dash/hosts/wp_starter.php';
+//include_once 'vvv_dash/hosts/bedrock.php';
 
 // The new files for commands and actions
 //include_once 'vvv_dash/commands.php';

@@ -38,7 +38,7 @@
 			vvv_dash_xdebug_status();
 
 
-			include_once VVV_DASH_VIEWS . '/partials/hosts-list.php'; ?>
+			include_once VVV_DASH_VIEWS . '/partials/hosts-list2.php'; ?>
 		</div>
 	</div>
 
