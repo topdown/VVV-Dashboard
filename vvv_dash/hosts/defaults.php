@@ -32,7 +32,7 @@ class defaults extends hosts implements host_interface {
 		return hosts_container::set_host_list( $this->get_host_list() );
 	}
 
-	public function set_domain($domain) {
+	public function set_domain( $domain ) {
 		$this->domain = $domain;
 	}
 
@@ -53,7 +53,7 @@ class defaults extends hosts implements host_interface {
 	}
 
 	public function set_debug_log_path( $log_file = '' ) {
-		parent::set_debug_log_path($log_file);
+		parent::set_debug_log_path( $log_file );
 	}
 
 	public function set_wp_config_path( $wp_config_file = '' ) {
@@ -68,7 +68,7 @@ class defaults extends hosts implements host_interface {
 		$this->composer_path = '';
 	}
 
-	public function set_env_path( $env_path  = '') {
+	public function set_env_path( $env_path = '' ) {
 		$this->env_path = '';
 	}
 
@@ -192,7 +192,7 @@ class defaults extends hosts implements host_interface {
 						$this->debug_log = '';
 					}
 				}
-
+				$this->is_wp_site = 'true';
 				$this->set_version();
 				$this->set_debug_log_path();
 				$this->set_wp_config_path();

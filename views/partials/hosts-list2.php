@@ -15,15 +15,15 @@
  * hosts-list2.php
  */
 
-$host_object      = new \vvv_dash\hosts();
+$host_object = new \vvv_dash\hosts();
 
-$standard   = new \vvv_dash\hosts\standard_wp();
+$standard = new \vvv_dash\hosts\standard_wp();
 $standard->load_hosts();
 
 $wp_starter = new \vvv_dash\hosts\wp_starter();
 $wp_starter->load_hosts();
 
-$defaults   = new \vvv_dash\hosts\defaults();
+$defaults = new \vvv_dash\hosts\defaults();
 $defaults->load_hosts();
 
 $host_info = \vvv_dash\hosts_container::get_host_list();
@@ -79,7 +79,8 @@ $host_info = \vvv_dash\hosts_container::get_host_list();
 			?>
 			<tr>
 				<?php if ( isset( $host['config_settings']['WP_DEBUG'] ) && $host['config_settings']['WP_DEBUG'] == 'true'
-				&& $host['wp_is_installed'] == 'true' ) { ?>
+				           && $host['wp_is_installed'] == 'true'
+				) { ?>
 					<td><span class="label label-success">Debug On <i class="fa fa-check-circle-o"></i></span>
 					</td>
 				<?php } else {
@@ -87,6 +88,10 @@ $host_info = \vvv_dash\hosts_container::get_host_list();
 						?>
 						<td><span class="label label-danger">Debug Off <i class="fa fa-times-circle-o"></i></span>
 						</td>
+						<?php
+					} elseif($host['wp_is_installed'] == 'false'  && $host['is_wp_site'] == 'false') {
+						?>
+						<td><span class="label label-warning">ARCHIVE</td>
 						<?php
 					} else {
 						?>
@@ -105,16 +110,18 @@ $host_info = \vvv_dash\hosts_container::get_host_list();
 					?></td>
 
 				<td>
-					<a class="btn btn-primary btn-xs" href="http://<?php echo $host['domain']; ?>/" target="_blank">
-						<i class="fa fa-external-link"></i> Visit </a>
-
+					<?php if ( $host['wp_is_installed'] == 'true' || $host['wp_is_installed'] == 'false'  && $host['is_wp_site'] == 'true' ) { ?>
+						<a class="btn btn-primary btn-xs" href="http://<?php echo $host['domain']; ?>/" target="_blank">
+							<i class="fa fa-external-link"></i> Visit </a>
+					<?php } ?>
 					<?php if ( $host['wp_is_installed'] == 'true' ) { ?>
 						<a class="btn btn-warning btn-xs" href="http://<?php echo $host['domain']; ?>/wp-admin" target="_blank">
 							<i class="fa fa-wordpress"></i> Admin </a>
 					<?php } ?>
-					<a class="btn btn-success btn-xs" href="http://<?php echo $host['domain']; ?>/?XDEBUG_PROFILE" target="_blank">
-						<i class="fa fa-search-plus"></i> Profiler </a>
-
+					<?php if ( $host['wp_is_installed'] == 'true' || $host['wp_is_installed'] == 'false' && $host['is_wp_site'] == 'true' ) { ?>
+						<a class="btn btn-success btn-xs" href="http://<?php echo $host['domain']; ?>/?XDEBUG_PROFILE" target="_blank">
+							<i class="fa fa-search-plus"></i> Profiler </a>
+					<?php } ?>
 					<?php if ( $host['wp_is_installed'] == 'true' ) { ?>
 						<a href="./?host=<?php echo $host['domain']; ?>&get_themes=true" class="btn btn-default btn-xs">
 							<i class="fa fa-paint-brush"></i><span> Themes</span> </a>

@@ -71,9 +71,13 @@ class hosts implements host_interface {
 
 	public function set_domain( $domain = '' ) {
 		//$this->domain = $domain;
-		if ( file_exists( $this->host_path . '/vvv-hosts' ) ) {
+		if(! empty($domain)) {
+			$this->domain = $domain;
+		} elseif ( file_exists( $this->host_path . '/vvv-hosts' ) ) {
 			$domain       = file_get_contents( $this->host_path . '/vvv-hosts' );
 			$this->domain = trim( $domain );
+		} else {
+			$this->domain = 'N/A';
 		}
 	}
 
@@ -89,6 +93,8 @@ class hosts implements host_interface {
 		if ( file_exists( $this->host_path . '/wp-cli.yml' ) ) {
 			$path             = file_get_contents( $this->host_path . '/wp-cli.yml' );
 			$this->public_dir = str_replace( 'path: ', '', $path );
+		} else {
+			$this->public_dir = '';
 		}
 	}
 
@@ -162,9 +168,9 @@ class hosts implements host_interface {
 	public function set_config_settings() {
 		// get wp-config
 		if ( file_exists( $this->wp_config_path ) ) {
-
 			$this->config_settings = $this->get_wp_config_data();
-
+		} else {
+			$this->config_settings =  '';
 		}
 	}
 
@@ -182,6 +188,8 @@ class hosts implements host_interface {
 				}
 			}
 			$this->version = $version;
+		} else {
+			$this->version = 'N/A';
 		}
 	}
 
