@@ -162,7 +162,15 @@ class theme extends host {
 	}
 
 	public function update() {
-
+		$status = false;
+		
+		if ( ! empty( $_POST['type'] ) && 'themes' == $_POST['type'] ) {
+			$status       = shell_exec( 'wp theme update ' . $_POST['item'] . ' --path=' . $this->host_info['wp_path'] );
+			$purge_status = $_POST['item'] . ' was updated!<br />';
+			$purge_status .= $this->_cache->purge( '-themes' );
+			$status = vvv_dash_notice( $purge_status . ' files were purged from cache!' );
+		}
+		return $status;
 	}
 }
 // End theme.php

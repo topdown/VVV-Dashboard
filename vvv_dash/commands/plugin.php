@@ -16,17 +16,18 @@
  */
 
 namespace vvv_dash\commands;
+
 use \vvv_dash;
 
 class plugin extends host {
 
-//	public function __construct() {
-//		$this->_cache    = new vvv_dash\cache();
-//		//$this->_vvv_dash = new vvv_dash\dashboard();
-//		//$this->_hosts = new host();
-//		//$this->_vvv_dash = new \vvv_dashboard();
-//		$this->favs = new favs();
-//	}
+	//	public function __construct() {
+	//		$this->_cache    = new vvv_dash\cache();
+	//		//$this->_vvv_dash = new vvv_dash\dashboard();
+	//		//$this->_hosts = new host();
+	//		//$this->_vvv_dash = new \vvv_dashboard();
+	//		$this->favs = new favs();
+	//	}
 
 	/**
 	 * Returns the plugin list for the requested host
@@ -45,7 +46,7 @@ class plugin extends host {
 		if ( isset( $get['host'] ) && isset( $get['get_plugins'] ) ) {
 			//$host_path = $this->_hosts->get_host_path( $get['host'] );
 			//$host_info = $this->_hosts->set_host_info( $get['host'] );
-			$plugins   = $this->_get_plugins_data( $this->host_info['hostname'], $this->host_info['wp_path']);
+			$plugins = $this->_get_plugins_data( $this->host_info['hostname'], $this->host_info['wp_path'] );
 
 			return $plugins;
 		} else {
@@ -105,7 +106,7 @@ class plugin extends host {
 				//$host      = $_GET['host'];
 				//$host_info = $this->_hosts->set_host_info( $host );
 				//$host_path = VVV_WEB_ROOT . '/' . $host_info['host'] . $host_info['path'];
-				$close     = '<a class="close" href="./">Close</a>';
+				$close = '<a class="close" href="./">Close</a>';
 
 				// Install fav plugins -------------------------------------------------------------
 				$this->_favorite_plugins();
@@ -237,10 +238,10 @@ class plugin extends host {
 	 * @return bool|string
 	 */
 	private function _install( $post ) {
-		
+
 		if ( isset( $post['install_fav_plugin'] ) ) {
 
-			$favs = new favs();
+			$favs                  = new favs();
 			$plugin_install_status = $favs->install_fav_items( $post, 'plugin' );
 
 			if ( ! empty( $plugin_install_status ) ) {
@@ -272,6 +273,7 @@ class plugin extends host {
 
 	private function _favs_checkboxes( $fav_file ) {
 		$favs = new favs();
+
 		return $favs->get_fav_list( $fav_file );
 	}
 
@@ -284,7 +286,7 @@ class plugin extends host {
 	 * Created:    5/6/16, 2:23 PM
 	 *
 	 */
-	private function _favorite_plugins(  ) {
+	private function _favorite_plugins() {
 
 		$fav_file   = VVV_WEB_ROOT . '/default/dashboard/favorites/plugins.txt';
 		$checkboxes = $this->_favs_checkboxes( $fav_file );
@@ -305,6 +307,15 @@ class plugin extends host {
 
 	public function update() {
 
+		$status = false;
+		if ( ! empty( $_POST['type'] ) && 'plugins' == $_POST['type'] ) {
+			$update_status = shell_exec( 'wp plugin update ' . $_POST['item'] . ' --path=' . $this->host_info['wp_path'] );
+			$purge_status  = $_POST['item'] . ' was updated!<br />';
+			$purge_status .= $this->_cache->purge( '-plugins' );
+			$status = vvv_dash_notice( $purge_status . ' files were purged from cache!' );
+		}
+
+		return $status;
 	}
 }
 

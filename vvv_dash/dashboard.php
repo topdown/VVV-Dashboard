@@ -110,12 +110,12 @@ class dashboard {
 
 
 			if ( isset( $_POST['backup'] ) && isset( $_POST['host'] ) ) {
-				$this->_database_commands = new commands\database($_POST['host']);
+				$this->_database_commands = new commands\database( $_POST['host'] );
 				$status                   = $this->_database_commands->create_db_backup( $_POST['host'] );
 			}
 
 			if ( isset( $_POST['roll_back'] ) && $_POST['roll_back'] == 'Roll Back' ) {
-				$this->_database_commands = new commands\database($_POST['host']);
+				$this->_database_commands = new commands\database( $_POST['host'] );
 				$status                   = $this->_database_commands->db_roll_back( $_POST['host'], $_POST['file_path'] );
 
 				if ( $status ) {
@@ -141,69 +141,14 @@ class dashboard {
 			// @ToDo move this to the correct commands/
 			if ( isset( $_POST['update_item'] ) && isset( $_POST['host'] ) ) {
 
-				$type = check_host_type( $_POST['host'] );
+				if ( ! empty( $_POST['type'] ) && 'plugins' == $_POST['type'] ) {
+					$plugin = new commands\plugin( $_POST['host'] );
+					$status = $plugin->update();
+				}
 
-				if ( isset( $type['key'] ) ) {
-
-					if ( isset( $type['path'] ) ) {
-
-						if ( ! empty( $_POST['type'] ) && 'plugins' == $_POST['type'] ) {
-							$update_status = shell_exec( 'wp plugin update ' . $_POST['item'] . ' --path=' . VVV_WEB_ROOT . '/' . $type['key'] . $type['path'] );
-							$purge_status  = $_POST['item'] . ' was updated!<br />';
-							$purge_status .= $this->_cache->purge( '-plugins' );
-							$status = vvv_dash_notice( $purge_status . ' files were purged from cache!' );
-						}
-
-						if ( ! empty( $_POST['type'] ) && 'themes' == $_POST['type'] ) {
-							$status       = shell_exec( 'wp theme update ' . $_POST['item'] . ' --path=' . VVV_WEB_ROOT . '/' . $type['key'] . $type['path'] );
-							$purge_status = $_POST['item'] . ' was updated!<br />';
-							$purge_status .= $this->_cache->purge( '-themes' );
-							$status = vvv_dash_notice( $purge_status . ' files were purged from cache!' );
-						}
-
-					} else {
-
-						if ( ! empty( $_POST['type'] ) && 'plugins' == $_POST['type'] ) {
-							$update_status = shell_exec( 'wp plugin update ' . $_POST['item'] . ' --path=' . VVV_WEB_ROOT . '/' . $type['key'] . '/' );
-							$purge_status  = $_POST['item'] . ' was updated!<br />';
-							$purge_status .= $this->_cache->purge( '-plugins' );
-							$status = vvv_dash_notice( $purge_status . ' files were purged from cache!' );
-						}
-
-						if ( ! empty( $_POST['type'] ) && 'themes' == $_POST['type'] ) {
-							$update_status = shell_exec( 'wp theme update ' . $_POST['item'] . ' --path=' . VVV_WEB_ROOT . '/' . $type['key'] . '/' );
-							$purge_status  = $_POST['item'] . ' was updated!<br />';
-							$purge_status .= $this->_cache->purge( '-themes' );
-							$status = vvv_dash_notice( $purge_status . ' files were purged from cache!' );
-						}
-					}
-
-				} else {
-					$host_info = $this->_hosts->set_host_info( $_POST['host'] );
-					$is_env    = ( isset( $host_info['is_env'] ) ) ? $host_info['is_env'] : false;
-					$host      = $host_info['host'];
-
-					// WP Starter
-					if ( $is_env ) {
-						$host_path = VVV_WEB_ROOT . '/' . $host . '/public/wp';
-					} else {
-						// Normal WP
-						$host_path = VVV_WEB_ROOT . '/' . $host . '/' . $host_info['path'];
-					}
-
-					if ( ! empty( $_POST['type'] ) && 'plugins' == $_POST['type'] ) {
-						$update_status = shell_exec( 'wp plugin update ' . $_POST['item'] . ' --path=' . $host_path );
-						$purge_status  = $_POST['item'] . ' was updated!<br />';
-						$purge_status .= $this->_cache->purge( '-plugins' );
-						$status = vvv_dash_notice( $purge_status . ' files were purged from cache!' );
-					}
-
-					if ( ! empty( $_POST['type'] ) && 'themes' == $_POST['type'] ) {
-						$status       = shell_exec( 'wp theme update ' . $_POST['item'] . ' --path=' . $host_path );
-						$purge_status = $_POST['item'] . ' was updated!<br />';
-						$purge_status .= $this->_cache->purge( '-themes' );
-						$status = vvv_dash_notice( $purge_status . ' files were purged from cache!' );
-					}
+				if ( ! empty( $_POST['type'] ) && 'themes' == $_POST['type'] ) {
+					$theme  = new commands\theme( $_POST['host'] );
+					$status = $theme->update();
 				}
 			}
 		}
