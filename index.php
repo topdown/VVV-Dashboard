@@ -35,7 +35,7 @@ include_once 'vvv_dash/hosts/wp_starter.php';
 //include_once 'vvv_dash/hosts/bedrock.php';
 
 
-if ( ( $host_info = $cache->get( 'host-sites', VVV_DASH_HOSTS_TTL ) ) == false ) {
+//if ( ( $host_info = $cache->get( 'host-sites', VVV_DASH_HOSTS_TTL ) ) == false ) {
 	$host_object = new \vvv_dash\hosts();
 
 	$standard = new \vvv_dash\hosts\standard_wp();
@@ -49,8 +49,8 @@ if ( ( $host_info = $cache->get( 'host-sites', VVV_DASH_HOSTS_TTL ) ) == false )
 
 	$host_info = \vvv_dash\hosts_container::get_host_list();
 
-	$status = $cache->set( 'host-sites', serialize( $host_info ) );
-}
+//	$status = $cache->set( 'host-sites', serialize( $host_info ) );
+//}
 
 if(! is_array( $host_info )) {
 	$host_info = unserialize( $host_info );
