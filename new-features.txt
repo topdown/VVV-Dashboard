@@ -1,19 +1,5 @@
-* Added WPStarter support by fixing some path issues
-* Added .env check and handling functions
-* Started some refactoring adding new classes that will support the system
-* Added Backup List and Backup List button
-  * Host
-  * Date of backup
-  * Time of backup
-  * Actions
-    * Save As (In case you want to save another copy somewhere else)
-    * Roll Back (Roll back to any existing version for the host)
-    * Delete (Allows you to selectively delete backups)
-* Added WordPress version to Host List
-* Show not installed if wp-config.php is missing
-* Custom setting for scan paths
-* Custom setting for wp-content paths
-* Create a child theme of any parent from themes list
-* Deeper .env support but must follow the installers path
-* Create a new theme under a host based on _s http://underscores.me/  and activate it. It also includes the sass files.
-* Migrations for databases. You can now migrate to a new domain.
+* Lots of changes, refactoring both actions and hosts
+* New hosts objects allows separating different types of hosts and hopefully fixes all past issues related to hosts
+* New commands/action objects handles all of the theme, plugins, backups, etc...
+* Added branch specific version check so if you are running a branch other than mater you will get a notice for updates in that branch.
+* Folders in the {VVV}/www/ directory that start with a _ underscore are tracked and marked as archives in the dashboard so you can archive sites in a directory like _archives

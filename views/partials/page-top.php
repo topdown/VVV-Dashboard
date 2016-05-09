@@ -15,6 +15,7 @@
  * dashboard
  * page-top.php
  */
+global $branch;
 $branch = shell_exec( 'cd ' . VVV_WEB_ROOT . '/default/dashboard  && git rev-parse --short HEAD && git rev-parse --abbrev-ref HEAD 2>&1' );
 ?>
 

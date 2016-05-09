@@ -271,7 +271,7 @@ function get_csv_names( $data, $column = 0 ) {
 }
 
 /**
- * @ToDo move this to the commands/database and views/database
+ * @ToDo           move this to the commands/database and views/database
  *
  * Get all backups and list them in a nice table
  *
@@ -515,9 +515,12 @@ function version_check() {
 	$cache = new \vvv_dash\cache();
 
 	if ( ( $version = $cache->get( 'version-cache', VVV_DASH_THEMES_TTL ) ) == false ) {
-
-		$url     = 'https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/version.txt';
+		global $branch;
+		$branch  = explode( "\n", trim( $branch ) );
+		$branch  = ( isset( $branch[1] ) ) ? $branch[1] : 'master';
+		$url     = 'https://raw.githubusercontent.com/topdown/VVV-Dashboard/' . $branch . '/version.txt';
 		$version = get_external_data( $url );
+
 		// Don't save unless we have data
 		if ( $version && ! strstr( $version, 'Error' ) ) {
 			$status = $cache->set( 'version-cache', $version );
@@ -539,11 +542,13 @@ function version_check() {
  */
 function vvv_dash_get_latest_features() {
 
-	$cache           = new \vvv_dash\cache();
+	$cache = new \vvv_dash\cache();
 
 	if ( ( $new_features = $cache->get( 'newfeatures-cache', VVV_DASH_THEMES_TTL ) ) == false ) {
-
-		$url          = 'https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/new-features.txt';
+		global $branch;
+		$branch       = explode( "\n", trim( $branch ) );
+		$branch       = ( isset( $branch[1] ) ) ? $branch[1] : 'master';
+		$url          = 'https://raw.githubusercontent.com/topdown/VVV-Dashboard/' . $branch . '/new-features.txt';
 		$new_features = get_external_data( $url );
 		// Don't save unless we have data
 		if ( $new_features && ! strstr( $new_features, 'Error' ) ) {
