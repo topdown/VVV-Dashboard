@@ -151,15 +151,14 @@ class hosts implements host_interface {
 			$this->env_path = $this->host_path . '/.env';
 
 			return $this->env_path;
-		}
-
-		if ( file_exists( $this->host_path . '/' . $this->public_dir . '/.env' ) ) {
+			
+		} elseif ( file_exists( $this->host_path . '/' . $this->public_dir . '/.env' ) ) {
 			$this->env_path = $this->host_path . '/' . $this->public_dir . '/.env';
 
 			return $this->env_path;
+		} else {
+			return $this->env_path = '';
 		}
-
-		return $this->env_path = '';
 	}
 
 	public function is_standard_host() {
@@ -208,11 +207,6 @@ class hosts implements host_interface {
 	}
 	
 
-//	protected function set_host( $host ) {
-//		$this->set_hostname( $host );
-//		$this->set_host_data();
-//	}
-
 	protected function get_host_info() {
 
 		$data = array(
@@ -235,26 +229,6 @@ class hosts implements host_interface {
 
 		return $data;
 	}
-
-//	protected function set_host_data() {
-//
-//		$this->get_path();
-//		$this->get_domain();
-//		//$this->get_public_dir();
-//		// $wp_content_path still empty so try custom paths
-//		//$this->set_custom_wp_content();
-//		// $wp_path still empty so try custom paths
-//		//$this->set_custom_wp_path();
-//		$this->wp_is_installed();
-//		$this->is_wp_site();
-//		$this->set_version();
-//		$this->get_debug_log_path();
-//		$this->get_wp_config_path();
-//		//$this->get_env_path();
-//		$this->set_config_settings();
-//
-//		return $this;
-//	}
 
 
 	protected function is_wp_site() {

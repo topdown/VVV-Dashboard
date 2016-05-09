@@ -121,9 +121,8 @@ class standard_wp extends hosts implements host_interface {
 					$this->set_composer_path();
 					$this->set_env_path();
 					$this->is_wp_site = 'true';
-
-					if ( empty( $this->composer_path ) && empty( $this->env_path ) ) {
-
+					
+					if ( empty( $this->env_path ) ) {
 						//$this->get_composer_file();
 						$this->set_wp_config_path();
 						$this->set_config_settings();
