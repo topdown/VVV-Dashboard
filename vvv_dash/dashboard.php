@@ -16,7 +16,6 @@
  */
 
 namespace vvv_dash;
-use vvv_dash\commands\host;
 
 /**
  * Class vvv_dashboard
@@ -139,6 +138,7 @@ class dashboard {
 				$status       = vvv_dash_notice( $purge_status . ' files were purged from cache!' );
 			}
 
+			// @ToDo move this to the correct commands/
 			if ( isset( $_POST['update_item'] ) && isset( $_POST['host'] ) ) {
 
 				$type = check_host_type( $_POST['host'] );

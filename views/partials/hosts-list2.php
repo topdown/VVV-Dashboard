@@ -15,15 +15,14 @@
  * hosts-list2.php
  */
 
-
+/* @var $host_info \vvv_dash\hosts_container::get_host_list() loaded from the index.php */
 ?>
 	<p class="red italic"><span class="bold">NOTE</span>: After creating or changing a host/site purge the Host Cache.
 	</p>
 	<div id="search_container" class="input-group search-box">
 		<span class="input-group-addon"> <i class="fa fa-search"></i> </span>
 		<input type="text" class="form-control search-input" id="text-search" placeholder="Live Search..." />
-		<span class="input-group-addon"> Hosts
-			<span class="badge"><?php echo isset( $hosts['site_count'] ) ? $hosts['site_count'] : ''; ?></span> </span>
+		<span class="input-group-addon"> Hosts <span class="badge"><?php echo count( $host_info ); ?></span> </span>
 	</div>
 
 	<table class="sites table table-responsive table-striped table-bordered table-hover">
@@ -36,32 +35,7 @@
 		</tr>
 		</thead>
 		<?php
-		//		$files  = glob( VVV_WEB_ROOT . "/*" );
-		//
-		////if ( ( $host_info = $cache->get( 'host-sites-dev', VVV_DASH_HOSTS_TTL ) ) == false ) {
-		//
-		//	//$files     = unserialize( $files );
-		//	$host_info = array();
-		//	//print each file name
-		//	foreach ( $files as $key => $file ) {
-		//		//check to see if the file is a folder/directory
-		//		if ( is_dir( $file ) ) {
-		//			$hosts    = new \vvv_dash\hosts();
-		//			$hostname = str_replace( '/srv/www/', '', $file );
-		//			$hosts->set_host( $hostname );
-		//			$host_data = $hosts->get_host_info();
-		//
-		//
-		//			if ( $host_data['is_wp_site'] == 'true' ) {
-		//				$host_info[] = $host_data;
-		//
-		//			}
-		//
-		//		}
-		//	}
-		//
-		//	//$status = $cache->set( 'host-sites-dev', serialize( $host_info ) );
-		////}
+
 
 		foreach ( $host_info as $key => $host ) {
 			?>
@@ -77,7 +51,7 @@
 						<td><span class="label label-danger">Debug Off <i class="fa fa-times-circle-o"></i></span>
 						</td>
 						<?php
-					} elseif($host['wp_is_installed'] == 'false'  && $host['is_wp_site'] == 'false') {
+					} elseif ( $host['wp_is_installed'] == 'false' && $host['is_wp_site'] == 'false' ) {
 						?>
 						<td><span class="label label-warning">ARCHIVE</td>
 						<?php
@@ -98,7 +72,7 @@
 					?></td>
 
 				<td>
-					<?php if ( $host['wp_is_installed'] == 'true' || $host['wp_is_installed'] == 'false'  && $host['is_wp_site'] == 'true' ) { ?>
+					<?php if ( $host['wp_is_installed'] == 'true' || $host['wp_is_installed'] == 'false' && $host['is_wp_site'] == 'true' ) { ?>
 						<a class="btn btn-primary btn-xs" href="http://<?php echo $host['domain']; ?>/" target="_blank">
 							<i class="fa fa-external-link"></i> Visit </a>
 					<?php } ?>

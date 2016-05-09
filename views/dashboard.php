@@ -32,12 +32,12 @@
 			// Themes table
 			$theme_commands->display();
 
-			// Debug logs  @ToDo fix this
-			//$host_commands->display_debug_logs();
+			// Debug logs
+			$host_commands->display_debug_logs();
 
 			vvv_dash_xdebug_status();
 
-
+			// @var $host_info loaded from the index.php
 			include_once VVV_DASH_VIEWS . '/partials/hosts-list2.php'; ?>
 		</div>
 	</div>

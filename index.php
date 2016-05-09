@@ -22,10 +22,9 @@ if ( ! file_exists( '../dashboard-custom.php' ) ) {
 }
 
 include_once '../dashboard-custom.php';
-include_once 'vvv_dash/vvv-dash-cache.php';
-include_once 'vvv_dash/vvv-dash-hosts.php';
-
-//include_once 'vvv_dash/paths.php';
+include_once 'vvv_dash/cache.php';
+// Cache instance
+//$cache = new \vvv_dash\cache();
 
 // Host farm :P Setup to manage different kinds of vvv host setups with hopefully less work
 include_once 'vvv_dash/hosts_container.php';
@@ -35,7 +34,7 @@ include_once 'vvv_dash/hosts/standard_wp.php';
 include_once 'vvv_dash/hosts/wp_starter.php';
 //include_once 'vvv_dash/hosts/bedrock.php';
 
-$cache = new \vvv_dash\cache();
+
 
 //if ( ( $host_info = $cache->get( 'hosts-dev', VVV_DASH_HOSTS_TTL ) ) == false ) {
 $host_object = new \vvv_dash\hosts();
@@ -66,7 +65,7 @@ include_once 'vvv_dash/commands/favs.php';
 
 
 // These will get cleanup a lot most moved to the commands
-include_once 'vvv_dash/vvv-dashboard.php';
+include_once 'vvv_dash/dashboard.php';
 include_once 'vvv_dash/functions.php';
 
 // Make sure everything is ready
@@ -81,15 +80,9 @@ $debug_log_lines = '';
 $debug_log_path  = '';
 $debug_log_path  = false;
 $vvv_dash        = new \vvv_dash\dashboard();
-//$host_commands   = new \vvv_dash\commands\host();
-$status = $vvv_dash->process_post();
-//$hosts           = $host_commands->get_hosts( $path );
-
-//if ( is_string( $hosts ) ) {
-//	$hosts = unserialize( $hosts );
-//}
-
-$page = $vvv_dash->get_page();
+$host_commands   = new \vvv_dash\commands\host();
+$status          = $vvv_dash->process_post();
+$page            = $vvv_dash->get_page();
 
 if ( isset( $_GET ) ) {
 	$current_host      = ( isset( $_GET['host'] ) ) ? $_GET['host'] : '';
