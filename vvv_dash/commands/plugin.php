@@ -18,15 +18,15 @@
 namespace vvv_dash\commands;
 use \vvv_dash;
 
-class plugin {
+class plugin extends host {
 
-	public function __construct() {
-		$this->_cache    = new vvv_dash\cache();
-		//$this->_vvv_dash = new vvv_dash\dashboard();
-		$this->_hosts = new host();
-		//$this->_vvv_dash = new \vvv_dashboard();
-		$this->favs = new favs();
-	}
+//	public function __construct() {
+//		$this->_cache    = new vvv_dash\cache();
+//		//$this->_vvv_dash = new vvv_dash\dashboard();
+//		//$this->_hosts = new host();
+//		//$this->_vvv_dash = new \vvv_dashboard();
+//		$this->favs = new favs();
+//	}
 
 	/**
 	 * Returns the plugin list for the requested host
@@ -43,9 +43,9 @@ class plugin {
 	public function get_plugins( $get ) {
 
 		if ( isset( $get['host'] ) && isset( $get['get_plugins'] ) ) {
-			$host_path = $this->_hosts->get_host_path( $get['host'] );
-			$host_info = $this->_hosts->set_host_info( $get['host'] );
-			$plugins   = $this->_get_plugins_data( $host_info['host'], $host_path );
+			//$host_path = $this->_hosts->get_host_path( $get['host'] );
+			//$host_info = $this->_hosts->set_host_info( $get['host'] );
+			$plugins   = $this->_get_plugins_data( $this->host_info['hostname'], $this->host_info['wp_path']);
 
 			return $plugins;
 		} else {
@@ -70,7 +70,7 @@ class plugin {
 
 		if ( ( $plugins = $this->_cache->get( $host . '-plugins', VVV_DASH_PLUGINS_TTL ) ) == false ) {
 
-			$plugins = shell_exec( 'wp plugin list --path=' . VVV_WEB_ROOT . '/' . $host . $path . ' --format=csv --debug ' );
+			$plugins = shell_exec( 'wp plugin list --path=' . $path . ' --format=csv --debug ' );
 
 			// Don't save unless we have data
 			if ( $plugins ) {
@@ -102,16 +102,16 @@ class plugin {
 		if ( ! empty( $plugins ) ) {
 			if ( isset( $_GET['host'] ) ) {
 
-				$host      = $_GET['host'];
-				$host_info = $this->_hosts->set_host_info( $host );
-				$host_path = VVV_WEB_ROOT . '/' . $host_info['host'] . $host_info['path'];
+				//$host      = $_GET['host'];
+				//$host_info = $this->_hosts->set_host_info( $host );
+				//$host_path = VVV_WEB_ROOT . '/' . $host_info['host'] . $host_info['path'];
 				$close     = '<a class="close" href="./">Close</a>';
 
 				// Install fav plugins -------------------------------------------------------------
-				$this->_favorite_plugins( $host );
+				$this->_favorite_plugins();
 
 				// Create New Plugin -------------------------------------------------------------
-				$this->_new_plugin( $host );
+				$this->_new_plugin();
 
 				// Plugins List -------------------------------------------------------------
 				?><h4>The plugin list for
@@ -142,9 +142,9 @@ class plugin {
 	 */
 	private function _create( $post ) {
 
-		$path      = $this->_hosts->get_host_path( $post['host'] );
-		$host_info = $this->_hosts->set_host_info( $post['host'] );
-		$path      = VVV_WEB_ROOT . '/' . $host_info['host'] . $path;
+		//$path      = $this->_hosts->get_host_path( $post['host'] );
+		//$host_info = $this->_hosts->set_host_info( $post['host'] );
+		//$path      = VVV_WEB_ROOT . '/' . $host_info['host'] . $path;
 		//		echo '<pre style="text-align: left;">' . "FILE: ". __FILE__ . "\nLINE: " . __LINE__ . "\n";
 		//		var_dump($host_info, $path, $post);
 		//		echo '</pre>------------ Debug End ------------';
@@ -158,7 +158,7 @@ class plugin {
 			$author_uri = ( defined( 'VVV_DASH_NEW_PLUGIN_AUTHOR_URI' ) ) ? '--plugin_author_uri=\'' . VVV_DASH_NEW_PLUGIN_AUTHOR_URI . '\'' : '';
 			$skip_tests = ( isset( $post['skip_tests'] ) ) ? '--skip-tests' : '';
 
-			$status    = shell_exec( 'wp scaffold  plugin ' . $post['plugin_slug'] . ' --activate ' . $author . ' ' . $author_uri . ' ' . $skip_tests . ' --path=' . $path . ' --debug' );
+			$status    = shell_exec( 'wp scaffold  plugin ' . $post['plugin_slug'] . ' --activate ' . $author . ' ' . $author_uri . ' ' . $skip_tests . ' --path=' . $this->host_info['wp_path'] . ' --debug' );
 			$install[] = str_replace( "\n", '<br />', $status );
 
 		} else {
@@ -172,7 +172,7 @@ class plugin {
 			foreach ( $post['post_types'] as $pt_key => $pt_slug ) {
 				foreach ( $pt_slug as $post_type ) {
 					if ( ! empty( $post_type ) ) {
-						$install[] = shell_exec( 'wp scaffold  post-type ' . $post_type . ' --plugin=' . $pt_key . ' --path=' . $path . ' --debug' );
+						$install[] = shell_exec( 'wp scaffold  post-type ' . $post_type . ' --plugin=' . $pt_key . ' --path=' . $this->host_info['wp_path'] . ' --debug' );
 					}
 				} // end foreach
 				unset( $pt );
@@ -186,7 +186,7 @@ class plugin {
 			foreach ( $post['taxonomies'] as $t_key => $tax_slug ) {
 				foreach ( $tax_slug as $taxonomy ) {
 					if ( ! empty( $taxonomy ) ) {
-						$install[] = shell_exec( 'wp scaffold  taxonomy ' . $taxonomy . ' --post_types=' . $t_key . ' --plugin=' . $post['plugin_slug'] . ' --path=' . $path . ' --debug' );
+						$install[] = shell_exec( 'wp scaffold  taxonomy ' . $taxonomy . ' --post_types=' . $t_key . ' --plugin=' . $post['plugin_slug'] . ' --path=' . $this->host_info['wp_path'] . ' --debug' );
 					}
 				} // end foreach
 				unset( $taxonomy );
@@ -196,7 +196,7 @@ class plugin {
 
 		if ( sizeof( $install ) ) {
 
-			$install[] = shell_exec( 'wp rewrite flush  --path=' . $path );
+			$install[] = shell_exec( 'wp rewrite flush  --path=' . $this->host_info['wp_path'] );
 			$install[] = '<br />NOTE: You will still need to add includes to your plugin for the post types and taxonomies.';
 
 			return implode( '<br />', $install );
@@ -205,7 +205,7 @@ class plugin {
 		}
 	}
 
-	private function _new_plugin( $host ) {
+	private function _new_plugin() {
 
 		// @var $host
 		include_once VVV_DASH_VIEWS . '/forms/create_plugin.php';
@@ -217,7 +217,7 @@ class plugin {
 			if ( ! empty( $create_plugin ) ) {
 
 				echo vvv_dash_notice( $create_plugin );
-				$host_name    = str_replace( '.dev', '', $_POST['host'] );
+				$host_name    = $this->host_info['hostname'];
 				$purge_status = $this->_cache->purge( $host_name . '-plugins' );
 				echo vvv_dash_notice( $purge_status . ' files were purged from cache!' );
 			}
@@ -237,10 +237,11 @@ class plugin {
 	 * @return bool|string
 	 */
 	private function _install( $post ) {
-
+		
 		if ( isset( $post['install_fav_plugin'] ) ) {
 
-			$plugin_install_status = $this->favs->install_fav_items( $post, 'plugin' );
+			$favs = new favs();
+			$plugin_install_status = $favs->install_fav_items( $post, 'plugin' );
 
 			if ( ! empty( $plugin_install_status ) ) {
 				$plugin_install_status = str_replace( PHP_EOL, '<br />', $plugin_install_status );
@@ -270,7 +271,8 @@ class plugin {
 	}
 
 	private function _favs_checkboxes( $fav_file ) {
-		return $this->favs->get_fav_list( $fav_file );
+		$favs = new favs();
+		return $favs->get_fav_list( $fav_file );
 	}
 
 	/**
@@ -281,9 +283,8 @@ class plugin {
 	 *
 	 * Created:    5/6/16, 2:23 PM
 	 *
-	 * @param  $host
 	 */
-	private function _favorite_plugins( $host ) {
+	private function _favorite_plugins(  ) {
 
 		$fav_file   = VVV_WEB_ROOT . '/default/dashboard/favorites/plugins.txt';
 		$checkboxes = $this->_favs_checkboxes( $fav_file );

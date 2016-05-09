@@ -136,7 +136,8 @@ class standard_wp extends hosts implements host_interface {
 						if ( ! in_array( $host_data['hostname'], $this->ignored_hosts )
 						     && ! in_array( $host_data['hostname'], $this->default_hosts )
 						) {
-							$host_info[ $hostname ] = $host_data;
+							$key = (! empty( $this->domain ) && $this->domain != 'N/A') ? $this->domain : $hostname;
+							$host_info[ $key ] = $host_data;
 
 						}
 					}

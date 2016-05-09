@@ -79,6 +79,7 @@ class hosts implements host_interface {
 		} else {
 			$this->domain = 'N/A';
 		}
+		return $this->domain;
 	}
 
 	public function set_hostname( $hostname ) {

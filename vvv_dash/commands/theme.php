@@ -16,16 +16,18 @@
  */
 
 namespace vvv_dash\commands;
+
 use \vvv_dash;
 
-class theme {
+class theme extends host {
 
-	public function __construct() {
 
-		$this->_cache    = new vvv_dash\cache();
-		$this->_vvv_dash = new vvv_dash\dashboard();
-		$this->_hosts = new host();
-	}
+	//	public function __construct( $host ) {
+	//
+	//		$this->_cache    = new vvv_dash\cache();
+	//		$this->_vvv_dash = new vvv_dash\dashboard();
+	//		$this->_host     = new host( $host );
+	//	}
 
 	/**
 	 * Get the hosts list of themes and save to cache
@@ -44,7 +46,7 @@ class theme {
 
 		if ( ( $themes = $this->_cache->get( $host . '-themes', VVV_DASH_THEMES_TTL ) ) == false ) {
 
-			$themes = shell_exec( 'wp theme list --path=' . VVV_WEB_ROOT . '/' . $host . $path . ' --format=csv' );
+			$themes = shell_exec( 'wp theme list --path=' . $path . ' --format=csv' );
 
 			// Don't save unless we have data
 			if ( $themes ) {
@@ -68,10 +70,10 @@ class theme {
 	 * @return bool|string
 	 */
 	public function get_themes( $get ) {
+
 		if ( isset( $get['host'] ) && isset( $get['get_themes'] ) ) {
-			$host_path = $this->_hosts->get_host_path( $get['host'] );
-			$host_info = $this->_hosts->set_host_info( $get['host'] );
-			$themes    = $this->get_themes_data( $host_info['host'], $host_path );
+
+			$themes = $this->get_themes_data( $this->host_info['hostname'], $this->host_info['wp_path'] );
 
 			return $themes;
 		} else {
@@ -96,16 +98,15 @@ class theme {
 				include_once VVV_DASH_VIEWS . '/forms/new_s_theme.php';
 
 				if ( isset( $_POST['create_s_theme'] ) ) {
+
 					$themes_array = get_csv_names( $themes );
-					$host_info    = $this->_hosts->set_host_info( $_POST['host'] );
-					$host_path    = VVV_WEB_ROOT . '/' . $host_info['host'] . $host_info['path'];
 					$slug         = strtolower( str_replace( ' ', '_', $_POST['theme_slug'] ) );
 
 					// @ToDo allow this --force
 					if ( in_array( $slug, $themes_array ) ) {
 						echo vvv_dash_error( 'Error: That theme already exists!' );
 					} else {
-						$cmd       = 'wp scaffold _s ' . $slug . ' --theme_name="' . $_POST['theme_name'] . '" --path=' . $host_path .
+						$cmd       = 'wp scaffold _s ' . $slug . ' --theme_name="' . $_POST['theme_name'] . '" --path=' . $this->host_info['wp_path'] .
 						             ' --author="' . VVV_DASH_NEW_THEME_AUTHOR . '" --author_uri="' . VVV_DASH_NEW_THEME_AUTHOR_URI . '" --sassify --activate';
 						$new_theme = shell_exec( $cmd );
 
@@ -123,15 +124,12 @@ class theme {
 				if ( isset( $_POST['create_child'] ) && isset( $_POST['child'] ) && ! empty( $_POST['child'] ) ) {
 
 					$themes_array = get_csv_names( $themes );
-
-					$host_info = $this->_hosts->set_host_info( $_POST['host'] );
-					$host_path = VVV_WEB_ROOT . '/' . $host_info['host'] . $host_info['path'];
-					$child     = strtolower( str_replace( ' ', '_', $_POST['child'] ) );
+					$child        = strtolower( str_replace( ' ', '_', $_POST['child'] ) );
 
 					if ( in_array( $child, $themes_array ) ) {
 						echo vvv_dash_error( 'Error: That theme already exists!' );
 					} else {
-						$cmd       = 'wp scaffold child-theme ' . $child . ' --theme_name="' . $_POST['theme_name'] . '" --parent_theme=' . $_POST['item'] . ' --path=' . $host_path . ' --debug';
+						$cmd       = 'wp scaffold child-theme ' . $child . ' --theme_name="' . $_POST['theme_name'] . '" --parent_theme=' . $_POST['item'] . ' --path=' . $this->host_info['wp_path'] . ' --debug';
 						$new_theme = shell_exec( $cmd );
 
 						if ( $new_theme ) {
@@ -144,8 +142,7 @@ class theme {
 					}
 				}
 
-				$host_info = $this->_hosts->set_host_info( $_GET['host'] );
-				$themes    = $this->get_themes_data( $host_info['host'], $host_info['path'] );
+				$themes = $this->get_themes_data( $this->host_info['hostname'], $this->host_info['wp_path'] );
 
 				echo format_table( $themes, $_GET['host'], 'themes' );
 			}

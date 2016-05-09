@@ -35,7 +35,7 @@ class dashboard {
 	public function __construct() {
 
 		$this->_cache = new cache();
-		$this->_hosts = new host();
+		//$this->_hosts = new host();
 
 		$this->_set_pages();
 
@@ -111,12 +111,12 @@ class dashboard {
 
 
 			if ( isset( $_POST['backup'] ) && isset( $_POST['host'] ) ) {
-				$this->_database_commands = new commands\database();
+				$this->_database_commands = new commands\database($_POST['host']);
 				$status                   = $this->_database_commands->create_db_backup( $_POST['host'] );
 			}
 
 			if ( isset( $_POST['roll_back'] ) && $_POST['roll_back'] == 'Roll Back' ) {
-				$this->_database_commands = new commands\database();
+				$this->_database_commands = new commands\database($_POST['host']);
 				$status                   = $this->_database_commands->db_roll_back( $_POST['host'], $_POST['file_path'] );
 
 				if ( $status ) {

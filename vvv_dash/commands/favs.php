@@ -21,13 +21,13 @@ use \vvv_dash;
 
 class favs extends host {
 
-	public function __construct() {
-
-		parent::__construct();
-		//$this->_cache    = new vvv_dash\cache();
-		//$this->_vvv_dash = new vvv_dash\dashboard();
-		//$this->_hosts    = new host();
-	}
+//	public function __construct() {
+//
+//		//parent::__construct();
+//		//$this->_cache    = new vvv_dash\cache();
+//		//$this->_vvv_dash = new vvv_dash\dashboard();
+//		//$this->_hosts    = new host();
+//	}
 
 	/**
 	 * Install selected favorite plugins or themes from list
@@ -44,15 +44,16 @@ class favs extends host {
 	 * @return bool|string
 	 */
 	public function install_fav_items( $post, $type ) {
-		$path      = $this->get_host_path( $post['host'] );
-		$host_info = $this->set_host_info( $post['host'] );
-		$path      = VVV_WEB_ROOT . '/' . $host_info['host'] . $path;
+
+		//$path      = $this->get_host_path( $post['host'] );
+		//$host_info = $this->set_host_info( $post['host'] );
+		//$path      = VVV_WEB_ROOT . '/' . $host_info['host'] . $path;
 		$items     = ( isset( $post['checkboxes'] ) ) ? $post['checkboxes'] : false;
 		$install   = array();
 
 		if ( $items && is_array( $items ) ) {
 			foreach ( $items as $key => $item ) {
-				$install[] = shell_exec( 'wp ' . $type . ' install ' . $item . ' --activate --path=' . $path . ' --debug' );
+				$install[] = shell_exec( 'wp ' . $type . ' install ' . $item . ' --activate --path=' . $this->host_info['wp_path'] . ' --debug' );
 			} // end foreach
 
 			return implode( '<br /><br />', $install );

@@ -51,6 +51,10 @@ class hosts_container {
 			return self::$host_list;
 		}
 	}
+	
+	public static function get_host($host) {
+		return (isset(self::$host_list[$host])) ? self::$host_list[$host] : false;
+	}
 
 }
 

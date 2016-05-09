@@ -22,7 +22,7 @@
 	<div class="row">
 		<div class="col-sm-12 hosts">
 			<?php
-
+			
 			// Plugins table
 			$plugin_commands->display( $plugins );
 
@@ -32,8 +32,8 @@
 			// Themes table
 			$theme_commands->display();
 
-			// Debug logs
-			$host_commands->display_debug_logs();
+			// Debug logs  @ToDo fix this
+			//$host_commands->display_debug_logs();
 
 			vvv_dash_xdebug_status();
 

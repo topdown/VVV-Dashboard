@@ -200,8 +200,9 @@ class defaults extends hosts implements host_interface {
 				$this->wp_is_installed();
 			} // end foreach
 
-			$host_data          = $this->get_host_info();
-			$host_info[ $host ] = $host_data;
+			$host_data         = $this->get_host_info();
+			$key               = ( ! empty( $this->domain ) && $this->domain != 'N/A' ) ? $this->domain : $this->hostname;
+			$host_info[ $key ] = $host_data;
 
 		} // end foreach
 

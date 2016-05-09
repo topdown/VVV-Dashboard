@@ -15,18 +15,6 @@
  * hosts-list2.php
  */
 
-$host_object = new \vvv_dash\hosts();
-
-$standard = new \vvv_dash\hosts\standard_wp();
-$standard->load_hosts();
-
-$wp_starter = new \vvv_dash\hosts\wp_starter();
-$wp_starter->load_hosts();
-
-$defaults = new \vvv_dash\hosts\defaults();
-$defaults->load_hosts();
-
-$host_info = \vvv_dash\hosts_container::get_host_list();
 
 ?>
 	<p class="red italic"><span class="bold">NOTE</span>: After creating or changing a host/site purge the Host Cache.

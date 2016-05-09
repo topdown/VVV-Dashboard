@@ -42,51 +42,51 @@ function vvv_dash_prep() {
  *
  * @return bool|string
  */
-function vvv_dash_wp_backup( $host, $file_name = '' ) {
-
-	if ( isset( $host ) ) {
-
-		$type = check_host_type( $host );
-
-		if ( isset( $type['key'] ) ) {
-
-			if ( isset( $type['path'] ) ) {
-
-				$path        = VVV_WEB_ROOT . '/' . $type['key'] . $type['path'];
-				$db_settings = get_wp_db_settings( $path );
-
-			} else {
-
-				$path        = VVV_WEB_ROOT . '/' . $type['key'] . '/';
-				$db_settings = get_wp_db_settings( $path );
-
-			}
-
-		} else {
-
-			$host        = strstr( $host, '.', true );
-			$path        = VVV_WEB_ROOT . '/' . $host . '/htdocs';
-			$db_settings = get_wp_db_settings( $path );
-		}
-
-		if ( is_array( $db_settings ) && $path ) {
-			if ( ! empty( $file_name ) ) {
-				$export = shell_exec( 'wp db export --add-drop-table --path=' . $path . ' ' . $file_name );
-			} else {
-				$file_name = 'dumps/' . $host . '_' . date( 'm-d-Y_g-i-s', time() ) . '.sql';
-				$export    = shell_exec( 'wp db export --add-drop-table --path=' . $path . ' ' . $file_name );
-			}
-
-			if ( file_exists( $file_name ) ) {
-				return vvv_dash_notice( 'Your backup is ready at www/default/dashboard/' . $file_name );
-			}
-		} else {
-			return false;
-		}
-	}
-
-	return false;
-}
+//function vvv_dash_wp_backup( $host, $file_name = '' ) {
+//
+//	if ( isset( $host ) ) {
+//
+//		$type = check_host_type( $host );
+//
+//		if ( isset( $type['key'] ) ) {
+//
+//			if ( isset( $type['path'] ) ) {
+//
+//				$path        = VVV_WEB_ROOT . '/' . $type['key'] . $type['path'];
+//				$db_settings = get_wp_db_settings( $path );
+//
+//			} else {
+//
+//				$path        = VVV_WEB_ROOT . '/' . $type['key'] . '/';
+//				$db_settings = get_wp_db_settings( $path );
+//
+//			}
+//
+//		} else {
+//
+//			$host        = strstr( $host, '.', true );
+//			$path        = VVV_WEB_ROOT . '/' . $host . '/htdocs';
+//			$db_settings = get_wp_db_settings( $path );
+//		}
+//
+//		if ( is_array( $db_settings ) && $path ) {
+//			if ( ! empty( $file_name ) ) {
+//				$export = shell_exec( 'wp db export --add-drop-table --path=' . $path . ' ' . $file_name );
+//			} else {
+//				$file_name = 'dumps/' . $host . '_' . date( 'm-d-Y_g-i-s', time() ) . '.sql';
+//				$export    = shell_exec( 'wp db export --add-drop-table --path=' . $path . ' ' . $file_name );
+//			}
+//
+//			if ( file_exists( $file_name ) ) {
+//				return vvv_dash_notice( 'Your backup is ready at www/default/dashboard/' . $file_name );
+//			}
+//		} else {
+//			return false;
+//		}
+//	}
+//
+//	return false;
+//}
 
 /**
  * Performs host check and then does a backup of the DB
@@ -105,28 +105,28 @@ function vvv_dash_wp_backup( $host, $file_name = '' ) {
  * @return bool|string
  * @internal       param $host
  */
-function vvv_dash_wp_starter_backup( $host_info, $db, $file_name = '' ) {
-
-	$host = $host_info['host'];
-	$path = VVV_WEB_ROOT . '/' . $host . '/public/wp/';
-
-	if ( is_array( $db ) && $path ) {
-		if ( ! empty( $file_name ) ) {
-			$export = shell_exec( 'wp db export --add-drop-table --path=' . $path . ' ' . $file_name );
-		} else {
-			$file_name = 'dumps/' . $host . '_' . date( 'm-d-Y_g-i-s', time() ) . '.sql';
-			$export    = shell_exec( 'wp db export --add-drop-table --path=' . $path . ' ' . $file_name );
-		}
-
-		if ( file_exists( $file_name ) ) {
-			return vvv_dash_notice( 'Your backup is ready at www/default/dashboard/' . $file_name );
-		}
-	} else {
-		return false;
-	}
-
-	return false;
-}
+//function vvv_dash_wp_starter_backup( $host_info, $db, $file_name = '' ) {
+//
+//	$host = $host_info['host'];
+//	$path = VVV_WEB_ROOT . '/' . $host . '/public/wp/';
+//
+//	if ( is_array( $db ) && $path ) {
+//		if ( ! empty( $file_name ) ) {
+//			$export = shell_exec( 'wp db export --add-drop-table --path=' . $path . ' ' . $file_name );
+//		} else {
+//			$file_name = 'dumps/' . $host . '_' . date( 'm-d-Y_g-i-s', time() ) . '.sql';
+//			$export    = shell_exec( 'wp db export --add-drop-table --path=' . $path . ' ' . $file_name );
+//		}
+//
+//		if ( file_exists( $file_name ) ) {
+//			return vvv_dash_notice( 'Your backup is ready at www/default/dashboard/' . $file_name );
+//		}
+//	} else {
+//		return false;
+//	}
+//
+//	return false;
+//}
 
 
 /**
@@ -141,75 +141,75 @@ function vvv_dash_wp_starter_backup( $host_info, $db, $file_name = '' ) {
  *
  * @return array|string
  */
-function get_wp_db_settings( $file_path ) {
+//function get_wp_db_settings( $file_path ) {
+//
+//	$file_path = $file_path . '/wp-config.php';
+//
+//	if ( file_exists( $file_path ) ) {
+//		$config_lines = file( $file_path );
+//		$db           = array();
+//		// read through the lines in our host files
+//		foreach ( $config_lines as $num => $line ) {
+//
+//			if ( strstr( $line, "define('DB_NAME'," ) ) {
+//				$parts         = explode( ', ', $line );
+//				$db['db_name'] = str_replace( array( ');', '\'' ), '', $parts[1] );
+//
+//			}
+//
+//			if ( strstr( $line, "define('DB_USER'," ) ) {
+//				$parts         = explode( ', ', $line );
+//				$db['db_user'] = str_replace( array( ');', '\'' ), '', $parts[1] );
+//
+//			}
+//
+//			if ( strstr( $line, "define('DB_PASSWORD'," ) ) {
+//				$parts             = explode( ', ', $line );
+//				$db['db_password'] = str_replace( array( ');', '\'' ), '', $parts[1] );
+//
+//			}
+//		}
+//
+//		return $db;
+//	}
+//
+//	return 'No Database';
+//}
 
-	$file_path = $file_path . '/wp-config.php';
 
-	if ( file_exists( $file_path ) ) {
-		$config_lines = file( $file_path );
-		$db           = array();
-		// read through the lines in our host files
-		foreach ( $config_lines as $num => $line ) {
-
-			if ( strstr( $line, "define('DB_NAME'," ) ) {
-				$parts         = explode( ', ', $line );
-				$db['db_name'] = str_replace( array( ');', '\'' ), '', $parts[1] );
-
-			}
-
-			if ( strstr( $line, "define('DB_USER'," ) ) {
-				$parts         = explode( ', ', $line );
-				$db['db_user'] = str_replace( array( ');', '\'' ), '', $parts[1] );
-
-			}
-
-			if ( strstr( $line, "define('DB_PASSWORD'," ) ) {
-				$parts             = explode( ', ', $line );
-				$db['db_password'] = str_replace( array( ');', '\'' ), '', $parts[1] );
-
-			}
-		}
-
-		return $db;
-	}
-
-	return 'No Database';
-}
-
-
-function check_host_type( $host ) {
-
-	switch ( trim( $host ) ) {
-		case 'local.wordpress.dev' :
-			$host = array(
-				'host' => trim( $host ),
-				'key'  => 'wordpress-default',
-			);
-			break;
-		case 'local.wordpress-trunk.dev' :
-			$host = array(
-				'host' => trim( $host ),
-				'key'  => 'wordpress-trunk',
-			);
-			break;
-		case 'src.wordpress-develop.dev' :
-			$host = array(
-				'host' => trim( $host ),
-				'key'  => 'wordpress-develop',
-				'path' => '/src',
-			);
-			break;
-		case 'build.wordpress-develop.dev' :
-			$host = array(
-				'host' => trim( $host ),
-				'key'  => 'wordpress-develop',
-				'path' => '/build'
-			);
-			break;
-	}
-
-	return $host;
-}
+//function check_host_type( $host ) {
+//
+//	switch ( trim( $host ) ) {
+//		case 'local.wordpress.dev' :
+//			$host = array(
+//				'host' => trim( $host ),
+//				'key'  => 'wordpress-default',
+//			);
+//			break;
+//		case 'local.wordpress-trunk.dev' :
+//			$host = array(
+//				'host' => trim( $host ),
+//				'key'  => 'wordpress-trunk',
+//			);
+//			break;
+//		case 'src.wordpress-develop.dev' :
+//			$host = array(
+//				'host' => trim( $host ),
+//				'key'  => 'wordpress-develop',
+//				'path' => '/src',
+//			);
+//			break;
+//		case 'build.wordpress-develop.dev' :
+//			$host = array(
+//				'host' => trim( $host ),
+//				'key'  => 'wordpress-develop',
+//				'path' => '/build'
+//			);
+//			break;
+//	}
+//
+//	return $host;
+//}
 
 /**
  * Simply displays the purge status alert
@@ -442,6 +442,8 @@ function get_csv_names( $data, $column = 0 ) {
 }
 
 /**
+ * @ToDo move this to the commands/database and views/database
+ *
  * Get all backups and list them in a nice table
  *
  * @author         Jeff Behnke <code@validwebs.com>

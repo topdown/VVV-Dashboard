@@ -16,7 +16,6 @@
  */
 
 namespace vvv_dash\commands;
-use \vvv_dash;
 
 /**
  * Actions that happen on the WP databases
@@ -27,14 +26,8 @@ use \vvv_dash;
  * Class database
  * @package        vvv_dash\commands
  */
-class database {
+class database extends host {
 
-
-	public function __construct() {
-		$this->_cache    = new vvv_dash\cache();
-		$this->_hosts   = new host();
-		//$this->vvv_dash = new \vvv_dashboard();
-	}
 
 	/**
 	 *
@@ -51,7 +44,8 @@ class database {
 	 * @return bool|string
 	 */
 	public function backup( $path, $file_name ) {
-		$export = shell_exec( 'wp db export --add-drop-table --path=' . $path . ' ' . $file_name );
+
+		$export = shell_exec( 'wp db export --add-drop-table --path=' . $this->host_info['wp_path'] . ' ' . $file_name );
 
 		if ( $export ) {
 			return $export;
@@ -75,7 +69,8 @@ class database {
 	 * @return bool|string
 	 */
 	public function roll_back( $path, $file ) {
-		$status = shell_exec( 'wp db import --path=' . $path . ' ' . urldecode( $file ) );
+
+		$status = shell_exec( 'wp db import --path=' . $this->host_info['wp_path'] . ' ' . urldecode( $file ) );
 
 		if ( $status ) {
 			return $status;
@@ -99,27 +94,24 @@ class database {
 	 * @return bool|string
 	 */
 	public function create_db_backup( $host, $file_name = '' ) {
-		$backup_status = false;
-		$host_info     = $this->_hosts->set_host_info( $host );
-		$is_env        = ( isset( $host_info['is_env'] ) ) ? $host_info['is_env'] : false;
+		$export = false;
+		// $this->host_info['hostname'], $this->host_info['wp_path']
 
-		// Backups for WP Starter
-		if ( $is_env ) {
-			//$dash_hosts        = new vvv_dash_hosts();
-			$env_configs       = $this->_hosts->get_wp_starter_configs( $host_info );
-			$configs           = ( isset( $env_configs[ $host_info['host'] ] ) ) ? $env_configs[ $host_info['host'] ] : false;
-			$db['db_name']     = $configs['DB_NAME'];
-			$db['db_user']     = $configs['DB_USER'];
-			$db['db_password'] = $configs['DB_PASSWORD'];
-			$backup_status     = vvv_dash_wp_starter_backup( $host_info, $db, $file_name );
+		if ( $this->host_info['wp_is_installed'] == 'true' ) {
 
-		} else {
-			// All other backups
-			$backup_status = vvv_dash_wp_backup( $host, $file_name );
+			if ( ! empty( $file_name ) ) {
+				$export = shell_exec( 'wp db export --add-drop-table --path=' . $this->host_info['wp_path'] . ' ' . $file_name );
+			} else {
+				$file_name = 'dumps/' . $this->host_info['hostname'] . '_' . date( 'm-d-Y_g-i-s', time() ) . '.sql';
+				$export    = shell_exec( 'wp db export --add-drop-table --path=' . $this->host_info['wp_path'] . ' ' . $file_name );
+			}
+
+			if ( file_exists( $file_name ) ) {
+				return vvv_dash_notice( 'Your backup is ready at www/default/dashboard/' . $file_name );
+			}
 		}
 
-
-		return $backup_status;
+		return $export;
 	}
 
 	/**
@@ -137,22 +129,7 @@ class database {
 	 */
 	public function db_roll_back( $host, $file ) {
 
-		$host_info = $this->_hosts->set_host_info( $host );
-		$is_env    = ( isset( $host_info['is_env'] ) ) ? $host_info['is_env'] : false;
-
-		// Backups for WP Starter
-		if ( $is_env ) {
-			// @ToDo fix this path issue
-			$path   = VVV_WEB_ROOT . '/' . $host_info['host'] . '/' . $host_info['path'] . '/wp/';
-			$status = shell_exec( 'wp db import --path=' . $path . ' ' . urldecode( $file ) );
-
-		} else {
-
-			$path   = VVV_WEB_ROOT . '/' . $host_info['host'] . '/htdocs';
-			$status = shell_exec( 'wp db import --path=' . $path . ' ' . urldecode( $file ) );
-
-		}
-
+		$status = shell_exec( 'wp db import --path=' . $this->host_info['wp_path'] . ' ' . urldecode( $file ) );
 
 		return $status;
 	}
@@ -162,10 +139,10 @@ class database {
 
 		if ( isset( $_GET['migrate'] ) && isset( $_GET['host'] ) ) {
 
-			$host      = $_GET['host'];
-			$domain    = ( isset( $_GET['domain'] ) ) ? $_GET['domain'] : false;
-			$host_info = $this->_hosts->set_host_info( $host );
-			$host_path = VVV_WEB_ROOT . '/' . $host_info['host'] . $host_info['path'];
+			$host   = $_GET['host'];
+			$domain = ( isset( $_GET['domain'] ) ) ? $_GET['domain'] : false;
+			//$host_info = $this->_hosts->set_host_info( $host );
+			//$host_path = VVV_WEB_ROOT . '/' . $host_info['host'] . $host_info['path'];
 
 			if ( $domain ) {
 				$status = $this->create_db_backup( $host );
@@ -174,7 +151,7 @@ class database {
 					echo $status;
 				}
 
-				$cmd     = 'wp search-replace --url=' . $host . ' ' . $host . ' ' . $domain . ' --path=' . $host_path;
+				$cmd     = 'wp search-replace --url=' . $host . ' ' . $host . ' ' . $domain . ' --path=' . $this->host_info['wp_path'];
 				$migrate = shell_exec( $cmd );
 
 				if ( $migrate ) {
@@ -260,11 +237,8 @@ class database {
 
 		$host   = $_GET['host'];
 		$domain = ( isset( $_GET['domain'] ) ) ? $_GET['domain'] : false;
-		//$vvv_dash  = new \vvv_dashboard();
-		$host_info = $this->_hosts->set_host_info( $host );
-		$host_path = VVV_WEB_ROOT . '/' . $host_info['host'] . $host_info['path'];
-
-		$cmd     = 'wp search-replace --url=' . $host . ' ' . $host . ' ' . $domain . ' --path=' . $host_path;
+		
+		$cmd     = 'wp search-replace --url=' . $host . ' ' . $host . ' ' . $domain . ' --path=' . $this->host_info['wp_path'];
 		$migrate = shell_exec( $cmd );
 
 		if ( $migrate ) {
