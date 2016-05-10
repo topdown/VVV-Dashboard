@@ -195,22 +195,7 @@ $(function () {
 });
 
 $(function () {
-
-	// Get all items from a container
-	// function getItems(container) {
-	// 	var columns = [];
-	//
-	// 	$(container + ' tr').each(function () {
-	// 		columns.push($(this).sortable('toArray', {cancel: ".disable-sort" }).join(','));
-	// 	});
-	//
-	// 	return columns.join('|');
-	// }
-	//
-	// var items = getItems('.sites tbody');
-	//
-	// console.log(items);
-
+	
 	//Helper function to keep table row from collapsing when being sorted
 	var fixHelperModified = function (e, tr) {
 
