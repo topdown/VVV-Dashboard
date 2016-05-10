@@ -45,6 +45,7 @@ Copy the dashboard-custom.php to VVV/www/default/dashboard-custom.php
   * Host
   * Date of backup
   * Time of backup
+  * Live search
   * Actions
     * Save As (In case you want to save another copy somewhere else)
     * Roll Back (Roll back to any existing version for the host)
@@ -132,7 +133,19 @@ create a `VVV/www/default/dashboard/custom.css` file and add this
 
 ### Change Log
 
+mm/dd/yy
 ---
+
+05/09/16  version: 0.1.5
+
+* Lots of changes, refactoring both actions and hosts
+* New hosts objects allows separating different types of hosts and hopefully fixes all past issues related to hosts
+* New commands/action objects handles all of the theme, plugins, backups, etc...
+* Added branch specific version check so if you are running a branch other than mater you will get a notice for updates in that branch.
+* Folders in the {VVV}/www/ directory that start with a _ underscore are tracked and marked as archives in the dashboard so you can archive sites in a directory like _archives
+* Live search in backups
+
+
 12/12/15  version: 0.1.4
 
 * Added WPStarter support by fixing some path issues
