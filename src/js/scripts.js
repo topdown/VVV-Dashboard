@@ -4,11 +4,11 @@ jQuery.fn.highlight = function (pat) {
 		if (node.nodeType == 3) {
 			var pos = node.data.toUpperCase().indexOf(pat);
 			if (pos >= 0) {
-				var spannode = document.createElement('span');
+				var spannode       = document.createElement('span');
 				spannode.className = 'highlight';
-				var middlebit = node.splitText(pos);
-				var endbit = middlebit.splitText(pat.length);
-				var middleclone = middlebit.cloneNode(true);
+				var middlebit      = node.splitText(pos);
+				var endbit         = middlebit.splitText(pat.length);
+				var middleclone    = middlebit.cloneNode(true);
 				spannode.appendChild(middleclone);
 				middlebit.parentNode.replaceChild(spannode, middlebit);
 				skip = 1;
@@ -43,7 +43,7 @@ jQuery.fn.removeHighlight = function () {
 				continue;
 			}
 			var combined_text = child.nodeValue + next.nodeValue;
-			new_node = node.ownerDocument.createTextNode(combined_text);
+			new_node          = node.ownerDocument.createTextNode(combined_text);
 			node.insertBefore(new_node, child);
 			node.removeChild(child);
 			node.removeChild(next);
@@ -81,7 +81,7 @@ $.fn.scrollViewDown = function () {
 $(function () {
 	$('#backups-search').bind('keyup change', function (ev) {
 		// pull in the new value
-		var searchTerm = $(this).val(),
+		var searchTerm   = $(this).val(),
 			backups_list = $('.backups .host');
 
 		// remove any old highlighted terms
@@ -115,7 +115,7 @@ $(function () {
 	$('#text-search').bind('keyup change', function (ev) {
 		// pull in the new value
 		var searchTerm = $(this).val(),
-			site_list = $('.sites .host');
+			site_list  = $('.sites .host');
 
 		// remove any old highlighted terms
 		$(site_list).removeHighlight();
@@ -145,10 +145,10 @@ $(function () {
 
 	});
 
-	$('.create-plugin .add-post-type').on('click', function(){
+	$('.create-plugin .add-post-type').on('click', function () {
 		var slug = $(this).parent().find('input.plugin-slug').val();
 		//console.log(slug);
-		
+
 		$(this).after('<p>' +
 			'<label>Post Type Slug</label> <input class="post-type" type="text" placeholder="post_type" name="post_types[' + slug + '][]" value="" />' +
 			'<span class="add-taxonomy btn btn-default btn-xs">Add Taxonomy</span>' +
@@ -156,7 +156,7 @@ $(function () {
 		return false;
 	});
 
-	$('.create-plugin').on('click', '.add-taxonomy', function(e){
+	$('.create-plugin').on('click', '.add-taxonomy', function (e) {
 
 		var slug = $(this).parent().find('input.post-type').val();
 		console.log('Clicked');
@@ -193,3 +193,94 @@ $(function () {
 $(function () {
 	$('[data-toggle="tooltip"]').tooltip()
 });
+
+$(function () {
+
+	// Get all items from a container
+	// function getItems(container) {
+	// 	var columns = [];
+	//
+	// 	$(container + ' tr').each(function () {
+	// 		columns.push($(this).sortable('toArray', {cancel: ".disable-sort" }).join(','));
+	// 	});
+	//
+	// 	return columns.join('|');
+	// }
+	//
+	// var items = getItems('.sites tbody');
+	//
+	// console.log(items);
+
+	//Helper function to keep table row from collapsing when being sorted
+	var fixHelperModified = function (e, tr) {
+
+		var $originals = tr.children();
+		var $helper    = tr.clone();
+
+		$helper.children().each(function (index) {
+			$(this).width($originals.eq(index).width())
+		});
+		return $helper;
+	};
+
+
+	var foo   = $(".sites tbody"),
+		order = Cookies.get('hosts');
+
+	$(foo).sortable({
+		update: function (e, ui) {
+			var set_order = foo.sortable("toArray").join();
+			
+			console.log(set_order);
+			
+			Cookies.set('hosts', set_order, {expires: 7});
+		}
+	});
+
+
+
+	if (order) {
+		$.each(order.split(','), function (i, id) {
+			//console.log($("#" + id));
+			
+			$("#" + id).appendTo(foo);
+		});
+	}
+
+	foo.sortable({helper: fixHelperModified}).disableSelection();
+	//Make table sortable
+	// $(".sites tbody").sortable({
+	// 	helper: fixHelperModified,
+	// 	stop: function (event, ui) {
+	// 		var IDs = [];
+	//
+	// 		$('.sites tbody tr').each(function (i, e) {
+	// 			IDs.push($(e).attr('id'));
+	// 		});
+	// 		console.log(IDs);
+	//
+	// 		Cookies.set('hosts', IDs, {expires: 7});
+	// 		//renumber_table('.sites')
+	// 	}
+	// }).disableSelection();
+	//
+	// var order = Cookies.get('hosts');
+	//
+	// console.log(order);
+	//
+	// $.each(JSON.parse(order), function (idx, val) {
+	// 	var el = $('#' + val);
+	// 	//console.log($(el));
+	//
+	// 	$('.sites').children('tbody').append(el);
+	// });
+
+});
+
+//Renumber table rows
+function renumber_table(tableID) {
+	$(tableID + " tr").each(function () {
+		var count = $(this).parent().children().index($(this)) + 1;
+		$(this).find('.priority').html(count);
+	});
+}

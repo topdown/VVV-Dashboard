@@ -259,20 +259,20 @@ input.child-name {
 .navbar p.pull-right {
 	margin:   0;
 	position: absolute;
-	top:     5px;
-	right:   20px;
+	top:      5px;
+	right:    20px;
 }
 
 .navbar .gitter {
 	margin-left: 8px;
-	position: relative;
-	top: 5px;
+	position:    relative;
+	top:         5px;
 }
 
 .navbar .github-link {
 	margin-left: 10px;
-	position: relative;
-	top: 5px;
+	position:    relative;
+	top:         5px;
 }
 
 .navbar .github-link:hover .fa-inverse {
@@ -294,7 +294,7 @@ input.child-name {
 }
 
 .close {
-	display: inline-block;
+	display:       inline-block;
 	margin-bottom: 8px;
 }
 
@@ -316,3 +316,13 @@ input.child-name {
 .red {
 	color: darkred;
 }
+
+.ui-sortable tr {
+	cursor: pointer;
+}
+
+.ui-sortable tr:hover {
+	background: rgba(244, 251, 17, 0.45);
+}
+
+

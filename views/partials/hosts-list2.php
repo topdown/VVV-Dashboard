@@ -39,7 +39,7 @@
 
 		foreach ( $host_info as $key => $host ) {
 			?>
-			<tr>
+			<tr id="<?php echo $host['domain']; ?>">
 				<?php if ( isset( $host['config_settings']['WP_DEBUG'] ) && $host['config_settings']['WP_DEBUG'] == 'true'
 				           && $host['wp_is_installed'] == 'true'
 				) { ?>

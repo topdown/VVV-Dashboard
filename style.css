@@ -5443,3 +5443,11 @@ input.child-name {
 .red {
   color: darkred;
 }
+
+.ui-sortable tr {
+  cursor: pointer;
+}
+
+.ui-sortable tr:hover {
+  background: rgba(244, 251, 17, 0.45);
+}

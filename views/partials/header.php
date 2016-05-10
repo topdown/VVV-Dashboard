@@ -47,6 +47,7 @@
 		<meta name="theme-color" content="#ffffff">
 
 		<script type="text/JavaScript" src="bower_components/jquery/dist/jquery.min.js"></script>
+		<script type="text/JavaScript" src="src/js/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="bower_components/js-cookie/src/js.cookie.js"></script>
 		<script type="text/javascript" src="bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/alert.js"></script>
 		<script type="text/javascript" src="bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/tooltip.js"></script>
