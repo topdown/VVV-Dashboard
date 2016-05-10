@@ -133,8 +133,10 @@ create a `VVV/www/default/dashboard/custom.css` file and add this
 
 ### Change Log
 
-mm/dd/yy
 ---
+
+mm/dd/yy
+
 
 05/09/16  version: 0.1.5
 
