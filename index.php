@@ -52,6 +52,10 @@ if ( ! is_array( $host_info ) ) {
 	$host_info = unserialize( $host_info );
 }
 
+// Playing around with random sorting :)
+//$host_info = array_values($host_info);
+//shuffle( $host_info );
+
 // The new files for commands and actions
 //include_once 'vvv_dash/commands.php';
 include_once 'vvv_dash/commands/host.php';
