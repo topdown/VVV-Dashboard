@@ -97,30 +97,26 @@ class plugin extends host {
 	 *
 	 * Created:    5/6/16, 2:29 PM
 	 *
-	 * @param $plugins @todo remove this when we can
 	 */
-	public function display( $plugins ) {
-		if ( ! empty( $plugins ) ) {
-			if ( isset( $_GET['host'] ) ) {
+	public function display() {
 
-				//$host      = $_GET['host'];
-				//$host_info = $this->_hosts->set_host_info( $host );
-				//$host_path = VVV_WEB_ROOT . '/' . $host_info['host'] . $host_info['path'];
-				$close = '<a class="close" href="./">Close</a>';
+		if ( isset( $_GET['host'] ) ) {
 
-				// Install fav plugins -------------------------------------------------------------
-				$this->_favorite_plugins();
+			$close = '<a class="close" href="./">Close</a>';
 
-				// Create New Plugin -------------------------------------------------------------
-				$this->_new_plugin();
+			// Install fav plugins -------------------------------------------------------------
+			$this->_favorite_plugins();
 
-				// Plugins List -------------------------------------------------------------
-				?><h4>The plugin list for
-				<span class="red"><?php echo $_GET['host']; ?></span> <?php echo $close; ?></h4><?php
+			// Create New Plugin -------------------------------------------------------------
+			$this->_new_plugin();
 
-				$this->_plugin_list();
-			}
+			// Plugins List -------------------------------------------------------------
+			?><h4>The plugin list for
+			<span class="red"><?php echo $_GET['host']; ?></span> <?php echo $close; ?></h4><?php
+
+			$this->_plugin_list();
 		}
+
 	}
 
 	public function version() {
