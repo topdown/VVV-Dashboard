@@ -382,6 +382,7 @@ function get_backups_table() {
  */
 function get_php_errors( $linecount = 11, $length = 140, $file = "/srv/log/php_errors.log", $offset_factor = 1 ) {
 
+	if(! file_exists( $file )) return false;
 	$lines = array();
 	$bytes = filesize( $file );
 	$fp = fopen( $file, "r" ) or die( "Can't open $file" );
@@ -439,6 +440,8 @@ function get_php_errors( $linecount = 11, $length = 140, $file = "/srv/log/php_e
  * @return string
  */
 function format_php_errors( $lines = array() ) {
+
+	if( ! is_array( $lines ) ) return false;
 
 	$lines = array_filter( $lines );
 	$lines = array_reverse( $lines );
