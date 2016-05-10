@@ -14,6 +14,7 @@
  * dashboard
  * create_plugin.php
  */
+$host = isset($_GET['host']) ? $_GET['host']: die('No Host given');
 ?>
 	<form class="create-plugin" action="" method="post">
 		<input type="hidden" name="host" value="<?php echo $host; ?>" />

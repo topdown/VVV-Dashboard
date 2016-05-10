@@ -14,6 +14,7 @@
  * dashboard
  * favorite_plugins.php
  */
+$host = isset($_GET['host']) ? $_GET['host']: die('No Host given');
 ?>
 	<form class="" action="" method="post">
 		<p><span class="bold">Install a favorite plugin on this host.</span><br />

@@ -14,6 +14,8 @@
  * dashboard
  * migrate.php
  */
+
+$host = isset($_GET['host']) ? $_GET['host']: die('No Host given');
 ?>
 	<div class="row">
 		<div class="col-sm-12"><p><a class="close" href="./">Close</a></p></div>
