@@ -33,28 +33,24 @@ include_once 'vvv_dash/hosts/standard_wp.php';
 include_once 'vvv_dash/hosts/wp_starter.php';
 //include_once 'vvv_dash/hosts/bedrock.php';
 
+$host_object = new \vvv_dash\hosts();
+$standard    = new \vvv_dash\hosts\standard_wp();
+$wp_starter  = new \vvv_dash\hosts\wp_starter();
+$defaults    = new \vvv_dash\hosts\defaults();
 
-//if ( ( $host_info = $cache->get( 'host-sites', VVV_DASH_HOSTS_TTL ) ) == false ) {
-	$host_object = new \vvv_dash\hosts();
+if ( ( $host_info = $cache->get( 'host-sites', VVV_DASH_HOSTS_TTL ) ) == false ) {
 
-	$standard = new \vvv_dash\hosts\standard_wp();
 	$standard->load_hosts();
-
-	$wp_starter = new \vvv_dash\hosts\wp_starter();
-	$wp_starter->load_hosts();
-
-	$defaults = new \vvv_dash\hosts\defaults();
 	$defaults->load_hosts();
-
+	$wp_starter->load_hosts();
 	$host_info = \vvv_dash\hosts_container::get_host_list();
 
-//	$status = $cache->set( 'host-sites', serialize( $host_info ) );
-//}
-
-if(! is_array( $host_info )) {
-	$host_info = unserialize( $host_info );
+	$status = $cache->set( 'host-sites', serialize( $host_info ) );
 }
 
+if ( ! is_array( $host_info ) ) {
+	$host_info = unserialize( $host_info );
+}
 
 // The new files for commands and actions
 //include_once 'vvv_dash/commands.php';
