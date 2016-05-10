@@ -8,8 +8,7 @@ $timestart = $time[1] + $time[0];
 
 define( 'VVV_DASH_BASE', true );
 define( 'VVV_WEB_ROOT', '/srv/www' );
-define( 'VVV_DASH_VERSION', '0.1.5' );
-
+define( 'VVV_DASH_VERSION', '0.1.5-Beta' );
 define( 'VVV_DASH_VIEWS', __DIR__ . '/views' );
 
 // Settings

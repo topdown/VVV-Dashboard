@@ -514,11 +514,13 @@ function version_check() {
 
 	$cache = new \vvv_dash\cache();
 
+	global $branch;
+	$this_branch = explode( "\n", trim( $branch ) );
+	$this_branch = ( isset( $this_branch[1] ) ) ? $this_branch[1] : 'master';
+	$url         = 'https://raw.githubusercontent.com/topdown/VVV-Dashboard/' . $this_branch . '/version.txt';
+
 	if ( ( $version = $cache->get( 'version-cache', VVV_DASH_THEMES_TTL ) ) == false ) {
-		global $branch;
-		$branch  = explode( "\n", trim( $branch ) );
-		$branch  = ( isset( $branch[1] ) ) ? $branch[1] : 'master';
-		$url     = 'https://raw.githubusercontent.com/topdown/VVV-Dashboard/' . $branch . '/version.txt';
+
 		$version = get_external_data( $url );
 
 		// Don't save unless we have data
@@ -526,6 +528,7 @@ function version_check() {
 			$status = $cache->set( 'version-cache', $version );
 		}
 	}
+
 
 	return $version;
 }
@@ -544,17 +547,20 @@ function vvv_dash_get_latest_features() {
 
 	$cache = new \vvv_dash\cache();
 
+	global $branch;
+	$this_branch = explode( "\n", trim( $branch ) );
+	$this_branch = ( isset( $this_branch[1] ) ) ? $this_branch[1] : 'master';
+	$url         = 'https://raw.githubusercontent.com/topdown/VVV-Dashboard/' . $this_branch . '/new-features.txt';
+
 	if ( ( $new_features = $cache->get( 'newfeatures-cache', VVV_DASH_THEMES_TTL ) ) == false ) {
-		global $branch;
-		$branch       = explode( "\n", trim( $branch ) );
-		$branch       = ( isset( $branch[1] ) ) ? $branch[1] : 'master';
-		$url          = 'https://raw.githubusercontent.com/topdown/VVV-Dashboard/' . $branch . '/new-features.txt';
+
 		$new_features = get_external_data( $url );
 		// Don't save unless we have data
 		if ( $new_features && ! strstr( $new_features, 'Error' ) ) {
 			$status = $cache->set( 'newfeatures-cache', $new_features );
 		}
 	}
+
 
 	return $new_features;
 }
