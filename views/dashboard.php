@@ -24,7 +24,7 @@
 			<?php
 			
 			// Plugins table
-			$plugin_commands->display( $plugins );
+			$plugin_commands->display();
 
 			// Mostly Migrate stuff, come back to this
 			$database_commands->display();
