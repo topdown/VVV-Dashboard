@@ -100,7 +100,7 @@ class plugin extends host {
 	 */
 	public function display() {
 
-		if ( isset( $_GET['host'] ) ) {
+		if ( isset( $_GET['host'] ) && isset( $_GET['get_plugins'] ) ) {
 
 			$close = '<a class="close" href="./">Close</a>';
 
