@@ -79,6 +79,39 @@ $.fn.scrollViewDown = function () {
 };
 
 $(function () {
+	$('#backups-search').bind('keyup change', function (ev) {
+		// pull in the new value
+		var searchTerm = $(this).val(),
+			backups_list = $('.backups .host');
+
+		// remove any old highlighted terms
+		$(backups_list).removeHighlight();
+		$('tr').removeClass('highlight');
+
+		// disable highlighting if empty
+		if (searchTerm) {
+			// highlight the new term
+			$(backups_list).highlight(searchTerm);
+		}
+
+		// Highlight the table row
+		if ($('.backups td span.highlight').length) {
+
+			$('.backups td span.highlight').closest('tr').addClass('highlight');
+		}
+
+		if ($('.backups table tr').not('.highlight')) {
+			$('.backups tr').addClass('hide');
+		}
+
+		$('.backups tr.highlight').removeClass('hide');
+
+		if ($('#backups-search').val() == '') {
+			$('.backups tr').removeClass('hide');
+		}
+
+	});
+
 	$('#text-search').bind('keyup change', function (ev) {
 		// pull in the new value
 		var searchTerm = $(this).val(),

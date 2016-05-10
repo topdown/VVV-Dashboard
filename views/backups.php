@@ -22,7 +22,15 @@ $close = '<a class="close" href="./">Close</a>';
 
 if ( ! empty( $backups_table ) ) {
 	?><h4 class="title">Backups List
-	<span class="small"> Path: {VVV}/default/dashboard/dumps/ </span> <?php echo $close; ?></h4><?php
+	<span class="small"> Path: {VVV}/default/dashboard/dumps/ </span> <?php echo $close; ?></h4>
+
+	<div id="search_container" class="input-group search-box">
+		<span class="input-group-addon"> <i class="fa fa-search"></i> </span>
+		<input type="text" class="form-control search-input" id="backups-search" placeholder="Live Search..." />
+		<span class="input-group-addon"> Hosts <span class="badge"><?php echo count( $host_info ); ?></span> </span>
+	</div>
+
+	<?php
 	echo $backups_table;
 }
 

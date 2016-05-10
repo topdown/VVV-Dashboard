@@ -3,3 +3,4 @@
 * New commands/action objects handles all of the theme, plugins, backups, etc...
 * Added branch specific version check so if you are running a branch other than mater you will get a notice for updates in that branch.
 * Folders in the {VVV}/www/ directory that start with a _ underscore are tracked and marked as archives in the dashboard so you can archive sites in a directory like _archives
+* Live search in backups

@@ -311,7 +311,7 @@ function get_backups_table() {
 		$table .= vvv_dash_notice( $notice );
 	}
 
-	$table .= '<table class="table table-responsive table-striped table-bordered table-hover">';
+	$table .= '<table class="table table-responsive table-striped table-bordered table-hover backups">';
 	$table .= '<thead><tr>';
 	$table .= '<th>Host</th>';
 	$table .= '<th>Date <small>( M-D-Y )</small></th>';
@@ -335,7 +335,7 @@ function get_backups_table() {
 
 		// Table data
 		$table_data[] .= '<tr>';
-		$table_data[] .= '<td>' . $host . '</td>';
+		$table_data[] .= '<td class="host">' . $host . '</td>';
 		$table_data[] .= '<td>' . $file_parts[1] . '</td>';
 		$table_data[] .= '<td>' . str_replace( array( '.sql', '-' ), array( '', ':' ), $file_parts[2] ) . '</td>';
 		$table_data[]
