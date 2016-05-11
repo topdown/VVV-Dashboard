@@ -5451,3 +5451,15 @@ input.child-name {
 .ui-sortable tr:hover {
   background: rgba(244, 251, 17, 0.45);
 }
+
+td span.handle {
+  padding: 0 5px 0 0;
+  color: #999;
+}
+td span.handle i {
+  vertical-align: -1px;
+}
+
+tr:hover td span.handle {
+  color: #777;
+}

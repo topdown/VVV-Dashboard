@@ -36,32 +36,32 @@
 		</thead>
 		<?php
 
-
+		$i = 0;
 		foreach ( $host_info as $key => $host ) {
 			?>
-			<tr id="<?php echo $host['domain']; ?>">
-				<?php if ( isset( $host['config_settings']['WP_DEBUG'] ) && $host['config_settings']['WP_DEBUG'] == 'true'
-				           && $host['wp_is_installed'] == 'true'
-				) { ?>
-					<td><span class="label label-success">Debug On <i class="fa fa-check-circle-o"></i></span>
-					</td>
+			<tr id="<?php echo $host['domain']; ?>" data-id="<?php echo ++ $i; ?>">
+				<td><span class="handle"><i class="fa fa-arrows-v" aria-hidden="true"></i></span>
+					<?php if ( isset( $host['config_settings']['WP_DEBUG'] ) && $host['config_settings']['WP_DEBUG'] == 'true'
+					           && $host['wp_is_installed'] == 'true'
+					) { ?>
+					<span class="label label-success">Debug On <i class="fa fa-check-circle-o"></i></span>
+
 				<?php } else {
 					if ( $host['wp_is_installed'] == 'true' ) {
 						?>
-						<td><span class="label label-danger">Debug Off <i class="fa fa-times-circle-o"></i></span>
-						</td>
+						<span class="label label-danger">Debug Off <i class="fa fa-times-circle-o"></i></span>
 						<?php
 					} elseif ( $host['wp_is_installed'] == 'false' && $host['is_wp_site'] == 'false' ) {
 						?>
-						<td><span class="label label-warning">ARCHIVE</td>
+						<span class="label label-warning">ARCHIVE</span>
 						<?php
 					} else {
 						?>
-						<td><span class="label label-danger">NOT INSTALLED</td>
+						<span class="label label-danger">NOT INSTALLED</span>
 						<?php
 					}
 				} ?>
-
+				</td>
 				<td class="host"><?php echo $host['domain']; ?></td>
 				<td><?php
 					if ( isset( $host['wp_version'] ) ) {

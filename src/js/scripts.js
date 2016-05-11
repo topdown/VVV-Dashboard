@@ -195,77 +195,46 @@ $(function () {
 });
 
 $(function () {
-	
+
 	//Helper function to keep table row from collapsing when being sorted
 	var fixHelperModified = function (e, tr) {
 
-		var $originals = tr.children();
-		var $helper    = tr.clone();
+		var originals = tr.children();
+		var helper    = tr.clone();
 
-		$helper.children().each(function (index) {
-			$(this).width($originals.eq(index).width())
+		helper.children().each(function (index) {
+			$(this).width(originals.eq(index).width())
 		});
-		return $helper;
+		return helper;
 	};
 
 
-	var foo   = $(".sites tbody"),
-		order = Cookies.get('hosts');
+	//Make table sortable
+	$(".sites tbody").sortable({
+		helper: fixHelperModified,
+		stop: function (event, ui) {
+			var ids = [];
 
-	$(foo).sortable({
-		update: function (e, ui) {
-			var set_order = foo.sortable("toArray").join();
-			
-			console.log(set_order);
-			
-			Cookies.set('hosts', set_order, {expires: 7});
+			$('.sites tbody tr').each(function (i, e) {
+				var row = $(e).data('id');
+
+				ids.push(row);
+			});
+
+			//console.log(ids);
+
+			Cookies.set('hosts', ids, {expires: 30});
 		}
 	});
 
+	var saved = JSON.parse(Cookies.get('hosts'));
+	var array = [];
 
-
-	if (order) {
-		$.each(order.split(','), function (i, id) {
-			//console.log($("#" + id));
-			
-			$("#" + id).appendTo(foo);
-		});
-	}
-
-	foo.sortable({helper: fixHelperModified}).disableSelection();
-	//Make table sortable
-	// $(".sites tbody").sortable({
-	// 	helper: fixHelperModified,
-	// 	stop: function (event, ui) {
-	// 		var IDs = [];
-	//
-	// 		$('.sites tbody tr').each(function (i, e) {
-	// 			IDs.push($(e).attr('id'));
-	// 		});
-	// 		console.log(IDs);
-	//
-	// 		Cookies.set('hosts', IDs, {expires: 7});
-	// 		//renumber_table('.sites')
-	// 	}
-	// }).disableSelection();
-	//
-	// var order = Cookies.get('hosts');
-	//
-	// console.log(order);
-	//
-	// $.each(JSON.parse(order), function (idx, val) {
-	// 	var el = $('#' + val);
-	// 	//console.log($(el));
-	//
-	// 	$('.sites').children('tbody').append(el);
-	// });
-
-});
-
-//Renumber table rows
-function renumber_table(tableID) {
-	$(tableID + " tr").each(function () {
-		var count = $(this).parent().children().index($(this)) + 1;
-		$(this).find('.priority').html(count);
+	$('.sites tr').each(function () {
+		array[$(this).data('id')] = $(this);
 	});
-}
+
+	$.each(saved, function (index, value) {
+		$('.sites tbody').append(array[value]);
+	});
+});
