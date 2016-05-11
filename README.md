@@ -29,6 +29,7 @@ Copy the dashboard-custom.php to VVV/www/default/dashboard-custom.php
   * Profiler Link
   * Backup Database (SQL Dump) host-timestamped name
   * Debug Log viewer if debug log is found
+  * Drag and drop sorting, stored in a 30 day cookie
 * Live/Fuzzy search host list
 * List Plugins for each installed WordPress Site
   * Plugin Name
@@ -136,6 +137,10 @@ create a `VVV/www/default/dashboard/custom.css` file and add this
 ---
 
 mm/dd/yy
+
+05/10/16  version: 0.1.6
+
+* Drag and drop sorting of the host list/table stored in a 30 day cookie
 
 
 05/09/16  version: 0.1.5
