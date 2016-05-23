@@ -16,6 +16,16 @@ git clone https://github.com/topdown/VVV-Dashboard.git dashboard
 cp dashboard/dashboard-custom.php .
 ```
 
+While VVV is running (`vagrant up`), the new dashboard is now viewable at your VVV root (usually [vvv](http://vvv) or [vvv.dev](http://vvv.dev)).
+
+Update
+-
+Update your repo via `git pull` and then copy dashboard-custom.php to your default directory.
+```sh
+cd www/default/dashboard
+git pull
+cp dashboard-custom.php ..
+```
 
 ---
 ### Help Grow This Feature List
@@ -80,22 +90,13 @@ cp dashboard/dashboard-custom.php .
 * Migrations for databases. You can now migrate to a new domain.
 
 ---
-### UPDATE Instructions 
-From your dashboard directory ```git pull```
 
+### Note: Recent Changes 
 You no longer need to copy the style.css anywhere.
 
-Delete the old VVV/www/default/dashboard-custom.php and copy the new version to VVV/www/default/dashboard-custom.php
+There is now a cache system. If you don't see cache files on the first dashboard load, make sure dashboard/cache/ is writable (it should be).
 
-Now move your dashboard directory so it is inside VVV/www/default/
-
-As of 11/19/2015 there is a cache system, If don't see cache files on first dashboard load make sure dashboard/cache/ is writable. (It should be)
-
----
-
-With Vagrant Up you should be able browse to your vagrant root www usually [vvv](http://vvv) or [vvv.dev](http://vvv.dev) and see the new dashboard.
-
-** NEW: There are bound keys for the search feature, the enter key and down arrow key search down the list and the up arrow searches up.**
+There are bound keys for the search feature: the enter key and down arrow key search down the list, and the up arrow searches up.
 
 ---
 
