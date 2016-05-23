@@ -6,13 +6,16 @@ It also suggests the wonderful add-on bash script [VVV Site Wizard](https://gith
 
 [![Gitter Chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/topdown/VVV-Dashboard?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Instructions
+Setup
 -
-Clone this repo to your VVV/www/default/ directory:
+Clone this repo to your VVV/www/default/ directory and then copy dashboard-custom.php there:
 
-`git clone https://github.com/topdown/VVV-Dashboard.git dashboard`
+```sh
+cd www/default
+git clone https://github.com/topdown/VVV-Dashboard.git dashboard
+cp dashboard/dashboard-custom.php .
+```
 
-Copy the dashboard-custom.php to VVV/www/default/dashboard-custom.php
 
 ---
 ### Help Grow This Feature List
