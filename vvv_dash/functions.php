@@ -363,26 +363,33 @@ function get_backups_table() {
 	return $table;
 }
 
+
 /**
  * Fetch the PHP error log from the machine
+ *
+ * @TODO have a look at this
+ * Taken from https://gist.github.com/lorenzos/1711e81a9162320fde20
+ * After reading on performance here http://stackoverflow.com/a/15025877
  *
  * @author         Jeff Behnke <code@validwebs.com>
  * @copyright  (c) 2009-15 ValidWebs.com
  *
  * Created:    11/20/15, 12:38 PM
  *
- * @param int    $linecount
+ * @param int    $line_count
  * @param int    $length
  * @param string $file
  * @param int    $offset_factor we double the offset factor on each iteration
  *                              if our first guess at the file offset doesn't
- *                              yield $linecount lines
+ *                              yield $line_count lines
  *
  * @return array
  */
-function get_php_errors( $linecount = 11, $length = 140, $file = "/srv/log/php_errors.log", $offset_factor = 1 ) {
+function get_php_errors( $line_count = 11, $length = 140, $file = "/srv/log/php_errors.log", $offset_factor = 1 ) {
 
-	if(! file_exists( $file )) return false;
+	if ( ! file_exists( $file ) ) {
+		return false;
+	}
 	$lines = array();
 	$bytes = filesize( $file );
 	$fp = fopen( $file, "r" ) or die( "Can't open $file" );
@@ -391,9 +398,8 @@ function get_php_errors( $linecount = 11, $length = 140, $file = "/srv/log/php_e
 	$complete = false;
 	while ( ! $complete ) {
 		//seek to a position close to end of file
-		$offset = $linecount * $length * $offset_factor;
+		$offset = $line_count * $length * $offset_factor;
 		fseek( $fp, - $offset, SEEK_END );
-
 
 		//we might seek mid-line, so read partial line
 		//if our offset means we're reading the whole file,
@@ -403,12 +409,15 @@ function get_php_errors( $linecount = 11, $length = 140, $file = "/srv/log/php_e
 		}
 
 		//read all following lines, store last x
-		$lines = array();
+		//Don't do this BUG $lines = array();
 		while ( ! feof( $fp ) ) {
 			$line = fgets( $fp );
 			array_push( $lines, $line );
-			if ( count( $lines ) > $linecount ) {
+
+			if ( count( $lines ) >= $line_count ) {
+
 				array_shift( $lines );
+
 				$complete = true;
 			}
 		}
@@ -441,7 +450,9 @@ function get_php_errors( $linecount = 11, $length = 140, $file = "/srv/log/php_e
  */
 function format_php_errors( $lines = array() ) {
 
-	if( ! is_array( $lines ) ) return false;
+	if ( ! is_array( $lines ) ) {
+		return false;
+	}
 
 	$lines = array_filter( $lines );
 	$lines = array_reverse( $lines );
