@@ -28,190 +28,6 @@ function vvv_dash_prep() {
 
 
 /**
- * Performs host check and then does a backup of the DB
- *
- *
- * @author         Jeff Behnke <code@validwebs.com>
- * @copyright  (c) 2009-15 ValidWebs.com
- *
- * Created:    11/22/15, 2:45 PM
- *
- * @param        $host
- *
- * @param string $file_name
- *
- * @return bool|string
- */
-function vvv_dash_wp_backup( $host, $file_name = '' ) {
-
-	if ( isset( $host ) ) {
-
-		$type = check_host_type( $host );
-
-		if ( isset( $type['key'] ) ) {
-
-			if ( isset( $type['path'] ) ) {
-
-				$path        = VVV_WEB_ROOT . '/' . $type['key'] . $type['path'];
-				$db_settings = get_wp_db_settings( $path );
-
-			} else {
-
-				$path        = VVV_WEB_ROOT . '/' . $type['key'] . '/';
-				$db_settings = get_wp_db_settings( $path );
-
-			}
-
-		} else {
-
-			$host        = strstr( $host, '.', true );
-			$path        = VVV_WEB_ROOT . '/' . $host . '/htdocs';
-			$db_settings = get_wp_db_settings( $path );
-		}
-
-		if ( is_array( $db_settings ) && $path ) {
-			if ( ! empty( $file_name ) ) {
-				$export = shell_exec( 'wp db export --add-drop-table --path=' . $path . ' ' . $file_name );
-			} else {
-				$file_name = 'dumps/' . $host . '_' . date( 'm-d-Y_g-i-s', time() ) . '.sql';
-				$export    = shell_exec( 'wp db export --add-drop-table --path=' . $path . ' ' . $file_name );
-			}
-
-			if ( file_exists( $file_name ) ) {
-				return vvv_dash_notice( 'Your backup is ready at www/default/dashboard/' . $file_name );
-			}
-		} else {
-			return false;
-		}
-	}
-
-	return false;
-}
-
-/**
- * Performs host check and then does a backup of the DB
- *
- *
- * @author         Jeff Behnke <code@validwebs.com>
- * @copyright  (c) 2009-15 ValidWebs.com
- *
- * Created:    11/22/15, 2:45 PM
- *
- * @param        $host_info
- * @param        $db
- *
- * @param string $file_name
- *
- * @return bool|string
- * @internal       param $host
- */
-function vvv_dash_wp_starter_backup( $host_info, $db, $file_name = '' ) {
-
-	$host = $host_info['host'];
-	$path = VVV_WEB_ROOT . '/' . $host . '/public/wp/';
-
-	if ( is_array( $db ) && $path ) {
-		if ( ! empty( $file_name ) ) {
-			$export = shell_exec( 'wp db export --add-drop-table --path=' . $path . ' ' . $file_name );
-		} else {
-			$file_name = 'dumps/' . $host . '_' . date( 'm-d-Y_g-i-s', time() ) . '.sql';
-			$export    = shell_exec( 'wp db export --add-drop-table --path=' . $path . ' ' . $file_name );
-		}
-
-		if ( file_exists( $file_name ) ) {
-			return vvv_dash_notice( 'Your backup is ready at www/default/dashboard/' . $file_name );
-		}
-	} else {
-		return false;
-	}
-
-	return false;
-}
-
-
-/**
- * Does not seem that we actually need this but will leave it for now
- *
- * @author         Jeff Behnke <code@validwebs.com>
- * @copyright  (c) 2009-15 ValidWebs.com
- *
- * Created:    11/22/15, 2:47 PM
- *
- * @param $file_path
- *
- * @return array|string
- */
-function get_wp_db_settings( $file_path ) {
-
-	$file_path = $file_path . '/wp-config.php';
-
-	if ( file_exists( $file_path ) ) {
-		$config_lines = file( $file_path );
-		$db           = array();
-		// read through the lines in our host files
-		foreach ( $config_lines as $num => $line ) {
-
-			if ( strstr( $line, "define('DB_NAME'," ) ) {
-				$parts         = explode( ', ', $line );
-				$db['db_name'] = str_replace( array( ');', '\'' ), '', $parts[1] );
-
-			}
-
-			if ( strstr( $line, "define('DB_USER'," ) ) {
-				$parts         = explode( ', ', $line );
-				$db['db_user'] = str_replace( array( ');', '\'' ), '', $parts[1] );
-
-			}
-
-			if ( strstr( $line, "define('DB_PASSWORD'," ) ) {
-				$parts             = explode( ', ', $line );
-				$db['db_password'] = str_replace( array( ');', '\'' ), '', $parts[1] );
-
-			}
-		}
-
-		return $db;
-	}
-
-	return 'No Database';
-}
-
-
-function check_host_type( $host ) {
-
-	switch ( trim( $host ) ) {
-		case 'local.wordpress.dev' :
-			$host = array(
-				'host' => trim( $host ),
-				'key'  => 'wordpress-default',
-			);
-			break;
-		case 'local.wordpress-trunk.dev' :
-			$host = array(
-				'host' => trim( $host ),
-				'key'  => 'wordpress-trunk',
-			);
-			break;
-		case 'src.wordpress-develop.dev' :
-			$host = array(
-				'host' => trim( $host ),
-				'key'  => 'wordpress-develop',
-				'path' => '/src',
-			);
-			break;
-		case 'build.wordpress-develop.dev' :
-			$host = array(
-				'host' => trim( $host ),
-				'key'  => 'wordpress-develop',
-				'path' => '/build'
-			);
-			break;
-	}
-
-	return $host;
-}
-
-/**
  * Simply displays the purge status alert
  *
  * @author         Jeff Behnke <code@validwebs.com>
@@ -242,17 +58,26 @@ function purge_status( $purge_status ) {
  *
  * Created:    11/22/15, 2:40 PM
  *
- * @param $message
+ * @param        $message
+ * @param string $cookie_name
+ * @param int    $cookie_time default is 30 days
  *
  * @return bool|string
  */
-function vvv_dash_notice( $message ) {
+function vvv_dash_notice( $message, $cookie_name = '', $cookie_time = 30 ) {
 
 	$notice = false;
+	$cookie = ( isset( $_COOKIE[ $cookie_name ] ) ) ? $_COOKIE[ $cookie_name ] : false;
 
 	if ( $message ) {
+
+		if ( ! $cookie && ! empty( $cookie_name ) ) {
+			//setcookie( $cookie_name, 'true', strtotime( '+' . $cookie_time . ' days' ) );
+		}
+
 		$notice
-			= '<div class="alert alert-success alert-dismissible" role="alert">
+			= '<div class="alert alert-success alert-dismissible" role="alert">' .
+			  $cookie . '
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		</button>' .
@@ -260,16 +85,41 @@ function vvv_dash_notice( $message ) {
 		</div>';
 	}
 
-	return $notice;
+	if ( ! $cookie ) {
+		return $notice;
+	} else {
+		return false;
+	}
 }
 
-function vvv_dash_error( $message ) {
+/**
+ * Error notice for dashboard
+ *
+ * @author         Jeff Behnke <code@validwebs.com>
+ * @copyright  (c) 2009-15 ValidWebs.com
+ *
+ * Created:    12/16/15, 12:13 PM
+ *
+ * @param        $message
+ * @param string $cookie_name
+ * @param int    $cookie_time default is 30 days
+ *
+ * @return bool|string
+ */
+function vvv_dash_error( $message, $cookie_name = '', $cookie_time = 30 ) {
 
 	$notice = false;
+	$cookie = ( isset( $_COOKIE[ $cookie_name ] ) ) ? $_COOKIE[ $cookie_name ] : false;
 
 	if ( $message ) {
+
+		if ( ! $cookie && ! empty( $cookie_name ) ) {
+			//setcookie( $cookie_name, 'true', strtotime( '+' . $cookie_time . ' days' ) );
+		}
+
 		$notice
-			= '<div class="alert alert-danger alert-dismissible" role="alert">
+			= '<div class="alert alert-danger alert-dismissible" role="alert">' .
+			  $cookie . '
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		</button>' .
@@ -277,7 +127,11 @@ function vvv_dash_error( $message ) {
 		</div>';
 	}
 
-	return $notice;
+	if ( ! $cookie ) {
+		return $notice;
+	} else {
+		return false;
+	}
 }
 
 /**
@@ -370,6 +224,19 @@ function format_table( $data, $host, $type = '' ) {
 	return $table;
 }
 
+/**
+ * Handle CSV data
+ *
+ * @author         Jeff Behnke <code@validwebs.com>
+ * @copyright  (c) 2009-15 ValidWebs.com
+ *
+ * Created:    5/9/16, 4:12 PM
+ *
+ * @param     $data
+ * @param int $column
+ *
+ * @return array
+ */
 function get_csv_names( $data, $column = 0 ) {
 
 	$names = array();
@@ -404,6 +271,8 @@ function get_csv_names( $data, $column = 0 ) {
 }
 
 /**
+ * @ToDo           move this to the commands/database and views/database
+ *
  * Get all backups and list them in a nice table
  *
  * @author         Jeff Behnke <code@validwebs.com>
@@ -442,7 +311,7 @@ function get_backups_table() {
 		$table .= vvv_dash_notice( $notice );
 	}
 
-	$table .= '<table class="table table-responsive table-striped table-bordered table-hover">';
+	$table .= '<table class="table table-responsive table-striped table-bordered table-hover backups">';
 	$table .= '<thead><tr>';
 	$table .= '<th>Host</th>';
 	$table .= '<th>Date <small>( M-D-Y )</small></th>';
@@ -466,7 +335,7 @@ function get_backups_table() {
 
 		// Table data
 		$table_data[] .= '<tr>';
-		$table_data[] .= '<td>' . $host . '</td>';
+		$table_data[] .= '<td class="host">' . $host . '</td>';
 		$table_data[] .= '<td>' . $file_parts[1] . '</td>';
 		$table_data[] .= '<td>' . str_replace( array( '.sql', '-' ), array( '', ':' ), $file_parts[2] ) . '</td>';
 		$table_data[]
@@ -494,25 +363,33 @@ function get_backups_table() {
 	return $table;
 }
 
+
 /**
  * Fetch the PHP error log from the machine
+ *
+ * @TODO have a look at this
+ * Taken from https://gist.github.com/lorenzos/1711e81a9162320fde20
+ * After reading on performance here http://stackoverflow.com/a/15025877
  *
  * @author         Jeff Behnke <code@validwebs.com>
  * @copyright  (c) 2009-15 ValidWebs.com
  *
  * Created:    11/20/15, 12:38 PM
  *
- * @param int    $linecount
+ * @param int    $line_count
  * @param int    $length
  * @param string $file
  * @param int    $offset_factor we double the offset factor on each iteration
  *                              if our first guess at the file offset doesn't
- *                              yield $linecount lines
+ *                              yield $line_count lines
  *
  * @return array
  */
-function get_php_errors( $linecount = 11, $length = 140, $file = "/srv/log/php_errors.log", $offset_factor = 1 ) {
+function get_php_errors( $line_count = 11, $length = 140, $file = "/srv/log/php_errors.log", $offset_factor = 1 ) {
 
+	if ( ! file_exists( $file ) ) {
+		return false;
+	}
 	$lines = array();
 	$bytes = filesize( $file );
 	$fp = fopen( $file, "r" ) or die( "Can't open $file" );
@@ -521,9 +398,8 @@ function get_php_errors( $linecount = 11, $length = 140, $file = "/srv/log/php_e
 	$complete = false;
 	while ( ! $complete ) {
 		//seek to a position close to end of file
-		$offset = $linecount * $length * $offset_factor;
+		$offset = $line_count * $length * $offset_factor;
 		fseek( $fp, - $offset, SEEK_END );
-
 
 		//we might seek mid-line, so read partial line
 		//if our offset means we're reading the whole file,
@@ -533,12 +409,15 @@ function get_php_errors( $linecount = 11, $length = 140, $file = "/srv/log/php_e
 		}
 
 		//read all following lines, store last x
-		$lines = array();
+		//Don't do this BUG $lines = array();
 		while ( ! feof( $fp ) ) {
 			$line = fgets( $fp );
 			array_push( $lines, $line );
-			if ( count( $lines ) > $linecount ) {
+
+			if ( count( $lines ) >= $line_count ) {
+
 				array_shift( $lines );
+
 				$complete = true;
 			}
 		}
@@ -570,6 +449,10 @@ function get_php_errors( $linecount = 11, $length = 140, $file = "/srv/log/php_e
  * @return string
  */
 function format_php_errors( $lines = array() ) {
+
+	if ( ! is_array( $lines ) ) {
+		return false;
+	}
 
 	$lines = array_filter( $lines );
 	$lines = array_reverse( $lines );
@@ -643,17 +526,23 @@ function get_external_data( $url ) {
  */
 function version_check() {
 
-	$cache = new vvv_dash_cache();
+	$cache = new \vvv_dash\cache();
+
+	global $branch;
+	$this_branch = explode( "\n", trim( $branch ) );
+	$this_branch = ( isset( $this_branch[1] ) ) ? $this_branch[1] : 'master';
+	$url         = 'https://raw.githubusercontent.com/topdown/VVV-Dashboard/' . $this_branch . '/version.txt';
 
 	if ( ( $version = $cache->get( 'version-cache', VVV_DASH_THEMES_TTL ) ) == false ) {
 
-		$url     = 'https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/version.txt';
 		$version = get_external_data( $url );
+
 		// Don't save unless we have data
 		if ( $version && ! strstr( $version, 'Error' ) ) {
 			$status = $cache->set( 'version-cache', $version );
 		}
 	}
+
 
 	return $version;
 }
@@ -670,17 +559,22 @@ function version_check() {
  */
 function vvv_dash_get_latest_features() {
 
-	$cache = new vvv_dash_cache();
+	$cache = new \vvv_dash\cache();
+
+	global $branch;
+	$this_branch = explode( "\n", trim( $branch ) );
+	$this_branch = ( isset( $this_branch[1] ) ) ? $this_branch[1] : 'master';
+	$url         = 'https://raw.githubusercontent.com/topdown/VVV-Dashboard/' . $this_branch . '/new-features.txt';
 
 	if ( ( $new_features = $cache->get( 'newfeatures-cache', VVV_DASH_THEMES_TTL ) ) == false ) {
 
-		$url          = 'https://raw.githubusercontent.com/topdown/VVV-Dashboard/master/new-features.txt';
 		$new_features = get_external_data( $url );
 		// Don't save unless we have data
 		if ( $new_features && ! strstr( $new_features, 'Error' ) ) {
 			$status = $cache->set( 'newfeatures-cache', $new_features );
 		}
 	}
+
 
 	return $new_features;
 }

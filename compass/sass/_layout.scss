@@ -259,18 +259,43 @@ input.child-name {
 .navbar p.pull-right {
 	margin:   0;
 	position: absolute;
-	top:     5px;
-	right:   20px;
+	top:      5px;
+	right:    20px;
+}
+
+.navbar .gitter {
+	margin-left: 8px;
+	position:    relative;
+	top:         5px;
 }
 
 .navbar .github-link {
-	margin-left: 8px;
-	position: relative;
-	top: 5px;
+	margin-left: 10px;
+	position:    relative;
+	top:         5px;
 }
 
 .navbar .github-link:hover .fa-inverse {
 	color: #00b3ee;
+}
+
+.navbar .gitter:hover .fa-inverse {
+	color: #d9534f;
+}
+
+.sites {
+	button span {
+		//display: none;
+	}
+}
+
+.create-plugin .taxonomy {
+	padding: 5px 0 0 50px;
+}
+
+.close {
+	display:       inline-block;
+	margin-bottom: 8px;
 }
 
 /********************************************************************
@@ -291,3 +316,24 @@ input.child-name {
 .red {
 	color: darkred;
 }
+
+.ui-sortable tr {
+	cursor: pointer;
+}
+
+.ui-sortable tr:hover {
+	//background: rgba(244, 251, 17, 0.45);
+}
+
+td span.handle {
+	padding: 0 5px 0 0;
+	color: #aaa;
+	i {
+		vertical-align: -1px;
+	}
+}
+
+tr:hover td span.handle {
+	color: #777;
+}
+

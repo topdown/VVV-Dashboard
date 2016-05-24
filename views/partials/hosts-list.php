@@ -15,6 +15,7 @@
  * hosts-table.php
  */
 ?>
+
 	<p class="red italic"><span class="bold">NOTE</span>: After creating or changing a host/site purge the Host Cache.
 	</p>
 	<div id="search_container" class="input-group search-box">
@@ -37,10 +38,10 @@
 		foreach ( $hosts as $key => $array ) {
 			if ( 'site_count' != $key ) {
 
-				$host_info = $vvv_dash->set_host_info( $array['host'] );
+				$host_info = $host_commands->set_host_info( $array['host'] );
 				$is_env    = ( isset( $host_info['is_env'] ) ) ? $host_info['is_env'] : false;
 
-				$dash_hosts    = new vvv_dash_hosts();
+				$dash_hosts    = new \vvv_dash\vvv_dash_hosts();
 				$has_wp_config = $dash_hosts->wp_config_exists( $host_info );
 
 				if ( $is_env ) {
@@ -72,7 +73,7 @@
 						}
 					} ?>
 
-					<td><?php echo $array['host']; ?></td>
+					<td class="host"><?php echo $array['host']; ?></td>
 					<td><?php
 						if ( isset( $array['version'] ) ) {
 							echo $array['version'];
@@ -96,41 +97,28 @@
 						</a>
 
 						<?php if ( $is_env || $has_wp_config ) { ?>
-							<form class="get-themes" action="" method="get">
-								<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
-								<input type="hidden" name="get_themes" value="true" />
-								<button type="submit" class="btn btn-default btn-xs" name="themes" value="Themes">
-									<i class="fa fa-paint-brush"></i> Themes
-								</button>
-							</form>
+							<a href="./?host=<?php echo $array['host']; ?>&get_themes=true" class="btn btn-default btn-xs">
+								<i class="fa fa-paint-brush"></i><span> Themes</span>
+							</a>
 
-							<form class="get-plugins" action="" method="get">
-								<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
-								<input type="hidden" name="get_plugins" value="true" />
-								<button type="submit" class="btn btn-default btn-xs" name="plugins" value="Plugins">
-									<i class="fa fa-puzzle-piece"></i> Plugins
-								</button>
-							</form>
-
-							<!--							<form class="get-plugins" action="" method="post">--><!--								<input type="hidden" name="host" value="--><?php //echo $array['host']; ?><!--" />--><!--								<input type="submit" class="btn btn-success btn-xs" name="install_dev_plugins" value="Dev Plugins" />--><!--							</form>-->
-
+							<a href="./?host=<?php echo $array['host']; ?>&get_plugins=true" class="btn btn-default btn-xs">
+								<i class="fa fa-puzzle-piece"></i><span> Plugins</span>
+							</a>
+							
 						<?php }
+
 						if ( $is_env || $has_wp_config ) {
 							?>
-
 							<form class="backup form-inline" action="" method="post">
 								<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
-								<button type="submit" class="btn btn-info btn-xs" name="backup" value="Backup DB">
-									<i class="fa fa-database"></i> Backup DB
+								<button title="Backup the database" type="submit" class="btn btn-info btn-xs" name="backup" value="Backup DB" data-toggle="tooltip" data-placement="top">
+									<i class="fa fa-database"></i><span> Backup DB</span>
 								</button>
 							</form>
 
-							<form class="backup form-inline" action="" method="get">
-								<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
-								<button type="submit" class="btn btn-warning btn-xs" name="migrate" value="true">
-									<i class="fa fa-database"></i> Migrate
-								</button>
-							</form>
+							<a href="./?host=<?php echo $array['host']; ?>&migrate=true" class="btn btn-warning btn-xs">
+								<i class="fa fa-database"></i><span> Migrate</span></a>
+							
 							<?php
 						}
 
@@ -150,11 +138,8 @@
 						}
 
 						if ( file_exists( $debug_log_path ) ) { ?>
-							<form class="backup" action="" method="get">
-								<input type="hidden" name="host" value="<?php echo $array['host']; ?>" />
-								<button type="submit" class="btn btn-danger btn-xs" name="debug_log" value="Debug Log">
-									<i class="fa fa-exclamation-circle"></i> Errors
-							</form>
+							<a href="./?host=<?php echo $array['host']; ?>&debug_log=true" class="btn btn-danger btn-xs">
+								<i class="fa fa-exclamation-circle"></i><span> Errors</span></a>
 						<?php } ?>
 					</td>
 				</tr>
