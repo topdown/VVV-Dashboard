@@ -10,7 +10,7 @@ define( 'VVV_DASH_BASE', true );
 define( 'VVV_WEB_ROOT', '/srv/www' );
 define( 'VVV_DASH_VERSION', '0.1.6' );
 define( 'VVV_DASH_VIEWS', __DIR__ . '/views' );
-
+define('VVV_DASH_HOSTS_DEBUG', false);
 // Settings
 $path = '../../';
 
@@ -118,6 +118,12 @@ include_once 'views/partials/navbar.php';
 				// default page
 				include_once 'views/dashboard.php';
 			}
+		}
+
+		if(VVV_DASH_HOSTS_DEBUG) {
+			echo '<pre style="text-align: left;">';
+			print_r(\vvv_dash\hosts_container::get_host_list());
+			echo '</pre>';
 		}
 		?>
 

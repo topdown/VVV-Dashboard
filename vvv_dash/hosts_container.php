@@ -36,7 +36,15 @@ class hosts_container {
 	 * @return array $host_list
 	 */
 	public static function get_host_list() {
-		return self::$host_list;
+		// Try cached hosts
+		if(! sizeof(self::$host_list)) {
+			$cache = new cache();
+			$cached_host_info = $cache->get( 'host-sites', VVV_DASH_HOSTS_TTL );
+			$host_list = unserialize( $cached_host_info );
+			return $host_list;
+		} else {
+			return self::$host_list;
+		}
 	}
 
 	/**
