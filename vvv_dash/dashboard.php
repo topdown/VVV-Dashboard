@@ -125,6 +125,8 @@ class dashboard {
 
 			if ( isset( $_POST['purge_hosts'] ) ) {
 				$purge_status = $this->_cache->purge( 'host-sites' );
+				$sub_sites = $this->_cache->purge( '-subsites' );
+				$purge_status = $purge_status + $sub_sites;
 				$status       = vvv_dash_notice( $purge_status . ' files were purged from cache!' );
 			}
 
