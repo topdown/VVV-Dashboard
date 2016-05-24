@@ -106,6 +106,21 @@ class host {
 
 		return false;
 	}
+
+
+	public function get_sub_sites($host, $path) {
+		if ( ( $sub_sites = $this->_cache->get( $host . '-subsites', VVV_DASH_HOSTS_TTL ) ) == false ) {
+
+			$sub_sites = shell_exec( 'wp site list --path=' . $path . ' --format=json --debug ' );
+
+			// Don't save unless we have data
+			if ( $sub_sites ) {
+				$status = $this->_cache->set( $host . '-subsites', $sub_sites );
+			}
+		}
+
+		return $sub_sites;
+	}
 }
 
 // End host.php

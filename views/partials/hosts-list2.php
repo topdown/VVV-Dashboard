@@ -17,14 +17,15 @@
 
 /* @var $host_info \vvv_dash\hosts_container::get_host_list() loaded from the index.php */
 
-$host_info = (is_array( $host_info )) ? $host_info : false;
+$host_info = ( is_array( $host_info ) ) ? $host_info : false;
 ?>
 	<p class="red italic"><span class="bold">NOTE</span>: After creating or changing a host/site purge the Host Cache.
 	</p>
 	<div id="search_container" class="input-group search-box">
 		<span class="input-group-addon"> <i class="fa fa-search"></i> </span>
 		<input type="text" class="form-control search-input" id="text-search" placeholder="Live Search..." />
-		<span class="input-group-addon"> Hosts <span class="badge"><?php echo ($host_info) ? count( $host_info ) : '0'; ?></span> </span>
+		<span class="input-group-addon"> Hosts
+			<span class="badge"><?php echo ( $host_info ) ? count( $host_info ) : '0'; ?></span> </span>
 	</div>
 
 	<table class="sites table table-responsive table-striped table-bordered table-hover">
@@ -65,7 +66,24 @@ $host_info = (is_array( $host_info )) ? $host_info : false;
 							}
 						} ?>
 					</td>
-					<td class="host"><?php echo $host['domain']; ?></td>
+					<td class="host"><?php
+
+						echo $host['domain'];
+
+						if ( isset( $host['config_settings']['MULTISITE'] ) ) {
+							echo '<span class="label label-default pull-right sub-site-toggle"><i class="fa fa-server"></i> MS</span>';
+							
+							$sub_sites = $host_commands->get_sub_sites($host['hostname'], $host['wp_path']);
+							$sub_sites = json_decode($sub_sites);
+							echo '<div class="sub-sites" style="display: none;">';
+							foreach ( $sub_sites as $site ) {
+								echo '<p><a target="_blank" href="' . $site->url . '">' . $site->url . '</a></p>';
+							} // end foreach
+							unset( $site );
+							echo '</div>';
+						}
+
+						?></td>
 					<td><?php
 						if ( isset( $host['wp_version'] ) ) {
 							echo $host['wp_version'];
@@ -122,7 +140,12 @@ $host_info = (is_array( $host_info )) ? $host_info : false;
 			unset( $host );
 		} else {
 			?>
-			<tr><td></td><td>You have no sites to list.</td><td><td></td></td></tr>
+			<tr>
+				<td></td>
+				<td>You have no sites to list.</td>
+				<td>
+				<td></td>
+				</td></tr>
 			<?php
 		}
 

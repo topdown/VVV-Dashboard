@@ -11,6 +11,7 @@ define( 'VVV_WEB_ROOT', '/srv/www' );
 define( 'VVV_DASH_VERSION', '0.1.6' );
 define( 'VVV_DASH_VIEWS', __DIR__ . '/views' );
 define('VVV_DASH_HOSTS_DEBUG', false);
+
 // Settings
 $path = '../../';
 

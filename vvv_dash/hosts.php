@@ -275,6 +275,10 @@ class hosts implements host_interface {
 				$config_array['SAVEQUERIES'] = $line;
 			}
 
+			// define('MULTISITE', true);
+			if ( strstr( $line, 'MULTISITE' ) ) {
+				$config_array['MULTISITE'] = $line;
+			}
 		} // end foreach
 
 		$settings = array();

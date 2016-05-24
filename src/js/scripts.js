@@ -237,4 +237,8 @@ $(function () {
 	$.each(saved, function (index, value) {
 		$('.sites tbody').append(array[value]);
 	});
+
+	$('.sub-site-toggle').on('click', function() {
+		$(this).parent().find('.sub-sites').toggle();
+	});
 });
