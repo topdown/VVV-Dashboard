@@ -5,3 +5,4 @@
 * Folders in the {VVV}/www/ directory that start with a _ underscore are tracked and marked as archives in the dashboard so you can archive sites in a directory like _archives
 * Live search in backups
 * Drag and drop sorting of the host list/table stored in a 30 day cookie
+* Multisite detection and lists sub-sites under the parent host

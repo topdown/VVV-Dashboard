@@ -23,6 +23,7 @@ Copy the dashboard-custom.php to VVV/www/default/dashboard-custom.php
 * List hosts in VVV
   * Debug On/Off for WP sites
     * Show not installed if wp-config.php is missing
+  * Multisite detection and lists sub-sites under the parent host
   * WP Version for each host
   * Visit Site Link
   * Visit Admin Link
@@ -138,10 +139,10 @@ create a `VVV/www/default/dashboard/custom.css` file and add this
 
 mm/dd/yy
 
-05/10/16  version: 0.1.6
+05/24/16  version: 0.1.6
 
 * Drag and drop sorting of the host list/table stored in a 30 day cookie
-
+* Multisite detection and lists sub-sites under the parent host
 
 05/09/16  version: 0.1.5
 
