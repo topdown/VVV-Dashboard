@@ -139,16 +139,23 @@ create a `VVV/www/default/dashboard/custom.css` file and add this
 
 mm/dd/yy
 
+
+05/24/16  version: 0.1.7
+
+* Fixed host debug log empty #30
+* Multisite detection and lists sub-sites under the parent host #32
+
+
 05/24/16  version: 0.1.6
 
-* Drag and drop sorting of the host list/table stored in a 30 day cookie
-* Multisite detection and lists sub-sites under the parent host
+* Drag and drop sorting of the host list/table stored in a 30 day cookie #28
+
 
 05/09/16  version: 0.1.5
 
-* Lots of changes, refactoring both actions and hosts
-* New hosts objects allows separating different types of hosts and hopefully fixes all past issues related to hosts
-* New commands/action objects handles all of the theme, plugins, backups, etc...
+* Lots of changes, refactoring both actions and hosts #17 #26 and #25
+* New hosts objects allows separating different types of hosts and hopefully fixes all past issues related to hosts #25
+* New commands/action objects handles all of the theme, plugins, backups, etc... #17  #26
 * Added branch specific version check so if you are running a branch other than mater you will get a notice for updates in that branch.
 * Folders in the {VVV}/www/ directory that start with a _ underscore are tracked and marked as archives in the dashboard so you can archive sites in a directory like _archives
 * Live search in backups
