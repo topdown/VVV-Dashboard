@@ -51,11 +51,11 @@ $host_info = ( is_array( $host_info ) ) ? $host_info : false;
 							<span class="label label-success">Debug On <i class="fa fa-check-circle-o"></i></span>
 
 						<?php } else {
-							if ( $host['wp_is_installed'] == 'true' ) {
+							if ( isset($host['wp_is_installed']) && $host['wp_is_installed'] == 'true' ) {
 								?>
 								<span class="label label-danger">Debug Off <i class="fa fa-times-circle-o"></i></span>
 								<?php
-							} elseif ( $host['wp_is_installed'] == 'false' && $host['is_wp_site'] == 'false' ) {
+							} elseif ( isset($host['wp_is_installed']) && $host['wp_is_installed'] == 'false' && $host['is_wp_site'] == 'false' ) {
 								?>
 								<span class="label label-warning">ARCHIVE</span>
 								<?php
@@ -68,7 +68,7 @@ $host_info = ( is_array( $host_info ) ) ? $host_info : false;
 					</td>
 					<td class="host"><?php
 
-						echo $host['domain'];
+						echo @$host['domain'];
 
 						if ( isset( $host['config_settings']['MULTISITE'] ) ) {
 							echo '<span class="label label-default pull-right sub-site-toggle"><i class="fa fa-server"></i> MS</span>';
@@ -93,19 +93,19 @@ $host_info = ( is_array( $host_info ) ) ? $host_info : false;
 						?></td>
 
 					<td>
-						<?php if ( $host['wp_is_installed'] == 'true' || $host['wp_is_installed'] == 'false' && $host['is_wp_site'] == 'true' ) { ?>
+						<?php if ( isset($host['wp_is_installed']) && ($host['wp_is_installed'] == 'true' || $host['wp_is_installed'] == 'false' && $host['is_wp_site'] == 'true' )) { ?>
 							<a class="btn btn-primary btn-xs" href="http://<?php echo $host['domain']; ?>/" target="_blank">
 								<i class="fa fa-external-link"></i> Visit </a>
 						<?php } ?>
-						<?php if ( $host['wp_is_installed'] == 'true' ) { ?>
+						<?php if ( isset($host['wp_is_installed']) && $host['wp_is_installed'] == 'true' ) { ?>
 							<a class="btn btn-warning btn-xs" href="http://<?php echo $host['domain']; ?>/wp-admin" target="_blank">
 								<i class="fa fa-wordpress"></i> Admin </a>
 						<?php } ?>
-						<?php if ( $host['wp_is_installed'] == 'true' || $host['wp_is_installed'] == 'false' && $host['is_wp_site'] == 'true' ) { ?>
+						<?php if ( isset($host['wp_is_installed']) && ($host['wp_is_installed'] == 'true' || $host['wp_is_installed'] == 'false' && $host['is_wp_site'] == 'true' )) { ?>
 							<a class="btn btn-success btn-xs" href="http://<?php echo $host['domain']; ?>/?XDEBUG_PROFILE" target="_blank">
 								<i class="fa fa-search-plus"></i> Profiler </a>
 						<?php } ?>
-						<?php if ( $host['wp_is_installed'] == 'true' ) { ?>
+						<?php if ( isset($host['wp_is_installed']) && $host['wp_is_installed'] == 'true' ) { ?>
 							<a href="./?host=<?php echo $host['domain']; ?>&get_themes=true" class="btn btn-default btn-xs">
 								<i class="fa fa-paint-brush"></i><span> Themes</span> </a>
 
@@ -114,7 +114,7 @@ $host_info = ( is_array( $host_info ) ) ? $host_info : false;
 
 						<?php }
 
-						if ( $host['wp_is_installed'] == 'true' ) {
+						if ( isset($host['wp_is_installed']) && $host['wp_is_installed'] == 'true' ) {
 							?>
 							<form class="backup form-inline" action="" method="post">
 								<input type="hidden" name="host" value="<?php echo $host['domain']; ?>" />
@@ -129,7 +129,7 @@ $host_info = ( is_array( $host_info ) ) ? $host_info : false;
 							<?php
 						}
 
-						if ( file_exists( $host['debug_log'] ) ) { ?>
+						if ( isset($host['debug_log']) && file_exists( $host['debug_log'] ) ) { ?>
 							<a href="./?host=<?php echo $host['domain']; ?>&debug_log=true" class="btn btn-danger btn-xs">
 								<i class="fa fa-exclamation-circle"></i><span> Errors</span></a>
 						<?php } ?>
