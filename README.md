@@ -1,8 +1,6 @@
 This is a Varying Vagrant Vagrants Dashboard for the excellent [Varying Vagrant Vagrants](https://github.com/Varying-Vagrant-Vagrants/VVV)
 
-Its purpose is to dynamically load host links to all sites created in the VVV www path.
-
-It also suggests the wonderful add-on bash script [VVV Site Wizard](https://github.com/aliso/vvv-site-wizard) for creating new sites.
+Its purpose is to dynamically load host links to all sites created in the VVV www path along with a long list of additional tools. See Feature list below.
 
 [![Gitter Chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/topdown/VVV-Dashboard?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
