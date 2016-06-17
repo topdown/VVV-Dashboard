@@ -35,7 +35,12 @@ class cache {
 	 * vvv_dash_cache constructor.
 	 */
 	function __construct() {
-		
+
+		$this->_cache_path = VVV_WEB_ROOT . '/default/dashboard/cache/';
+
+		if( ! is_dir($this->_cache_path)) {
+			mkdir($this->_cache_path, '0777');
+		}
 	}
 
 
