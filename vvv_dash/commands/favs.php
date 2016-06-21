@@ -63,6 +63,11 @@ class favs extends host {
 	}
 
 	public function get_fav_list( $file_path ) {
+
+		if ( ! file_exists( $file_path ) ) {
+			return '';
+		};
+
 		$content    = file_get_contents( $file_path );
 		$content    = explode( "\n", $content );
 		$content    = array_filter( $content );
