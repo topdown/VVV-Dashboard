@@ -19,7 +19,7 @@
 //	purge_status( $purge_status );
 //}
 
-if ( VVV_DASH_VERSION < version_check() ) {
+if ( version_compare( VVV_DASH_VERSION, version_check(), '<' ) ) {
 	?>
 	<div class="alert alert-danger alert-dismissible" role="alert">
 	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
