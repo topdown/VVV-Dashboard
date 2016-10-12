@@ -5276,8 +5276,7 @@ tr.highlight {
 }
 
 #wrapper.toggled .sidebar {
-  width: 0;
-  left: -40px;
+  transform: translateX(-100%);
 }
 
 #wrapper.toggled .main {
