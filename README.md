@@ -43,6 +43,7 @@ cp dashboard-custom.php ..
   * Profiler Link
   * Backup Database (SQL Dump) host-timestamped name
   * Debug Log viewer if debug log is found
+    * Delete log
   * Drag and drop sorting, stored in a 30 day cookie
 * Live/Fuzzy search host list
 * List Plugins for each installed WordPress Site
@@ -142,6 +143,14 @@ create a `VVV/www/default/dashboard/custom.css` file and add this
 ---
 
 mm/dd/yy
+
+11/08/16 version: 0.1.8
+
+* Make it possible to delete WP error logs
+* Improve sidebar slide #44 props @josephfusco 
+* Update version check #46 props @gwelser 
+* Handle error opening stream #41 props @gwelser 
+* Fix first startup cache errors do to missing cache dir #39
 
 
 05/24/16  version: 0.1.7
