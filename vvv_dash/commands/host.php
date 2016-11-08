@@ -62,7 +62,7 @@ class host {
 			if ( $wp_debug_log && ! empty( $debug_log_lines ) ) {
 
 				$close  = '<a class="close" href="./">Close</a>';
-				$delete = '<a class="delete" href="?host=' . $host . '&debug_log=true&delete_debug_log=true">Delete Log</a>';
+				$delete = ' <a class="btn btn-danger btn-xs" href="?host=' . $host . '&debug_log=true&delete_debug_log=true"> Delete Log</a>';
 
 				$deleted = $this->_delete_wp_debug_log( $_GET );
 
