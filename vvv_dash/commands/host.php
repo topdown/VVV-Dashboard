@@ -84,7 +84,7 @@ class host {
 	 *
 	 * @param $get
 	 *
-	 * @return bool
+	 * @return bool|array
 	 */
 	public function get_wp_debug_log( $get ) {
 
