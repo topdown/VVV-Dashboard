@@ -1,8 +1,5 @@
-* Lots of changes, refactoring both actions and hosts
-* New hosts objects allows separating different types of hosts and hopefully fixes all past issues related to hosts
-* New commands/action objects handles all of the theme, plugins, backups, etc...
-* Added branch specific version check so if you are running a branch other than mater you will get a notice for updates in that branch.
-* Folders in the {VVV}/www/ directory that start with a _ underscore are tracked and marked as archives in the dashboard so you can archive sites in a directory like _archives
-* Live search in backups
-* Drag and drop sorting of the host list/table stored in a 30 day cookie
-* Multisite detection and lists sub-sites under the parent host
+* Make it possible to delete WP error logs
+* Improve sidebar slide #44 props @josephfusco
+* Update version check #46 props @gwelser
+* Handle error opening stream #41 props @gwelser
+* Fix first startup cache errors do to missing cache dir #39
