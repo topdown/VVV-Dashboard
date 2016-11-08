@@ -55,24 +55,69 @@ class host {
 
 		if ( isset( $_GET['host'] ) ) {
 
+			$host            = $_GET['host'];
 			$wp_debug_log    = $this->get_wp_debug_log( $_GET );
 			$debug_log_lines = ( isset( $wp_debug_log['lines'] ) ) ? $wp_debug_log['lines'] : false;
 
 			if ( $wp_debug_log && ! empty( $debug_log_lines ) ) {
 
-				$close = '<a class="close" href="./">Close</a>';
+				$close  = '<a class="close" href="./">Close</a>';
+				$delete = '<a class="delete" href="?host=' . $host . '&debug_log=true&delete_debug_log=true">Delete Log</a>';
 
-				?><h4>Debug Log for
-				<span class="red"><?php echo $_GET['host']; ?></span> <?php echo $close; ?></h4><?php
+				$deleted = $this->_delete_wp_debug_log( $_GET );
 
-				?>
-				<div class="wp-debug-log">
-					<?php echo $debug_log_lines; ?>
-				</div>
-				<?php
+				if ( isset( $_GET['delete_debug_log'] ) && $deleted ) { ?>
+					<h4>Debug Log for <span class="red"><?php echo $host; ?></span> <?php echo $close; ?></h4>
+
+					<div class="alert alert-danger alert-dismissible" role="alert">
+						<strong>The debug log for this site was deleted.</strong><br />
+						<?php echo $this->host_info['debug_log']; ?>
+					</div>
+					<?php
+
+				} else {
+
+					?><h4>Debug Log for
+					<span class="red"><?php echo $host; ?></span> <?php echo $delete . $close; ?></h4><?php
+
+					?>
+					<div class="wp-debug-log">
+						<?php echo $debug_log_lines; ?>
+					</div>
+					<?php
+				}
 			}
 		}
 	}
+
+	/**
+	 * Delete the debug log for the requested site
+	 *
+	 * @author         Jeff Behnke <code@validwebs.com>
+	 * @copyright  (c) 2009-16 ValidWebs.com
+	 *
+	 * Created:    11/8/16, 1:04 PM
+	 *
+	 * @param $get array Super global $_GET
+	 *
+	 * @return bool
+	 */
+	private function _delete_wp_debug_log( $get ) {
+
+		if ( isset( $get['host'] ) && isset( $get['debug_log'] ) // Check defaults
+		     && isset( $this->host_info['debug_log'] )
+		     && file_exists( $this->host_info['debug_log'] )  // Check file exists
+		     && ( substr( $this->host_info['debug_log'], - 4 ) == '.log' ) // Make sure its the right extention (safety)
+		     && isset( $get['delete_debug_log'] ) // The request exists
+		) {
+			unlink( $this->host_info['debug_log'] );  // Delete
+
+			return true;
+		}
+
+		return false;
+	}
+
 
 	/**
 	 * Gets the WP debug.log content
@@ -96,19 +141,22 @@ class host {
 			if ( isset( $this->host_info['debug_log'] ) && file_exists( $this->host_info['debug_log'] ) ) {
 				$log = get_php_errors( 21, 140, $this->host_info['debug_log'] );
 			}
+			
+			if(isset($log[0]) && $log[0]) {
+				if ( is_array( $log ) ) {
+					$debug_log['lines'] = format_php_errors( $log );
+				}
 
-			if ( is_array( $log ) ) {
-				$debug_log['lines'] = format_php_errors( $log );
+				return $debug_log;
+			} else {
+				return false;
 			}
-
-			return $debug_log;
 		}
 
 		return false;
 	}
 
-
-	public function get_sub_sites($host, $path) {
+	public function get_sub_sites( $host, $path ) {
 		if ( ( $sub_sites = $this->_cache->get( $host . '-subsites', VVV_DASH_HOSTS_TTL ) ) == false ) {
 
 			$sub_sites = shell_exec( 'wp site list --path=' . $path . ' --format=json --debug ' );
