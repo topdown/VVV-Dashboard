@@ -24,7 +24,7 @@ $branch = shell_exec( 'cd ' . VVV_WEB_ROOT . '/default/dashboard  && git rev-par
 
 		</h1>
 
-		<a class="btn btn-danger btn-sm get-backups" href="?page=backups"> <i class="fa fa-database"></i> Backups</a>
+		<a class="btn btn-danger btn-sm get-backups" href="?page=backups"> <i class="fa fa-database"></i> All Backups</a>
 		<p><small>Version: <?php echo VVV_DASH_VERSION . ', Branch: ' . $branch ?></small></p>
 	</div>
 <?php

@@ -16,12 +16,13 @@
  * backups.php
  */
 
-$backups_table = get_backups_table();
+$backups = new \vvv_dash\commands\database();
+$backups_table = $backups->get_backups_table();
 
-$close = '<a class="close" href="./">Close</a>';
+$close = '<a class="close" href="./">Dashboard</a>';
 
 if ( ! empty( $backups_table ) ) {
-	?><h4 class="title">Backups List
+	?><h4 class="title">All Backups
 	<span class="small"> Path: {VVV}/default/dashboard/dumps/ </span> <?php echo $close; ?></h4>
 
 	<div id="search_container" class="input-group search-box">

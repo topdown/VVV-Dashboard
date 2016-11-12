@@ -26,9 +26,6 @@
 			// Plugins table
 			$plugin_commands->display();
 
-			// Mostly Migrate stuff, come back to this
-			$database_commands->display();
-
 			// Themes table
 			$theme_commands->display();
 

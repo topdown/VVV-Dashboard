@@ -68,6 +68,7 @@ $host_info = ( is_array( $host_info ) ) ? $host_info : false;
 					</td>
 					<td class="host"><?php
 
+						// @ToDO what the heck is this @ crap Suppressing errors is not acceptable. Not sure who put that there.
 						echo @$host['domain'];
 
 						if ( isset( $host['config_settings']['MULTISITE'] ) ) {
@@ -123,8 +124,8 @@ $host_info = ( is_array( $host_info ) ) ? $host_info : false;
 								</button>
 							</form>
 
-							<a href="./?host=<?php echo $host['domain']; ?>&migrate=true" class="btn btn-warning btn-xs">
-								<i class="fa fa-database"></i><span> Migrate</span></a>
+							<a href="./?page=tools&host=<?php echo $host['domain']; ?>" class="btn btn-primary btn-xs">
+								<i class="fa fa-wrench"></i><span> Tools</span></a>
 
 							<?php
 						}
