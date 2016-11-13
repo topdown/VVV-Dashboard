@@ -88,14 +88,7 @@ class theme extends host {
 		if ( ! empty( $themes ) || isset( $_GET['themes'] ) ) {
 			if ( isset( $_GET['host'] ) ) {
 
-				$close = '<a class="close" href="./">Close</a>';
-
-				?><h4>The theme list for
-				<span class="red"><?php echo $_GET['host']; ?></span> <?php echo $close; ?></h4><?php
-
-				// Create a New Theme Form base on _s
-				// @var $_GET['host']
-				include_once VVV_DASH_VIEWS . '/forms/new_s_theme.php';
+				include_once VVV_DASH_VIEWS . '/partials/themes.php';
 
 				if ( isset( $_POST['create_s_theme'] ) ) {
 

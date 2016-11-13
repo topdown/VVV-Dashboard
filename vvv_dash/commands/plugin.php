@@ -110,9 +110,7 @@ class plugin extends host {
 			// Create New Plugin -------------------------------------------------------------
 			$this->_new_plugin();
 
-			// Plugins List -------------------------------------------------------------
-			?><h4>The plugin list for
-			<span class="red"><?php echo $_GET['host']; ?></span> <?php echo $close; ?></h4><?php
+			include_once VVV_DASH_VIEWS . '/partials/plugins.php';
 
 			$this->_plugin_list();
 		}
