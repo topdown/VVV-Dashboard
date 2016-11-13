@@ -58,7 +58,7 @@ class dashboard {
 			'about',
 			'commands',
 			'tools',
-			'tests' // for testing purposes without breaking the dashboard
+			'testing' // for testing purposes without breaking the dashboard
 		);
 	}
 
@@ -79,7 +79,8 @@ class dashboard {
 			if ( in_array( $_REQUEST['page'], $this->_pages ) ) {
 				return $_REQUEST['page'];
 			} else {
-				return 'dashboard';
+				// Changing to 404 as it is confuzing when testing
+				return '404';
 			}
 
 		} else {

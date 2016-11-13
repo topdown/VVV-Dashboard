@@ -1,0 +1,10 @@
+{
+  "tags" : [
+	{
+	  "slug" : "example_plugin"
+	},
+	{
+	  "prefix" : "ep_"
+	}
+  ]
+}
