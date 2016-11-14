@@ -4,7 +4,7 @@
 	  "slug" : "example_plugin"
 	},
 	{
-	  "prefix" : "ep_"
+	  "prefix" : "ep"
 	}
   ]
 }

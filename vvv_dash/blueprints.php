@@ -189,7 +189,15 @@ class blueprints extends host {
 				if ( ! is_dir( $plugin_path . '/' . dirname( $file ) ) ) {
 					mkdir( $plugin_path . '/' . dirname( $file ) );
 				}
+
+				$blueprint_file = VVV_DASH_ROOT . '/blueprints/' . $this->_type . 's/' . $this->_blueprint->name . '/' . $file;
 				touch( $plugin_path . '/' . $file );
+
+				// @ToDO order of operations Warning: file_get_contents() failed to open stream: No such file or directory
+
+				$content = file_get_contents( $blueprint_file );
+				$content = $this->_parse_tags( $content );
+				file_put_contents($plugin_path . '/' . $file, $content);
 			} // end foreach
 
 			// Create plugin main file and add header
@@ -207,6 +215,7 @@ class blueprints extends host {
 
 		foreach ( $this->_blueprint->blueprint->include_files as $file ) {
 			$data[] = "include_once '$file';\n";
+
 		}
 
 		if ( ! file_exists( $plugin_path . '/includes.txt' ) ) {
@@ -238,8 +247,41 @@ class blueprints extends host {
 		}
 	}
 
-	private function _parse_tags() {
+	/**
+	 * Parse the user supplied tags in each file
+	 *
+	 * @author         Jeff Behnke <code@validwebs.com>
+	 * @copyright  (c) 2009-16 ValidWebs.com
+	 *
+	 * Created:    11/13/16, 5:55 PM
+	 *
+	 * @param string $content
+	 *
+	 * @return mixed|string
+	 */
+	private function _parse_tags( $content ) {
 
+		$tags = array();
+
+		if ( isset( $this->_blueprint->tags ) ) {
+
+			foreach ( $this->_blueprint->tags as $key => $tag ) {
+				$tags[] = (array) $tag;
+			} // end foreach
+		}
+		unset( $key, $tag );
+
+
+		foreach ( $tags as $i => $a ) {
+
+			foreach ( $a as $key => $tag ) {
+
+				$content = str_replace( '{{' . $key . '}}', "$tag", $content );
+			} // end foreach
+
+
+		} // end foreach
+		return $content;
 	}
 
 	/**
