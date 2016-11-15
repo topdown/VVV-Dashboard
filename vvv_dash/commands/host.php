@@ -23,7 +23,29 @@ use vvv_dash\hosts_container;
 class host {
 
 	protected $_cache;
-	protected $host_info;
+
+
+	/**
+	 * @property bool|mixed $host_info
+	 */
+	protected $host_info
+		= array(
+			'hostname'        => '',
+			'domain'          => '',
+			'web_root'        => '',
+			'host_path'       => '',
+			'public_dir'      => '',
+			'wp_path'         => '',
+			'wp_content_path' => '',
+			'composer_path'   => '',
+			'wp_config_path'  => '',
+			'env_path'        => '',
+			'debug_log'       => '',
+			'wp_is_installed' => 'false',
+			'is_wp_site'      => 'false',
+			'wp_version'      => '',
+			'config_settings' => '',
+		);
 
 	public function __construct( $host = '' ) {
 
@@ -141,8 +163,8 @@ class host {
 			if ( isset( $this->host_info['debug_log'] ) && file_exists( $this->host_info['debug_log'] ) ) {
 				$log = get_php_errors( 21, 140, $this->host_info['debug_log'] );
 			}
-			
-			if(isset($log[0]) && $log[0]) {
+
+			if ( isset( $log[0] ) && $log[0] ) {
 				if ( is_array( $log ) ) {
 					$debug_log['lines'] = format_php_errors( $log );
 				}
