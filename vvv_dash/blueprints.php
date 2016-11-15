@@ -17,6 +17,7 @@
 
 namespace vvv_dash\blueprints;
 
+use vvv_dash\cache;
 use vvv_dash\commands\host;
 
 include_once 'blueprints/plugin.php';
@@ -40,9 +41,9 @@ class blueprints extends host {
 
 	protected $_blueprints = array();
 
-	private $_blueprint = '';
+	protected $_blueprint = '';
 
-	private $_tmp = VVV_DASH_ROOT . '/vvv_dash/blueprints/tmp/';
+	protected $_tmp = VVV_DASH_ROOT . '/tmp';
 
 	/**
 	 * blueprints constructor.
@@ -52,9 +53,11 @@ class blueprints extends host {
 	public function __construct( $host ) {
 		parent::__construct( $host );
 
+		// Load all blueprints
+		$this->get_all_blueprints();
+
 		$this->_type = $this->_get_type();
 	}
-
 
 	/**
 	 * Return all blueprints in the system
@@ -125,15 +128,16 @@ class blueprints extends host {
 	 * Created:    11/13/16, 1:13 PM
 	 *
 	 * @param $blueprint
+	 *
+	 * @return mixed|string
 	 */
 	public function get_blueprint( $blueprint ) {
 
 		$this->_blueprint = $this->_load_blueprint( $blueprint );
 
-		$status = $this->_parse();
-
-		return $status;
+		return $this->_blueprint;
 	}
+
 
 	/**
 	 * Load the blueprints info file
@@ -162,90 +166,6 @@ class blueprints extends host {
 		return $data;
 	}
 
-	/**
-	 *
-	 *
-	 * @author         Jeff Behnke <code@validwebs.com>
-	 * @copyright  (c) 2009-16 ValidWebs.com
-	 *
-	 * Created:    11/13/16, 11:36 AM
-	 *
-	 */
-	private function _parse() {
-		echo '<pre style="text-align: left;">' . "FILE: " . __FILE__ . "\nLINE: " . __LINE__ . "\n";
-		var_dump( $this->host_info, $this->_blueprint );
-		echo '</pre>------------ Debug End ------------';
-
-		$plugin_path = $this->_tmp . '/' . $this->_blueprint->name;
-
-
-		if ( ! is_dir( $plugin_path ) ) {
-			$status = mkdir( $plugin_path );
-		} else {
-
-			// Create files and directories
-			foreach ( $this->_blueprint->blueprint->include_files as $file ) {
-
-				if ( ! is_dir( $plugin_path . '/' . dirname( $file ) ) ) {
-					mkdir( $plugin_path . '/' . dirname( $file ) );
-				}
-
-				$blueprint_file = VVV_DASH_ROOT . '/blueprints/' . $this->_type . 's/' . $this->_blueprint->name . '/' . $file;
-				touch( $plugin_path . '/' . $file );
-
-				// @ToDO order of operations Warning: file_get_contents() failed to open stream: No such file or directory
-
-				$content = file_get_contents( $blueprint_file );
-				$content = $this->_parse_tags( $content );
-				file_put_contents($plugin_path . '/' . $file, $content);
-			} // end foreach
-
-			// Create plugin main file and add header
-			$this->_create_main_file();
-			// Write includes to the main file
-			$this->_add_includes();
-
-		}
-
-	}
-
-	private function _add_includes() {
-		$data        = array();
-		$plugin_path = $this->_tmp . '/' . $this->_blueprint->name;
-
-		foreach ( $this->_blueprint->blueprint->include_files as $file ) {
-			$data[] = "include_once '$file';\n";
-
-		}
-
-		if ( ! file_exists( $plugin_path . '/includes.txt' ) ) {
-			file_put_contents( $plugin_path . '/' . $this->_blueprint->blueprint->plugin_file, $data, FILE_APPEND );
-			file_put_contents( $plugin_path . '/includes.txt', implode( "\n", $this->_blueprint->blueprint->include_files ), FILE_APPEND );
-		}
-	}
-
-	private function _create_main_file() {
-
-		$plugin_path = $this->_tmp . '/' . $this->_blueprint->name;
-		// Add plugin header
-		$header_info = (array) $this->_blueprint->blueprint->header;
-		$start       = "<?php \n" . PHP_EOL;
-		$start .= "/**\n *" . PHP_EOL;
-		$end      = ' */' . PHP_EOL;
-		$security = "\n// If this file is called directly, abort.\nif ( ! defined( 'WPINC' ) ) {\n\tdie; \n}\n" . PHP_EOL;
-
-		$header_data = array();
-		foreach ( $header_info as $key => $line ) {
-			$header_data[] = ' * ' . ucwords( str_replace( '_', ' ', $key ) ) . ': ' . $line . PHP_EOL;
-		} // end foreach
-
-		$data = $start . implode( '', $header_data ) . $end . $security;
-
-		// Create plugin file
-		if ( ! file_exists( $plugin_path . '/' . $this->_blueprint->blueprint->plugin_file ) ) {
-			file_put_contents( $plugin_path . '/' . $this->_blueprint->blueprint->plugin_file, $data );
-		}
-	}
 
 	/**
 	 * Parse the user supplied tags in each file
@@ -259,7 +179,7 @@ class blueprints extends host {
 	 *
 	 * @return mixed|string
 	 */
-	private function _parse_tags( $content ) {
+	protected function _parse_tags( $content ) {
 
 		$tags = array();
 

@@ -4,7 +4,7 @@
  *
  * PHP version 5
  *
- * Created: 11/15/16, 11:51 AM
+ * Created: 11/15/16, 11:41 AM
  *
  * LICENSE:
  *
@@ -12,13 +12,8 @@
  * @copyright  (c) 2016 ValidWebs.com
  *
  * dashboard
- * blueprints_interface.php
+ * index.php
  */
 
-namespace vvv_dash;
 
-interface blueprints {
-
-}
-
-// End blueprints_interface.php
+// End index.php
