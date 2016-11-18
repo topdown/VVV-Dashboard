@@ -23,9 +23,11 @@ if ( isset( $_GET['host'] ) ) {
 
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-sm-8 col-md-9 main">
+			<div class="col-sm-12 col-md-12 main">
 				<h4>Database Tools</h4>
 
+				<a href="./?page=tools&host=<?php echo $current_host; ?>" class="btn btn-primary">
+					<i class="fa fa-refresh"></i><span> Reload</span></a>
 				<a href="./?page=tools&host=<?php echo $current_host; ?>&action=db_backup" class="btn btn-success">
 					<i class="fa fa-database"></i><span> Backup</span></a>
 				<a href="./?page=tools&host=<?php echo $current_host; ?>&action=db_check" class="btn btn-primary">
@@ -41,8 +43,8 @@ if ( isset( $_GET['host'] ) ) {
 				<a href="./?page=tools&host=<?php echo $current_host; ?>&action=db_reset" class="btn btn-danger">
 					<i class="fa fa-database"></i><span> Reset</span></a>
 
-				<a href="./?page=tools&host=<?php echo $current_host; ?>&action=create-plugin" class="btn btn-success pull-right">
-					<i class="fa fa-gear"></i><span> Create Plugin</span></a>
+<!--				<a href="./?page=tools&host=--><?php //echo $current_host; ?><!--&action=create-plugin" class="btn btn-success pull-right">-->
+<!--					<i class="fa fa-gear"></i><span> Create Plugin</span></a>-->
 			</div>
 		</div>
 	</div>
@@ -51,11 +53,10 @@ if ( isset( $_GET['host'] ) ) {
 			<div class="col-sm-8 col-md-9 main">
 				<?php
 
-				if ( isset( $_GET['action'] ) && $_GET['action'] == 'ceate-plugin' ) {
+				if ( isset( $_GET['action'] ) && $_GET['action'] == 'create-plugin' ) {
+					// Maybe another time
 
-					
 				} else {
-
 
 					$database_commands = new \vvv_dash\commands\database( $current_host );
 
@@ -168,7 +169,7 @@ if ( isset( $_GET['host'] ) ) {
 		</div>
 	</div>
 	<?php
-	if ( ! isset( $_GET['action'] ) && $_GET['action'] != 'ceate-plugin' ) {
+	if ( ! isset( $_GET['action'] ) ) {
 		$backups_table = $database_commands->get_host_backups_table();
 
 		if ( ! empty( $backups_table ) ) {

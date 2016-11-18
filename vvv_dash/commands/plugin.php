@@ -137,13 +137,6 @@ class plugin extends host {
 	 */
 	private function _create( $post ) {
 
-		//$path      = $this->_hosts->get_host_path( $post['host'] );
-		//$host_info = $this->_hosts->set_host_info( $post['host'] );
-		//$path      = VVV_WEB_ROOT . '/' . $host_info['host'] . $path;
-		//		echo '<pre style="text-align: left;">' . "FILE: ". __FILE__ . "\nLINE: " . __LINE__ . "\n";
-		//		var_dump($host_info, $path, $post);
-		//		echo '</pre>------------ Debug End ------------';
-
 		$install = array();
 
 		// wp scaffold plugin my_test_plugin --activate
@@ -152,10 +145,14 @@ class plugin extends host {
 			$author     = ( defined( 'VVV_DASH_NEW_PLUGIN_AUTHOR' ) ) ? '--plugin_author=\'' . VVV_DASH_NEW_PLUGIN_AUTHOR . '\'' : '';
 			$author_uri = ( defined( 'VVV_DASH_NEW_PLUGIN_AUTHOR_URI' ) ) ? '--plugin_author_uri=\'' . VVV_DASH_NEW_PLUGIN_AUTHOR_URI . '\'' : '';
 			$skip_tests = ( isset( $post['skip_tests'] ) ) ? '--skip-tests' : '';
+			$blueprint  = ( isset( $post['blueprint'] ) & ! empty( $post['blueprint'] ) ) ? $post['blueprint'] : false;
+			$status     = shell_exec( 'wp scaffold  plugin ' . $post['plugin_slug'] . ' --activate ' . $author . ' ' . $author_uri . ' ' . $skip_tests . ' --path=' . $this->host_info['wp_path'] . ' --debug' );
+			$install[]  = str_replace( "\n", '<br />', $status );
 
-			$status    = shell_exec( 'wp scaffold  plugin ' . $post['plugin_slug'] . ' --activate ' . $author . ' ' . $author_uri . ' ' . $skip_tests . ' --path=' . $this->host_info['wp_path'] . ' --debug' );
-			$install[] = str_replace( "\n", '<br />', $status );
-
+//			if ( $blueprint ) {
+//				$status    = new vvv_dash\blueprints\plugin( $blueprint, $post['host'] );
+//				$install[] = str_replace( "\n", '<br />', $status );
+//			}
 		} else {
 			// We can do anything with this without plugin info
 			return false;

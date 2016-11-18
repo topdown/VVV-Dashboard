@@ -216,7 +216,7 @@ class blueprints extends host {
 	 */
 	private function _get_type() {
 
-		if ( isset( $_GET['get_plugins'] ) ) {
+		if ( isset( $_GET['get_plugins'] ) || isset($_GET['action']) && $_GET['action'] == 'create-plugin' ) {
 			$this->_type = 'plugin';
 		}
 
