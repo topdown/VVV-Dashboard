@@ -46,6 +46,10 @@ $blueprints = $object->get_blueprints();
 				<input id="skip_tests" type="checkbox" name="skip_tests" />
 			</p>
 		</div>
+
+		<?php /*  Not ready yet
+
+
 		<div class="form-group">
 			<h4>Add / Use Blueprint</h4>
 			<label for="blueprint">Blueprints</label> <select name="blueprint" id="blueprint">
@@ -56,6 +60,9 @@ $blueprints = $object->get_blueprints();
 				} ?>
 			</select>
 		</div>
+
+        */ ?>
+
 		<div class="form-group">
 			<p>
 				<button type="submit" class="btn btn-success btn-xs" name="create_plugin" value="Create Plugin">
