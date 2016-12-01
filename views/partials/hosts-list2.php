@@ -76,12 +76,14 @@ $host_info = ( is_array( $host_info ) ) ? $host_info : false;
 							
 							$sub_sites = $host_commands->get_sub_sites($host['hostname'], $host['wp_path']);
 							$sub_sites = json_decode($sub_sites);
-							echo '<div class="sub-sites" style="margin-top: 5px; display: none;">';
-							foreach ( $sub_sites as $site ) {
-								echo '<p><a target="_blank" href="' . $site->url . '">' . $site->url . '</a></p>';
-							} // end foreach
-							unset( $site );
-							echo '</div>';
+							if(is_array($sub_sites) && sizeof($sub_sites)) {
+								echo '<div class="sub-sites" style="margin-top: 5px; display: none;">';
+								foreach ( $sub_sites as $site ) {
+									echo '<p><a target="_blank" href="' . $site->url . '">' . $site->url . '</a></p>';
+								} // end foreach
+								unset( $site );
+								echo '</div>';
+							}
 						}
 
 						?></td>
