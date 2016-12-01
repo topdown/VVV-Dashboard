@@ -144,6 +144,13 @@ create a `VVV/www/default/dashboard/custom.css` file and add this
 
 mm/dd/yy
 
+11/08/16 version: 0.1.9
+
+* Fixes #49 PHP Warning: Invalid argument supplied for foreach() hosts-list2.php on line 80
+* Added a host tools page with database tools for each site
+* A good start on plugin blueprints
+
+
 11/08/16 version: 0.1.8
 
 * Make it possible to delete WP error logs

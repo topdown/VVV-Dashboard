@@ -1,5 +1,3 @@
-* Make it possible to delete WP error logs
-* Improve sidebar slide #44 props @josephfusco
-* Update version check #46 props @gwelser
-* Handle error opening stream #41 props @gwelser
-* Fix first startup cache errors do to missing cache dir #39
+* Fixes #49 PHP Warning: Invalid argument supplied for foreach() hosts-list2.php on line 80
+* Added a host tools page with database tools for each site
+* A good start on plugin blueprints
