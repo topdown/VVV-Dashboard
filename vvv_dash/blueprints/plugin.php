@@ -94,7 +94,7 @@ class plugin extends blueprints\blueprints implements blueprints {
 				// Run the required WP CLI commands if needed.
 				$install[] = $this->_run_wpcli();
 
-				if ( sizeof( $install ) ) {
+				if ( sizeof( $install ) || $move ) {
 					// We moved the plugin, lets activate it
 					$install[] = shell_exec( 'wp plugin activate ' . $this->_plugin_slug . '  --path=' . $this->host_info['wp_path'] );
 
@@ -103,11 +103,12 @@ class plugin extends blueprints\blueprints implements blueprints {
 					//$install[] = shell_exec( 'wp rewrite flush  --path=' . $this->host_info['wp_path'] );
 				}
 
-
-				foreach ( $install as $notice ) {
-					echo vvv_dash_notice( $notice );
-				} // end foreach
-				unset( $notice );
+				if(sizeof($install)) {
+					foreach ( $install as $notice ) {
+						echo vvv_dash_notice( $notice );
+					} // end foreach
+					unset( $notice );
+				}
 
 				$purge_status = $this->_cache->purge( $this->host_info['hostname'] . '-plugins' );
 				echo vvv_dash_notice( $purge_status . ' files were purged from cache!' );
@@ -127,6 +128,8 @@ class plugin extends blueprints\blueprints implements blueprints {
 	/**
 	 * Run WP CLI commands
 	 *
+	 * @bug            this causes server error 504
+	 *
 	 * @author         Jeff Behnke <code@validwebs.com>
 	 * @copyright  (c) 2009-16 ValidWebs.com
 	 *
@@ -137,21 +140,24 @@ class plugin extends blueprints\blueprints implements blueprints {
 	private function _run_wpcli() {
 		$install = array();
 
-		foreach ( $this->_post_types as $post_type ) {
-			if ( ! empty( $post_type ) ) {
-				$install[] = $this->_create_post_type( $post_type );
-			}
-		} // end foreach
-
-		foreach ( $this->_taxonomies as $t_key => $tax_slug ) {
-			foreach ( $tax_slug as $taxonomy ) {
-				if ( ! empty( $taxonomy ) ) {
-					$install[] = $this->_create_taxonomy( $t_key, $taxonomy );
+		if ( sizeof( $this->_post_types ) ) {
+			foreach ( $this->_post_types as $post_type ) {
+				if ( ! empty( $post_type ) ) {
+					$install[] = $this->_create_post_type( $post_type );
 				}
 			} // end foreach
-			unset( $taxonomy );
-		} // end foreach
+		}
 
+		if ( sizeof( $this->_taxonomies ) ) {
+			foreach ( $this->_taxonomies as $t_key => $tax_slug ) {
+				foreach ( $tax_slug as $taxonomy ) {
+					if ( ! empty( $taxonomy ) ) {
+						$install[] = $this->_create_taxonomy( $t_key, $taxonomy );
+					}
+				} // end foreach
+				unset( $taxonomy );
+			} // end foreach
+		}
 
 		return $install;
 	}
