@@ -17,9 +17,6 @@
 
 namespace vvv_dash\blueprints;
 
-use vvv_dash\blueprints;
-
-include_once VVV_DASH_ROOT . '/vvv_dash/blueprints_interface.php';
 
 /**
  *
@@ -30,7 +27,7 @@ include_once VVV_DASH_ROOT . '/vvv_dash/blueprints_interface.php';
  * Class theme
  * @package        vvv_dash\blueprints
  */
-class theme extends blueprints\blueprints implements blueprints {
+class theme extends \blueprints {
 
 
 }

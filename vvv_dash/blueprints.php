@@ -15,9 +15,7 @@
  * blueprints.php
  */
 
-namespace vvv_dash\blueprints;
 
-use vvv_dash\cache;
 use vvv_dash\commands\host;
 
 include_once 'blueprints/plugin.php';

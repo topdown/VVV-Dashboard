@@ -23,7 +23,7 @@ echo '<h3>Create a Plugin</h3>';
 
 include_once VVV_DASH_ROOT . '/vvv_dash/blueprints.php';
 
-$object = new \vvv_dash\blueprints\blueprints( $_GET['host'] );
+$object = new \blueprints( $_GET['host'] );
 //$all_blueprints = $object->get_all_blueprints();
 $blueprints = $object->get_blueprints();
 //$the_blueprint  = $object->get_blueprint( 'plugin-example' );

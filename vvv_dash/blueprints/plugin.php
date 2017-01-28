@@ -17,11 +17,6 @@
 
 namespace vvv_dash\blueprints;
 
-use vvv_dash\blueprints;
-
-
-include_once VVV_DASH_ROOT . '/vvv_dash/blueprints_interface.php';
-
 /**
  *
  *
@@ -31,7 +26,7 @@ include_once VVV_DASH_ROOT . '/vvv_dash/blueprints_interface.php';
  * Class plugin
  * @package        vvv_dash\blueprints
  */
-class plugin extends blueprints\blueprints implements blueprints {
+class plugin extends \blueprints {
 
 	private $_post_types;
 	private $_taxonomies;
