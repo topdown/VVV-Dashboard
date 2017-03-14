@@ -144,6 +144,12 @@ create a `VVV/www/default/dashboard/custom.css` file and add this
 
 mm/dd/yy
 
+03/14/17 version: 0.2.0
+
+* Fixes #50 default path issues with the VVV 2.0
+* Removed local.wordpress-trunk.dev as per https://github.com/Varying-Vagrant-Vagrants/VVV/issues/1096
+* Removed @ error suppression someone put in the host list instead of proper isset() check
+
 11/08/16 version: 0.1.9
 
 * Fixes #49 PHP Warning: Invalid argument supplied for foreach() hosts-list2.php on line 80
