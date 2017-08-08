@@ -12,7 +12,7 @@ define( 'VVV_DASH_DEBUG', false );
 // alternate paths
 global $vvv_dash_scan_paths;
 // Custom public paths
-$vvv_dash_scan_paths = array('htdocs', 'public');
+$vvv_dash_scan_paths = array('htdocs', 'public', 'public_html');
 
 global $vvv_dash_wp_content_paths;
 // Custom content paths

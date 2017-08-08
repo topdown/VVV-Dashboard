@@ -76,6 +76,11 @@ class hosts implements host_interface {
 		} elseif ( file_exists( $this->host_path . '/vvv-hosts' ) ) {
 			$domain       = file_get_contents( $this->host_path . '/vvv-hosts' );
 			$this->domain = trim( $domain );
+		} elseif ( file_exists( $this->host_path . '/provision/vvv-hosts' ) ) {
+			// For VVV2.0, we check into provision directory
+			$domain = file_get_contents( $this->host_path . '/provision/vvv-hosts' );
+			// We might want to trim the file to get rid of extra lines
+			$this->domain = trim( $domain );
 		} else {
 			$this->domain = 'N/A';
 		}
@@ -92,7 +97,7 @@ class hosts implements host_interface {
 
 	public function set_public_dir() {
 		if ( file_exists( $this->host_path . '/wp-cli.yml' ) ) {
-			$path             = file_get_contents( $this->host_path . '/wp-cli.yml' );
+			$path             = trim( file_get_contents( $this->host_path . '/wp-cli.yml' ) );
 			$this->public_dir = str_replace( 'path: ', '', $path );
 		} else {
 			$this->public_dir = '';
@@ -110,7 +115,7 @@ class hosts implements host_interface {
 		} else {
 			$this->debug_log = $log_file;
 		}
-		
+
 	}
 
 	public function set_wp_config_path( $wp_config_file_path = '' ) {
@@ -151,7 +156,7 @@ class hosts implements host_interface {
 			$this->env_path = $this->host_path . '/.env';
 
 			return $this->env_path;
-			
+
 		} elseif ( file_exists( $this->host_path . '/' . $this->public_dir . '/.env' ) ) {
 			$this->env_path = $this->host_path . '/' . $this->public_dir . '/.env';
 
@@ -205,7 +210,7 @@ class hosts implements host_interface {
 
 		return $host_list;
 	}
-	
+
 
 	protected function get_host_info() {
 
