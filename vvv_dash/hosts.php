@@ -38,7 +38,7 @@ class hosts implements host_interface {
 	protected $config_settings  = '';
 	protected $host_directories = array();
 	protected $ignored_hosts    = array( 'wp-cli', 'phpcs', 'default' );
-	protected $default_hosts    = array( 'wordpress-default', 'wordpress-develop', 'wordpress-trunk' );
+	protected $default_hosts    = array( 'wordpress-default', 'wordpress-develop', 'wordpress-trunk', 'wordpress-meta-environment' );
 
 	protected $host_list = array();
 	protected $is_standard_host;
