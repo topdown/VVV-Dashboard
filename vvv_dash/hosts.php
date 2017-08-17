@@ -82,7 +82,8 @@ class hosts implements host_interface {
 			// We might want to trim the file to get rid of extra lines
 			$this->domain = trim( $domain );
 		} else {
-			$this->domain = 'N/A';
+			//$this->domain = 'N/A';
+			$this->domain = basename( $this->host_path ) . '.dev';
 		}
 		return $this->domain;
 	}
