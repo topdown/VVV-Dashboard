@@ -52,7 +52,7 @@ class wp_starter extends hosts implements host_interface {
 		}
 	}
 
-	public function set_wp_path( $wp_path ) {
+	public function set_wp_path( $wp_path = ''  ) {
 		$this->wp_path = $wp_path;
 	}
 

@@ -32,7 +32,7 @@ class defaults extends hosts implements host_interface {
 		return hosts_container::set_host_list( $this->get_host_list() );
 	}
 
-	public function set_domain( $domain ) {
+	public function set_domain( $domain = '' ) {
 		$this->domain = $domain;
 	}
 
@@ -44,7 +44,7 @@ class defaults extends hosts implements host_interface {
 		$this->host_path = $hostname;
 	}
 
-	public function set_wp_path( $wp_path ) {
+	public function set_wp_path( $wp_path = '' ) {
 		$this->wp_path = $wp_path;
 	}
 
